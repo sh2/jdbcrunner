@@ -245,7 +245,6 @@ function newOrder() {
             
             commit();
             return;
-            
         } catch (e) {
             if (isDeadlock(e)) {
                 warn("[Agent " + getId() + "] " + e.javaException + getScriptStackTrace(e));
@@ -399,7 +398,6 @@ function payment() {
             
             commit();
             return;
-            
         } catch (e) {
             if (isDeadlock(e)) {
                 warn("[Agent " + getId() + "] " + e.javaException + getScriptStackTrace(e));
@@ -535,7 +533,6 @@ function delivery() {
             
             commit();
             return;
-            
         } catch (e) {
             if (isDeadlock(e)) {
                 warn("[Agent " + getId() + "] " + e.javaException + getScriptStackTrace(e));

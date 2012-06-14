@@ -193,7 +193,6 @@ function createTableOracle() {
                     + "SELECT sbtest_seq.NEXTVAL INTO :NEW.id FROM DUAL; "
                 + "END IF; "
             + "END;");
-        
     } finally {
         try {
             statement.close();

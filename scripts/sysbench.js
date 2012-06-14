@@ -153,7 +153,6 @@ function oltpExecuteRequest() {
             
             // Commit
             commit();
-            
         } catch (e) {
             if (isDeadlock(e)) {
                 warn("[Agent " + getId() + "] Deadlock detected.");
