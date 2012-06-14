@@ -670,8 +670,7 @@ public class Manager {
 					}
 				}
 
-				if (condition && doPrint
-						&& ((PROGRESS_INTERVAL == 1) || (elapsedTime % PROGRESS_INTERVAL == 0))) {
+				if (condition && doPrint && (elapsedTime % PROGRESS_INTERVAL == 0)) {
 					print(txCount);
 					checkClock();
 				}
