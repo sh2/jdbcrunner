@@ -9,8 +9,8 @@ public class ApplicationException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 例外を説明するメッセージを指定して{@code
-	 * ApplicationException}を構築します。
+	 * 例外を説明するメッセージを指定して
+	 * {@code ApplicationException}を構築します。
 	 *
 	 * @param message
 	 *            例外を説明するメッセージ
@@ -32,8 +32,8 @@ public class ApplicationException extends Exception {
 	}
 
 	/**
-	 * 例外を説明するメッセージおよび基となる原因を指定して{@code
-	 * ApplicationException}を構築します。
+	 * 例外を説明するメッセージおよび基となる原因を指定して
+	 * {@code ApplicationException}を構築します。
 	 *
 	 * @param message
 	 *            例外を説明するメッセージ

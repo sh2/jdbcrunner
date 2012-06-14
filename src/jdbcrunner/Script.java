@@ -48,8 +48,8 @@ public class Script {
 	 * <li>param9
 	 * </ul>
 	 * <li>ヘルパースクリプトとスクリプトを評価します。
-	 * <li>{@code init()}、{@code run()}および{@code
-	 * fin()}ファンクションをインスタンス変数に登録します。
+	 * <li>{@code init()}、{@code run()}および
+	 * {@code fin()}ファンクションをインスタンス変数に登録します。
 	 * <li>パラメータの上書き設定が有効な場合、スクリプトの以下の変数に値を設定します。
 	 * <ul>
 	 * <li>jdbcDriver
@@ -99,9 +99,7 @@ public class Script {
 			scope.put(Config.VAR_PARAM_8, scope, config.getParam8());
 			scope.put(Config.VAR_PARAM_9, scope, config.getParam9());
 
-			context
-					.evaluateString(scope, config.getHelperScript(), Config.HELPER_FILENAME, 1,
-							null);
+			context.evaluateString(scope, config.getHelperScript(), Config.HELPER_FILENAME, 1, null);
 
 			context.evaluateString(scope, config.getScenarioScript(), config.getScriptFilename(),
 					1, null);
@@ -147,10 +145,10 @@ public class Script {
 					scope.put(Config.VAR_SLEEP_TIME, scope, config.getSleepTime(0));
 					scope.put(Config.VAR_THROTTLE, scope, config.getThrottle(0));
 				} else {
-					NativeArray sleepTimeArray = (NativeArray) context.newArray(scope, config
-							.getNTxTypes());
-					NativeArray throttleArray = (NativeArray) context.newArray(scope, config
-							.getNTxTypes());
+					NativeArray sleepTimeArray = (NativeArray) context.newArray(scope,
+							config.getNTxTypes());
+					NativeArray throttleArray = (NativeArray) context.newArray(scope,
+							config.getNTxTypes());
 
 					for (int txType = 0; txType < config.getNTxTypes(); txType++) {
 						sleepTimeArray.put(txType, sleepTimeArray, config.getSleepTime(txType));
@@ -282,9 +280,11 @@ public class Script {
 				Throwable we = e.getWrappedException();
 
 				if (we instanceof ApplicationException) {
-					throw new ApplicationException(Resources
-							.getString("Script.APPLICATION_EXCEPTION") //$NON-NLS-1$
-							+ SEPARATOR + we.getMessage() + SEPARATOR + e.getScriptStackTrace(), we);
+					throw new ApplicationException(
+							Resources.getString("Script.APPLICATION_EXCEPTION") //$NON-NLS-1$
+									+ SEPARATOR + we.getMessage()
+									+ SEPARATOR
+									+ e.getScriptStackTrace(), we);
 
 				} else if (we instanceof SQLException) {
 					throw new ApplicationException(Resources.getString("Script.SQL_EXCEPTION") //$NON-NLS-1$

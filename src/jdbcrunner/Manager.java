@@ -213,8 +213,8 @@ public class Manager {
 	/**
 	 * データベースへの接続を返します。
 	 * <p>
-	 * このメソッドはスレッドセーフです。スレッドセーフであることは{@code
-	 * DataSource}の実装によって担保されます。
+	 * このメソッドはスレッドセーフです。スレッドセーフであることは
+	 * {@code DataSource}の実装によって担保されます。
 	 *
 	 * @return データベースへの接続
 	 * @throws SQLException
@@ -518,8 +518,9 @@ public class Manager {
 		 * 負荷テストが正常に行われているか、受信フラグが有効かどうかを確認します。
 		 * どちらかの条件を満たしていない場合はスレッドを終了します。
 		 * <li>メッセージキューからメッセージを取り出し、ログに出力します。
-		 * <li>メッセージのレベルが{@code
-		 * Message.Level.ERROR}だった場合は、受信フラグと
+		 * <li>メッセージのレベルが
+		 * {@code Message.Level.ERROR}
+		 * だった場合は、受信フラグと
 		 * 負荷テストの正常フラグを無効にしてマネージャに割り込みをかけます。
 		 * </ol>
 		 * 途中で{@code InterruptedException}
@@ -738,9 +739,9 @@ public class Manager {
 					- config.getWarmupTime();
 
 			if (elapsedTime < actualTime) {
-				putMessage(new Message(Message.Level.WARN, Resources
-						.getString("Manager.PROGRESS_DELAY") //$NON-NLS-1$
-						+ actualTime + "sec")); //$NON-NLS-1$
+				putMessage(new Message(Message.Level.WARN,
+						Resources.getString("Manager.PROGRESS_DELAY") //$NON-NLS-1$
+								+ actualTime + "sec")); //$NON-NLS-1$
 			}
 		}
 	}

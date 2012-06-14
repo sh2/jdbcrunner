@@ -153,8 +153,8 @@ public class Helper {
 	 * トランザクション種別を設定します。
 	 *
 	 * @param txType
-	 *            トランザクション種別の番号。これは0以上{@code
-	 *            Config#getNTxTypes()}
+	 *            トランザクション種別の番号。これは0以上
+	 *            {@code Config#getNTxTypes()}
 	 *            未満である必要があります
 	 * @see Agent#setTxType(int)
 	 */
@@ -214,8 +214,8 @@ public class Helper {
 	 * <li>独自記法のSQL文をキーとして、
 	 * テンプレートのキャッシュからテンプレートを取得します。
 	 * テンプレートが存在しない場合は、新たに作成してキャッシュに登録します。
-	 * <li>テンプレートからSQL文を取得し、{@code
-	 * PreparedStatement}オブジェクトを構築します。
+	 * <li>テンプレートからSQL文を取得し、
+	 * {@code PreparedStatement}オブジェクトを構築します。
 	 * <li>{@code PreparedStatement}
 	 * オブジェクトにパラメータをバインドします。
 	 * <li>クエリを実行し、検索されたレコード数を返します。
@@ -272,8 +272,8 @@ public class Helper {
 	 * <li>独自記法のSQL文をキーとして、
 	 * テンプレートのキャッシュからテンプレートを取得します。
 	 * テンプレートが存在しない場合は、新たに作成してキャッシュに登録します。
-	 * <li>テンプレートからSQL文を取得し、{@code
-	 * PreparedStatement}オブジェクトを構築します。
+	 * <li>テンプレートからSQL文を取得し、
+	 * {@code PreparedStatement}オブジェクトを構築します。
 	 * <li>{@code PreparedStatement}
 	 * オブジェクトにパラメータをバインドします。
 	 * <li>クエリを実行し、
@@ -338,8 +338,8 @@ public class Helper {
 	 * <li>独自記法のSQL文をキーとして、
 	 * テンプレートのキャッシュからテンプレートを取得します。
 	 * テンプレートが存在しない場合は、新たに作成してキャッシュに登録します。
-	 * <li>テンプレートからSQL文を取得し、{@code
-	 * PreparedStatement}オブジェクトを構築します。
+	 * <li>テンプレートからSQL文を取得し、
+	 * {@code PreparedStatement}オブジェクトを構築します。
 	 * <li>{@code PreparedStatement}
 	 * オブジェクトにパラメータをバインドします。
 	 * <li>DMLを実行し、更新されたレコード数を返します。
@@ -384,8 +384,8 @@ public class Helper {
 	 * <li>独自記法のSQL文をキーとして、
 	 * テンプレートのキャッシュからテンプレートを取得します。
 	 * テンプレートが存在しない場合は、新たに作成してキャッシュに登録します。
-	 * <li>テンプレートからSQL文を取得し、{@code
-	 * PreparedStatement}オブジェクトを構築します。
+	 * <li>テンプレートからSQL文を取得し、
+	 * {@code PreparedStatement}オブジェクトを構築します。
 	 * <li>{@code PreparedStatement}
 	 * オブジェクトにパラメータをバインドし、バッチに追加します。
 	 * <li>JDBCバッチ更新を行い、
@@ -414,9 +414,9 @@ public class Helper {
 				if (batchSize == 0) {
 					batchSize = arrayLength;
 				} else if (batchSize != arrayLength) {
-					throw new IllegalArgumentException(Resources
-							.getString("Helper.ILLEGAL_ARRAY_LENGTH") //$NON-NLS-1$
-							+ arrayLength);
+					throw new IllegalArgumentException(
+							Resources.getString("Helper.ILLEGAL_ARRAY_LENGTH") //$NON-NLS-1$
+									+ arrayLength);
 				}
 			} else {
 				throw new IllegalArgumentException(Resources.getString("Helper.ILLEGAL_NOT_ARRAY") //$NON-NLS-1$
@@ -513,8 +513,8 @@ public class Helper {
 	/**
 	 * ログメッセージを指定して例外を発生させます。
 	 * <p>
-	 * このメソッドは例外を意図的に発生させます。発生した例外は{@code
-	 * Agent#run()}内でキャッチされ、マネージャに通知されます。
+	 * このメソッドは例外を意図的に発生させます。発生した例外は
+	 * {@code Agent#run()}内でキャッチされ、マネージャに通知されます。
 	 *
 	 * @param message
 	 *            ログメッセージ

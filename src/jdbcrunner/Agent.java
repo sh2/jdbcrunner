@@ -91,8 +91,8 @@ public class Agent implements Runnable {
 				try {
 					manager.getRunStartLatch().await();
 				} catch (InterruptedException e) {
-					putMessage(new Message(Message.Level.TRACE, Resources
-							.getString("Agent.INTERRUPTED_EXCEPTION"))); //$NON-NLS-1$
+					putMessage(new Message(Message.Level.TRACE,
+							Resources.getString("Agent.INTERRUPTED_EXCEPTION"))); //$NON-NLS-1$
 				}
 			}
 
@@ -121,8 +121,8 @@ public class Agent implements Runnable {
 				try {
 					manager.getFinStartLatch().await();
 				} catch (InterruptedException e) {
-					putMessage(new Message(Message.Level.TRACE, Resources
-							.getString("Agent.INTERRUPTED_EXCEPTION"))); //$NON-NLS-1$
+					putMessage(new Message(Message.Level.TRACE,
+							Resources.getString("Agent.INTERRUPTED_EXCEPTION"))); //$NON-NLS-1$
 				}
 			}
 
@@ -189,8 +189,8 @@ public class Agent implements Runnable {
 	 * トランザクション種別を設定します。
 	 *
 	 * @param txType
-	 *            トランザクション種別の番号。これは0以上{@code
-	 *            Config#getNTxTypes()}
+	 *            トランザクション種別の番号。これは0以上
+	 *            {@code Config#getNTxTypes()}
 	 *            未満である必要があります
 	 * @throws IllegalArgumentException
 	 *             {@code txType}が範囲外の場合
@@ -287,8 +287,8 @@ public class Agent implements Runnable {
 			try {
 				Thread.sleep(config.getSleepTime(txType));
 			} catch (InterruptedException e) {
-				putMessage(new Message(Message.Level.TRACE, Resources
-						.getString("Agent.INTERRUPTED_EXCEPTION"))); //$NON-NLS-1$
+				putMessage(new Message(Message.Level.TRACE,
+						Resources.getString("Agent.INTERRUPTED_EXCEPTION"))); //$NON-NLS-1$
 			}
 		}
 	}
@@ -299,8 +299,8 @@ public class Agent implements Runnable {
 			try {
 				Thread.sleep(throttle.getSleepTime(txType, txEndTime));
 			} catch (InterruptedException e) {
-				putMessage(new Message(Message.Level.TRACE, Resources
-						.getString("Agent.INTERRUPTED_EXCEPTION"))); //$NON-NLS-1$
+				putMessage(new Message(Message.Level.TRACE,
+						Resources.getString("Agent.INTERRUPTED_EXCEPTION"))); //$NON-NLS-1$
 			}
 
 		}

@@ -55,10 +55,11 @@ public class Throttle {
 	 * <p>
 	 * <ol>
 	 * <li>これまで実行したトランザクション回数から、
-	 * 指定したスループットで本来経過しているべき時間を求め{@code
-	 * expectedTime}とします。
-	 * <li>実際に経過した時間{@code actualTime}を求め、{@code
-	 * expectedTime - actualTime}をスリープ時間とします。
+	 * 指定したスループットで本来経過しているべき時間を求め
+	 * {@code expectedTime}とします。
+	 * <li>実際に経過した時間{@code actualTime}を求め、
+	 * {@code expectedTime - actualTime}
+	 * をスリープ時間とします。
 	 * <li>スリープ時間が負数の場合は、0とします。
 	 * <li>
 	 * スリープ時間が0、つまりトランザクションが追いついていない状態が一定時間続いていた場合

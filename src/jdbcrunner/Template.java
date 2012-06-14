@@ -63,12 +63,9 @@ public class Template {
 	 * <li>独自記法のSQL文に「$」で始まる文字列があるかどうかを調べます。
 	 * <li>文字列「$$」があった場合、「$」に置換します。
 	 * <li>文字列「$int」「$long」「$double」「$string」
-	 * 「$timestamp」があった場合、パラメータのデータ型リストに{@code
-	 * int}、{@code long}、{@code double}、{@code
-	 * String}、{@code Timestamp}
-	 * を登録し、文字列を「?」に置換します。
-	 * <li>それ以外の「$」で始まる文字列がある場合は{@code
-	 * IllegalArgumentException}をスローします。
+	 * 「$timestamp」があった場合、パラメータのデータ型リストに{@code int}、{@code long}、{@code double}、{@code String}、{@code Timestamp} を登録し、文字列を「?」に置換します。
+	 * <li>それ以外の「$」で始まる文字列がある場合は
+	 * {@code IllegalArgumentException}をスローします。
 	 * <li>置換された文字列をSQL文としてインスタンス変数に登録します。
 	 * </ol>
 	 *
@@ -131,15 +128,15 @@ public class Template {
 	 * パラメータ配列の配列長が、データ型のリスト長と等しいことを確認します。異なる場合は
 	 * {@code IllegalArgumentException}をスローします。
 	 * <li>
-	 * それぞれのパラメータを、リストから得たデータ型へ変換し {@code
-	 * PreparedStatement}オブジェクトに設定します。
-	 * 対象のデータ型への変換が行えない場合は{@code
-	 * IllegalArgumentException}をスローします。
+	 * それぞれのパラメータを、リストから得たデータ型へ変換し
+	 * {@code PreparedStatement}オブジェクトに設定します。
+	 * 対象のデータ型への変換が行えない場合は
+	 * {@code IllegalArgumentException}をスローします。
 	 * </ol>
 	 *
 	 * @param preparedStatement
-	 *            パラメータを設定する{@code
-	 *            PreparedStatement}オブジェクト
+	 *            パラメータを設定する
+	 *            {@code PreparedStatement}オブジェクト
 	 * @param parameters
 	 *            パラメータの配列
 	 * @throws SQLException
@@ -152,11 +149,11 @@ public class Template {
 			throws SQLException {
 
 		if (dataTypeList.size() != parameters.length) {
-			throw new IllegalArgumentException(Resources
-					.getString("Template.ILLEGAL_NUMBER_OF_PARAMETERS_1") //$NON-NLS-1$
-					+ parameters.length
-					+ Resources.getString("Template.ILLEGAL_NUMBER_OF_PARAMETERS_2") //$NON-NLS-1$
-					+ dataTypeList.size());
+			throw new IllegalArgumentException(
+					Resources.getString("Template.ILLEGAL_NUMBER_OF_PARAMETERS_1") //$NON-NLS-1$
+							+ parameters.length
+							+ Resources.getString("Template.ILLEGAL_NUMBER_OF_PARAMETERS_2") //$NON-NLS-1$
+							+ dataTypeList.size());
 		}
 
 		for (int parameterIndex = 1; parameterIndex <= dataTypeList.size(); parameterIndex++) {
@@ -168,23 +165,24 @@ public class Template {
 					preparedStatement.setInt(parameterIndex, ((Number) parameter).intValue());
 				} else if (parameter instanceof String) {
 					try {
-						preparedStatement.setInt(parameterIndex, Integer
-								.parseInt((String) parameter));
+						preparedStatement.setInt(parameterIndex,
+								Integer.parseInt((String) parameter));
 					} catch (NumberFormatException e) {
-						throw new IllegalArgumentException(Resources
-								.getString("Template.ILLEGAL_STRING_FOR_INT_1") //$NON-NLS-1$
-								+ parameterIndex
-								+ Resources.getString("Template.ILLEGAL_STRING_FOR_INT_2") //$NON-NLS-1$
-								+ (String) parameter, e);
+						throw new IllegalArgumentException(
+								Resources.getString("Template.ILLEGAL_STRING_FOR_INT_1") //$NON-NLS-1$
+										+ parameterIndex
+										+ Resources.getString("Template.ILLEGAL_STRING_FOR_INT_2") //$NON-NLS-1$
+										+ (String) parameter, e);
 					}
 				} else {
 					if (parameter == null) {
 						preparedStatement.setNull(parameterIndex, java.sql.Types.INTEGER);
 					} else {
-						throw new IllegalArgumentException(Resources
-								.getString("Template.ILLEGAL_NUMBER_1") //$NON-NLS-1$
-								+ parameterIndex + Resources.getString("Template.ILLEGAL_NUMBER_2") //$NON-NLS-1$
-								+ parameter.getClass().getName());
+						throw new IllegalArgumentException(
+								Resources.getString("Template.ILLEGAL_NUMBER_1") //$NON-NLS-1$
+										+ parameterIndex
+										+ Resources.getString("Template.ILLEGAL_NUMBER_2") //$NON-NLS-1$
+										+ parameter.getClass().getName());
 					}
 				}
 				break;
@@ -193,23 +191,24 @@ public class Template {
 					preparedStatement.setLong(parameterIndex, ((Number) parameter).longValue());
 				} else if (parameter instanceof String) {
 					try {
-						preparedStatement.setLong(parameterIndex, Long
-								.parseLong((String) parameter));
+						preparedStatement.setLong(parameterIndex,
+								Long.parseLong((String) parameter));
 					} catch (NumberFormatException e) {
-						throw new IllegalArgumentException(Resources
-								.getString("Template.ILLEGAL_STRING_FOR_LONG_1") //$NON-NLS-1$
-								+ parameterIndex
-								+ Resources.getString("Template.ILLEGAL_STRING_FOR_LONG_2") //$NON-NLS-1$
-								+ (String) parameter, e);
+						throw new IllegalArgumentException(
+								Resources.getString("Template.ILLEGAL_STRING_FOR_LONG_1") //$NON-NLS-1$
+										+ parameterIndex
+										+ Resources.getString("Template.ILLEGAL_STRING_FOR_LONG_2") //$NON-NLS-1$
+										+ (String) parameter, e);
 					}
 				} else {
 					if (parameter == null) {
 						preparedStatement.setNull(parameterIndex, java.sql.Types.BIGINT);
 					} else {
-						throw new IllegalArgumentException(Resources
-								.getString("Template.ILLEGAL_NUMBER_1") //$NON-NLS-1$
-								+ parameterIndex + Resources.getString("Template.ILLEGAL_NUMBER_2") //$NON-NLS-1$
-								+ parameter.getClass().getName());
+						throw new IllegalArgumentException(
+								Resources.getString("Template.ILLEGAL_NUMBER_1") //$NON-NLS-1$
+										+ parameterIndex
+										+ Resources.getString("Template.ILLEGAL_NUMBER_2") //$NON-NLS-1$
+										+ parameter.getClass().getName());
 					}
 				}
 				break;
@@ -218,23 +217,24 @@ public class Template {
 					preparedStatement.setDouble(parameterIndex, ((Number) parameter).doubleValue());
 				} else if (parameter instanceof String) {
 					try {
-						preparedStatement.setDouble(parameterIndex, Double
-								.parseDouble((String) parameter));
+						preparedStatement.setDouble(parameterIndex,
+								Double.parseDouble((String) parameter));
 					} catch (NumberFormatException e) {
-						throw new IllegalArgumentException(Resources
-								.getString("Template.ILLEGAL_STRING_FOR_DOUBLE_1") //$NON-NLS-1$
-								+ parameterIndex
-								+ Resources.getString("Template.ILLEGAL_STRING_FOR_DOUBLE_2") //$NON-NLS-1$
-								+ (String) parameter, e);
+						throw new IllegalArgumentException(
+								Resources.getString("Template.ILLEGAL_STRING_FOR_DOUBLE_1") //$NON-NLS-1$
+										+ parameterIndex
+										+ Resources.getString("Template.ILLEGAL_STRING_FOR_DOUBLE_2") //$NON-NLS-1$
+										+ (String) parameter, e);
 					}
 				} else {
 					if (parameter == null) {
 						preparedStatement.setNull(parameterIndex, java.sql.Types.DOUBLE);
 					} else {
-						throw new IllegalArgumentException(Resources
-								.getString("Template.ILLEGAL_NUMBER_1") //$NON-NLS-1$
-								+ parameterIndex + Resources.getString("Template.ILLEGAL_NUMBER_2") //$NON-NLS-1$
-								+ parameter.getClass().getName());
+						throw new IllegalArgumentException(
+								Resources.getString("Template.ILLEGAL_NUMBER_1") //$NON-NLS-1$
+										+ parameterIndex
+										+ Resources.getString("Template.ILLEGAL_NUMBER_2") //$NON-NLS-1$
+										+ parameter.getClass().getName());
 					}
 				}
 				break;
@@ -245,10 +245,11 @@ public class Template {
 					if (parameter == null) {
 						preparedStatement.setNull(parameterIndex, java.sql.Types.CHAR);
 					} else {
-						throw new IllegalArgumentException(Resources
-								.getString("Template.ILLEGAL_STRING_1") //$NON-NLS-1$
-								+ parameterIndex + Resources.getString("Template.ILLEGAL_STRING_2") //$NON-NLS-1$
-								+ parameter.getClass().getName());
+						throw new IllegalArgumentException(
+								Resources.getString("Template.ILLEGAL_STRING_1") //$NON-NLS-1$
+										+ parameterIndex
+										+ Resources.getString("Template.ILLEGAL_STRING_2") //$NON-NLS-1$
+										+ parameter.getClass().getName());
 					}
 				}
 				break;
@@ -272,11 +273,11 @@ public class Template {
 					if (parameter == null) {
 						preparedStatement.setNull(parameterIndex, java.sql.Types.TIMESTAMP);
 					} else {
-						throw new IllegalArgumentException(Resources
-								.getString("Template.ILLEGAL_TIMESTAMP_1") //$NON-NLS-1$
-								+ parameterIndex
-								+ Resources.getString("Template.ILLEGAL_TIMESTAMP_2") //$NON-NLS-1$
-								+ parameter.getClass().getName());
+						throw new IllegalArgumentException(
+								Resources.getString("Template.ILLEGAL_TIMESTAMP_1") //$NON-NLS-1$
+										+ parameterIndex
+										+ Resources.getString("Template.ILLEGAL_TIMESTAMP_2") //$NON-NLS-1$
+										+ parameter.getClass().getName());
 					}
 				}
 			}
@@ -288,9 +289,9 @@ public class Template {
 		int index = sequence.indexOf("$"); //$NON-NLS-1$
 
 		if (index > -1) {
-			throw new IllegalArgumentException(Resources
-					.getString("Template.ILLEGAL_PARAMETER_NAME") //$NON-NLS-1$
-					+ sequence.substring(index));
+			throw new IllegalArgumentException(
+					Resources.getString("Template.ILLEGAL_PARAMETER_NAME") //$NON-NLS-1$
+							+ sequence.substring(index));
 		}
 	}
 }

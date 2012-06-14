@@ -318,8 +318,8 @@ public final class Config {
 
 		// スクリプトのファイル名を取得する
 		if (args.length < 1) {
-			throw new ApplicationException(Resources
-					.getString("Config.ILLEGAL_SCRIPT_NOT_SPECIFIED")); //$NON-NLS-1$
+			throw new ApplicationException(
+					Resources.getString("Config.ILLEGAL_SCRIPT_NOT_SPECIFIED")); //$NON-NLS-1$
 		}
 		this.scriptFilename = args[0];
 
@@ -384,20 +384,20 @@ public final class Config {
 	}
 
 	private static void buildOptions(Options options) {
-		options.addOption(OPT_SCRIPT_CHARSET, true, Resources
-				.getString("Config.USAGE_SCRIPT_CHARSET")); //$NON-NLS-1$
+		options.addOption(OPT_SCRIPT_CHARSET, true,
+				Resources.getString("Config.USAGE_SCRIPT_CHARSET")); //$NON-NLS-1$
 		options.addOption(OPT_JDBC_DRIVER, true, Resources.getString("Config.USAGE_JDBC_DRIVER")); //$NON-NLS-1$
 		options.addOption(OPT_JDBC_URL, true, Resources.getString("Config.USAGE_JDBC_URL")); //$NON-NLS-1$
 		options.addOption(OPT_JDBC_USER, true, Resources.getString("Config.USAGE_JDBC_USER")); //$NON-NLS-1$
 		options.addOption(OPT_JDBC_PASS, true, Resources.getString("Config.USAGE_JDBC_PASS")); //$NON-NLS-1$
 		options.addOption(OPT_WARMUP_TIME, true, Resources.getString("Config.USAGE_WARMUP_TIME")); //$NON-NLS-1$
-		options.addOption(OPT_MEASUREMENT_TIME, true, Resources
-				.getString("Config.USAGE_MEASUREMENT_TIME")); //$NON-NLS-1$
+		options.addOption(OPT_MEASUREMENT_TIME, true,
+				Resources.getString("Config.USAGE_MEASUREMENT_TIME")); //$NON-NLS-1$
 		options.addOption(OPT_N_AGENTS, true, Resources.getString("Config.USAGE_N_AGENTS")); //$NON-NLS-1$
-		options.addOption(OPT_CONN_POOL_SIZE, true, Resources
-				.getString("Config.USAGE_CONN_POOL_SIZE")); //$NON-NLS-1$
-		options.addOption(OPT_STMT_CACHE_SIZE, true, Resources
-				.getString("Config.USAGE_STMT_CACHE_SIZE")); //$NON-NLS-1$
+		options.addOption(OPT_CONN_POOL_SIZE, true,
+				Resources.getString("Config.USAGE_CONN_POOL_SIZE")); //$NON-NLS-1$
+		options.addOption(OPT_STMT_CACHE_SIZE, true,
+				Resources.getString("Config.USAGE_STMT_CACHE_SIZE")); //$NON-NLS-1$
 		options.addOption(OPT_AUTO_COMMIT, true, Resources.getString("Config.USAGE_AUTO_COMMIT")); //$NON-NLS-1$
 		options.addOption(OPT_SLEEP_TIME, true, Resources.getString("Config.USAGE_SLEEP_TIME")); //$NON-NLS-1$
 		options.addOption(OPT_THROTTLE, true, Resources.getString("Config.USAGE_THROTTLE")); //$NON-NLS-1$
@@ -820,8 +820,8 @@ public final class Config {
 			return loadScript(reader);
 
 		} catch (UnsupportedEncodingException e) {
-			throw new ApplicationException(Resources
-					.getString("Config.UNSUPPORTED_ENCODING_EXCEPTION"), e); //$NON-NLS-1$
+			throw new ApplicationException(
+					Resources.getString("Config.UNSUPPORTED_ENCODING_EXCEPTION"), e); //$NON-NLS-1$
 		} catch (IOException e) {
 			throw new ApplicationException(Resources.getString("Config.IO_EXCEPTION"), e); //$NON-NLS-1$
 
@@ -852,8 +852,8 @@ public final class Config {
 			throw new ApplicationException(
 					Resources.getString("Config.FILE_NOT_FOUND_EXCEPTION"), e); //$NON-NLS-1$
 		} catch (UnsupportedEncodingException e) {
-			throw new ApplicationException(Resources
-					.getString("Config.UNSUPPORTED_ENCODING_EXCEPTION"), e); //$NON-NLS-1$
+			throw new ApplicationException(
+					Resources.getString("Config.UNSUPPORTED_ENCODING_EXCEPTION"), e); //$NON-NLS-1$
 		} catch (IOException e) {
 			throw new ApplicationException(Resources.getString("Config.IO_EXCEPTION"), e); //$NON-NLS-1$
 
@@ -1051,18 +1051,19 @@ public final class Config {
 				this.sleepTimes[i] = value;
 			}
 		} else if (variable instanceof NativeArray) {
-			// 書式2：var sleepTime = new Array(1000, 2000);
+			// 書式2：var sleepTime = new Array(1000,
+			// 2000);
 			Object[] array = (Object[]) Context.jsToJava(variable, Object[].class);
 			if (array.length != nTxTypes) {
-				throw new ApplicationException(Resources
-						.getString("Config.ILLEGAL_NUMBER_OF_SLEEPTIMES")); //$NON-NLS-1$
+				throw new ApplicationException(
+						Resources.getString("Config.ILLEGAL_NUMBER_OF_SLEEPTIMES")); //$NON-NLS-1$
 			}
 			for (int i = 0; i < nTxTypes; i++) {
 				if (array[i] instanceof Number) {
 					this.sleepTimes[i] = ((Number) array[i]).longValue();
 				} else {
-					throw new ApplicationException(Resources
-							.getString("Config.ILLEGAL_NUMBERS_SLEEP_TIME")); //$NON-NLS-1$
+					throw new ApplicationException(
+							Resources.getString("Config.ILLEGAL_NUMBERS_SLEEP_TIME")); //$NON-NLS-1$
 				}
 			}
 		}
@@ -1076,18 +1077,19 @@ public final class Config {
 			}
 			this.doThrottleByTotal = true;
 		} else if (variable instanceof NativeArray) {
-			// 書式2：var throttle = new Array(100, 200);
+			// 書式2：var throttle = new Array(100,
+			// 200);
 			Object[] array = (Object[]) Context.jsToJava(variable, Object[].class);
 			if (array.length != nTxTypes) {
-				throw new ApplicationException(Resources
-						.getString("Config.ILLEGAL_NUMBER_OF_THROTTLES")); //$NON-NLS-1$
+				throw new ApplicationException(
+						Resources.getString("Config.ILLEGAL_NUMBER_OF_THROTTLES")); //$NON-NLS-1$
 			}
 			for (int i = 0; i < nTxTypes; i++) {
 				if (array[i] instanceof Number) {
 					this.throttles[i] = ((Number) array[i]).intValue();
 				} else {
-					throw new ApplicationException(Resources
-							.getString("Config.ILLEGAL_NUMBERS_THROTTLE")); //$NON-NLS-1$
+					throw new ApplicationException(
+							Resources.getString("Config.ILLEGAL_NUMBERS_THROTTLE")); //$NON-NLS-1$
 				}
 			}
 			this.doThrottleByTotal = false;
@@ -1133,8 +1135,8 @@ public final class Config {
 			try {
 				this.warmupTime = Integer.parseInt(cl.getOptionValue(OPT_WARMUP_TIME));
 			} catch (NumberFormatException e) {
-				throw new ApplicationException(Resources
-						.getString("Config.ILLEGAL_NUMBER_WARMUP_TIME"), e); //$NON-NLS-1$
+				throw new ApplicationException(
+						Resources.getString("Config.ILLEGAL_NUMBER_WARMUP_TIME"), e); //$NON-NLS-1$
 			}
 		}
 
@@ -1142,8 +1144,8 @@ public final class Config {
 			try {
 				this.measurementTime = Integer.parseInt(cl.getOptionValue(OPT_MEASUREMENT_TIME));
 			} catch (NumberFormatException e) {
-				throw new ApplicationException(Resources
-						.getString("Config.ILLEGAL_NUMBER_MEASUREMENT_TIME"), e); //$NON-NLS-1$
+				throw new ApplicationException(
+						Resources.getString("Config.ILLEGAL_NUMBER_MEASUREMENT_TIME"), e); //$NON-NLS-1$
 			}
 		}
 
@@ -1151,8 +1153,8 @@ public final class Config {
 			try {
 				this.nAgents = Integer.parseInt(cl.getOptionValue(OPT_N_AGENTS));
 			} catch (NumberFormatException e) {
-				throw new ApplicationException(Resources
-						.getString("Config.ILLEGAL_NUMBER_N_AGENTS"), e); //$NON-NLS-1$
+				throw new ApplicationException(
+						Resources.getString("Config.ILLEGAL_NUMBER_N_AGENTS"), e); //$NON-NLS-1$
 			}
 			// コネクションプールの接続数をエージェント数に合わせる
 			this.connPoolSize = nAgents;
@@ -1162,8 +1164,8 @@ public final class Config {
 			try {
 				this.connPoolSize = Integer.parseInt(cl.getOptionValue(OPT_CONN_POOL_SIZE));
 			} catch (NumberFormatException e) {
-				throw new ApplicationException(Resources
-						.getString("Config.ILLEGAL_NUMBER_CONN_POOL_SIZE"), e); //$NON-NLS-1$
+				throw new ApplicationException(
+						Resources.getString("Config.ILLEGAL_NUMBER_CONN_POOL_SIZE"), e); //$NON-NLS-1$
 			}
 		}
 
@@ -1171,8 +1173,8 @@ public final class Config {
 			try {
 				this.stmtCacheSize = Integer.parseInt(cl.getOptionValue(OPT_STMT_CACHE_SIZE));
 			} catch (NumberFormatException e) {
-				throw new ApplicationException(Resources
-						.getString("Config.ILLEGAL_NUMBER_STMT_CACHE_SIZE"), e); //$NON-NLS-1$
+				throw new ApplicationException(
+						Resources.getString("Config.ILLEGAL_NUMBER_STMT_CACHE_SIZE"), e); //$NON-NLS-1$
 			}
 		}
 
@@ -1191,15 +1193,15 @@ public final class Config {
 				// 書式2：-sleepTime 1000,2000
 				String[] array = cl.getOptionValue(OPT_SLEEP_TIME).split(","); //$NON-NLS-1$
 				if (array.length != nTxTypes) {
-					throw new ApplicationException(Resources
-							.getString("Config.ILLEGAL_NUMBER_OF_SLEEPTIMES")); //$NON-NLS-1$
+					throw new ApplicationException(
+							Resources.getString("Config.ILLEGAL_NUMBER_OF_SLEEPTIMES")); //$NON-NLS-1$
 				}
 				for (int i = 0; i < nTxTypes; i++) {
 					try {
 						this.sleepTimes[i] = Long.parseLong(array[i]);
 					} catch (NumberFormatException e2) {
-						throw new ApplicationException(Resources
-								.getString("Config.ILLEGAL_NUMBERS_SLEEP_TIME"), e2); //$NON-NLS-1$
+						throw new ApplicationException(
+								Resources.getString("Config.ILLEGAL_NUMBERS_SLEEP_TIME"), e2); //$NON-NLS-1$
 					}
 				}
 			}
@@ -1217,15 +1219,15 @@ public final class Config {
 				// 書式2：-throttle 100,200
 				String[] array = cl.getOptionValue(OPT_THROTTLE).split(","); //$NON-NLS-1$
 				if (array.length != nTxTypes) {
-					throw new ApplicationException(Resources
-							.getString("Config.ILLEGAL_NUMBER_OF_THROTTLES")); //$NON-NLS-1$
+					throw new ApplicationException(
+							Resources.getString("Config.ILLEGAL_NUMBER_OF_THROTTLES")); //$NON-NLS-1$
 				}
 				for (int i = 0; i < nTxTypes; i++) {
 					try {
 						throttles[i] = Integer.parseInt(array[i]);
 					} catch (NumberFormatException e2) {
-						throw new ApplicationException(Resources
-								.getString("Config.ILLEGAL_NUMBERS_THROTTLE"), e2); //$NON-NLS-1$
+						throw new ApplicationException(
+								Resources.getString("Config.ILLEGAL_NUMBERS_THROTTLE"), e2); //$NON-NLS-1$
 					}
 				}
 				this.doThrottleByTotal = false;
