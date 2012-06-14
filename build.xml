@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jdbcrunner_build" default="create_run_jar" basedir=".">
+	<description>
+		JdbcRunner build
+	</description>
+	<property file="src/jdbcrunner/resources.properties" />
+	<target name="create_run_jar" depends="compile,makedir,deletedir">
+		<jar destfile="jdbcrunner-${Manager.VERSION}.jar" filesetmanifest="mergewithoutmain" duplicate="preserve">
+			<manifest>
+				<attribute name="Main-Class" value="JR" />
+			</manifest>
+			<fileset dir="classes" />
+			<fileset dir="meta-inf" />
+			<fileset file="helper.js" />
+			<zipgroupfileset dir="lib" includes="*.jar" />
+			<zipgroupfileset dir="libjdbc" includes="*.jar" />
+		</jar>
+		<jar destfile="jdbcrunner-${Manager.VERSION}-nojdbc.jar" filesetmanifest="mergewithoutmain" duplicate="preserve">
+			<manifest>
+				<attribute name="Main-Class" value="JR" />
+			</manifest>
+			<fileset dir="classes" />
+			<fileset dir="meta-inf" />
+			<fileset file="helper.js" />
+			<zipgroupfileset dir="lib" includes="*.jar" />
+		</jar>
+	</target>
+	<target name="compile" depends="makedir,deletedir">
+		<javac srcdir="src" destdir="classes" debug="on" encoding="UTF-8" includeantruntime="no">
+			<classpath>
+				<fileset dir="lib" includes="*.jar" />
+			</classpath>
+		</javac>
+		<copy todir="classes">
+			<fileset dir="src" includes="**/*.properties" />
+		</copy>
+	</target>
+	<target name="makedir" depends="deletedir">
+		<mkdir dir="classes" />
+	</target>
+	<target name="deletedir">
+		<delete dir="classes" />
+	</target>
+</project>
