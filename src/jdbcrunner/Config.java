@@ -321,6 +321,7 @@ public final class Config {
 			throw new ApplicationException(
 					Resources.getString("Config.ILLEGAL_SCRIPT_NOT_SPECIFIED")); //$NON-NLS-1$
 		}
+
 		this.scriptFilename = args[0];
 
 		// コマンドラインオプションを読み込む
@@ -351,6 +352,7 @@ public final class Config {
 
 		// スクリプトから設定を読み込む
 		Script script = null;
+
 		try {
 			script = new Script(this, null, false);
 			loadVariables(script);
@@ -386,18 +388,24 @@ public final class Config {
 	private static void buildOptions(Options options) {
 		options.addOption(OPT_SCRIPT_CHARSET, true,
 				Resources.getString("Config.USAGE_SCRIPT_CHARSET")); //$NON-NLS-1$
+
 		options.addOption(OPT_JDBC_DRIVER, true, Resources.getString("Config.USAGE_JDBC_DRIVER")); //$NON-NLS-1$
 		options.addOption(OPT_JDBC_URL, true, Resources.getString("Config.USAGE_JDBC_URL")); //$NON-NLS-1$
 		options.addOption(OPT_JDBC_USER, true, Resources.getString("Config.USAGE_JDBC_USER")); //$NON-NLS-1$
 		options.addOption(OPT_JDBC_PASS, true, Resources.getString("Config.USAGE_JDBC_PASS")); //$NON-NLS-1$
 		options.addOption(OPT_WARMUP_TIME, true, Resources.getString("Config.USAGE_WARMUP_TIME")); //$NON-NLS-1$
+
 		options.addOption(OPT_MEASUREMENT_TIME, true,
 				Resources.getString("Config.USAGE_MEASUREMENT_TIME")); //$NON-NLS-1$
+
 		options.addOption(OPT_N_AGENTS, true, Resources.getString("Config.USAGE_N_AGENTS")); //$NON-NLS-1$
+
 		options.addOption(OPT_CONN_POOL_SIZE, true,
 				Resources.getString("Config.USAGE_CONN_POOL_SIZE")); //$NON-NLS-1$
+
 		options.addOption(OPT_STMT_CACHE_SIZE, true,
 				Resources.getString("Config.USAGE_STMT_CACHE_SIZE")); //$NON-NLS-1$
+
 		options.addOption(OPT_AUTO_COMMIT, true, Resources.getString("Config.USAGE_AUTO_COMMIT")); //$NON-NLS-1$
 		options.addOption(OPT_SLEEP_TIME, true, Resources.getString("Config.USAGE_SLEEP_TIME")); //$NON-NLS-1$
 		options.addOption(OPT_THROTTLE, true, Resources.getString("Config.USAGE_THROTTLE")); //$NON-NLS-1$
@@ -427,15 +435,15 @@ public final class Config {
 		configString.append("[Config]" + SEPARATOR); //$NON-NLS-1$
 		configString.append("Program start time   : " + programStartTime + SEPARATOR); //$NON-NLS-1$
 		configString.append("Script filename      : " + scriptFilename + SEPARATOR); //$NON-NLS-1$
-
 		configString.append("JDBC driver          : "); //$NON-NLS-1$
+
 		if (jdbcDriver.equals("")) { //$NON-NLS-1$
 			configString.append("-"); //$NON-NLS-1$
 		} else {
 			configString.append(jdbcDriver);
 		}
-		configString.append(SEPARATOR);
 
+		configString.append(SEPARATOR);
 		configString.append("JDBC URL             : " + jdbcUrl + SEPARATOR); //$NON-NLS-1$
 		configString.append("JDBC user            : " + jdbcUser + SEPARATOR); //$NON-NLS-1$
 
@@ -446,40 +454,48 @@ public final class Config {
 		} else {
 			configString.append("Warmup time          : " + warmupTime //$NON-NLS-1$
 					+ " sec" + SEPARATOR); //$NON-NLS-1$
+
 			configString.append("Measurement time     : " + measurementTime //$NON-NLS-1$
 					+ " sec" + SEPARATOR); //$NON-NLS-1$
+
 			configString.append("Number of tx types   : " + nTxTypes + SEPARATOR); //$NON-NLS-1$
 			configString.append("Number of agents     : " + nAgents + SEPARATOR); //$NON-NLS-1$
 			configString.append("Connection pool size : " + connPoolSize + SEPARATOR); //$NON-NLS-1$
 			configString.append("Statement cache size : " + stmtCacheSize + SEPARATOR); //$NON-NLS-1$
 			configString.append("Auto commit          : " + isAutoCommit + SEPARATOR); //$NON-NLS-1$
-
 			configString.append("Sleep time           : "); //$NON-NLS-1$
+
 			for (int txType = 0; txType < nTxTypes; txType++) {
 				configString.append(sleepTimes[txType]);
 				configString.append(","); //$NON-NLS-1$
 			}
+
 			configString.deleteCharAt(configString.length() - 1);
 			configString.append(" msec" + SEPARATOR); //$NON-NLS-1$
-
 			configString.append("Throttle             : "); //$NON-NLS-1$
+
 			for (int txType = 0; txType < nTxTypes; txType++) {
 				int throttle = throttles[txType];
+
 				if (throttle == 0) {
 					configString.append("-,"); //$NON-NLS-1$
 				} else {
 					configString.append(throttle);
 					configString.append(","); //$NON-NLS-1$
 				}
+
 				if (doThrottleByTotal()) {
 					break;
 				}
 			}
+
 			configString.deleteCharAt(configString.length() - 1);
 			configString.append(" tps"); //$NON-NLS-1$
+
 			if ((nTxTypes > 1) && doThrottleByTotal) {
 				configString.append(" (total)"); //$NON-NLS-1$
 			}
+
 			configString.append(SEPARATOR);
 		}
 
@@ -809,8 +825,8 @@ public final class Config {
 
 	private String loadHelperScript(String resourceName) throws ApplicationException {
 		BufferedReader reader = null;
-
 		InputStream is = this.getClass().getClassLoader().getResourceAsStream(resourceName);
+
 		if (is == null) {
 			throw new ApplicationException(Resources.getString("Config.HELPER_SCRIPT_NOT_FOUND")); //$NON-NLS-1$
 		}
@@ -818,13 +834,11 @@ public final class Config {
 		try {
 			reader = new BufferedReader(new InputStreamReader(is, "UTF-8")); //$NON-NLS-1$
 			return loadScript(reader);
-
 		} catch (UnsupportedEncodingException e) {
 			throw new ApplicationException(
 					Resources.getString("Config.UNSUPPORTED_ENCODING_EXCEPTION"), e); //$NON-NLS-1$
 		} catch (IOException e) {
 			throw new ApplicationException(Resources.getString("Config.IO_EXCEPTION"), e); //$NON-NLS-1$
-
 		} finally {
 			if (reader != null) {
 				try {
@@ -846,8 +860,8 @@ public final class Config {
 				reader = new BufferedReader(new InputStreamReader(new FileInputStream(fileName),
 						charset));
 			}
-			return loadScript(reader);
 
+			return loadScript(reader);
 		} catch (FileNotFoundException e) {
 			throw new ApplicationException(
 					Resources.getString("Config.FILE_NOT_FOUND_EXCEPTION"), e); //$NON-NLS-1$
@@ -856,7 +870,6 @@ public final class Config {
 					Resources.getString("Config.UNSUPPORTED_ENCODING_EXCEPTION"), e); //$NON-NLS-1$
 		} catch (IOException e) {
 			throw new ApplicationException(Resources.getString("Config.IO_EXCEPTION"), e); //$NON-NLS-1$
-
 		} finally {
 			if (reader != null) {
 				try {
@@ -979,74 +992,90 @@ public final class Config {
 		Object variable = null;
 
 		variable = script.getVariable(VAR_JDBC_DRIVER);
+
 		if (variable instanceof String) {
 			this.jdbcDriver = (String) variable;
 		}
 
 		variable = script.getVariable(VAR_JDBC_URL);
+
 		if (variable instanceof String) {
 			this.jdbcUrl = (String) variable;
 		}
 
 		variable = script.getVariable(VAR_JDBC_USER);
+
 		if (variable instanceof String) {
 			this.jdbcUser = (String) variable;
 		}
 
 		variable = script.getVariable(VAR_JDBC_PASS);
+
 		if (variable instanceof String) {
 			this.jdbcPass = (String) variable;
 		}
 
 		variable = script.getVariable(VAR_LOAD);
+
 		if (variable instanceof Boolean) {
 			this.isLoad = ((Boolean) variable).booleanValue();
 		}
 
 		variable = script.getVariable(VAR_WARMUP_TIME);
+
 		if (variable instanceof Number) {
 			this.warmupTime = ((Number) variable).intValue();
 		}
 
 		variable = script.getVariable(VAR_MEASUREMENT_TIME);
+
 		if (variable instanceof Number) {
 			this.measurementTime = ((Number) variable).intValue();
 		}
 
 		variable = script.getVariable(VAR_N_TX_TYPES);
+
 		if (variable instanceof Number) {
 			this.nTxTypes = ((Number) variable).intValue();
+
 			// sleepTimeとthrottleの配列サイズをnTxTypesに合わせる
 			this.sleepTimes = new long[nTxTypes];
 			this.throttles = new int[nTxTypes];
 		}
 
 		variable = script.getVariable(VAR_N_AGENTS);
+
 		if (variable instanceof Number) {
 			this.nAgents = ((Number) variable).intValue();
+
 			// コネクションプールの接続数をエージェント数に合わせる
 			this.connPoolSize = nAgents;
 		}
 
 		variable = script.getVariable(VAR_CONN_POOL_SIZE);
+
 		if (variable instanceof Number) {
 			this.connPoolSize = ((Number) variable).intValue();
 		}
 
 		variable = script.getVariable(VAR_STMT_CACHE_SIZE);
+
 		if (variable instanceof Number) {
 			this.stmtCacheSize = ((Number) variable).intValue();
 		}
 
 		variable = script.getVariable(VAR_AUTO_COMMIT);
+
 		if (variable instanceof Boolean) {
 			this.isAutoCommit = ((Boolean) variable).booleanValue();
 		}
 
 		variable = script.getVariable(VAR_SLEEP_TIME);
+
 		if (variable instanceof Number) {
 			// 書式1：var sleepTime = 1000;
 			long value = ((Number) variable).longValue();
+
 			for (int i = 0; i < nTxTypes; i++) {
 				this.sleepTimes[i] = value;
 			}
@@ -1054,10 +1083,12 @@ public final class Config {
 			// 書式2：var sleepTime = new Array(1000,
 			// 2000);
 			Object[] array = (Object[]) Context.jsToJava(variable, Object[].class);
+
 			if (array.length != nTxTypes) {
 				throw new ApplicationException(
 						Resources.getString("Config.ILLEGAL_NUMBER_OF_SLEEPTIMES")); //$NON-NLS-1$
 			}
+
 			for (int i = 0; i < nTxTypes; i++) {
 				if (array[i] instanceof Number) {
 					this.sleepTimes[i] = ((Number) array[i]).longValue();
@@ -1069,21 +1100,26 @@ public final class Config {
 		}
 
 		variable = script.getVariable(VAR_THROTTLE);
+
 		if (variable instanceof Number) {
 			// 書式1：var throttle = 100;
 			int value = ((Number) variable).intValue();
+
 			for (int i = 0; i < nTxTypes; i++) {
 				this.throttles[i] = value;
 			}
+
 			this.doThrottleByTotal = true;
 		} else if (variable instanceof NativeArray) {
 			// 書式2：var throttle = new Array(100,
 			// 200);
 			Object[] array = (Object[]) Context.jsToJava(variable, Object[].class);
+
 			if (array.length != nTxTypes) {
 				throw new ApplicationException(
 						Resources.getString("Config.ILLEGAL_NUMBER_OF_THROTTLES")); //$NON-NLS-1$
 			}
+
 			for (int i = 0; i < nTxTypes; i++) {
 				if (array[i] instanceof Number) {
 					this.throttles[i] = ((Number) array[i]).intValue();
@@ -1092,23 +1128,28 @@ public final class Config {
 							Resources.getString("Config.ILLEGAL_NUMBERS_THROTTLE")); //$NON-NLS-1$
 				}
 			}
+
 			this.doThrottleByTotal = false;
 		}
 
 		variable = script.getVariable(VAR_DEBUG);
+
 		if (variable instanceof Boolean) {
 			this.isDebug = ((Boolean) variable).booleanValue();
 		}
 
 		variable = script.getVariable(VAR_TRACE);
+
 		if (variable instanceof Boolean) {
 			this.isTrace = ((Boolean) variable).booleanValue();
+
 			if (isTrace) {
 				this.isDebug = true;
 			}
 		}
 
 		variable = script.getVariable(VAR_LOG_DIR);
+
 		if (variable instanceof String) {
 			this.logDir = (String) variable;
 		}
@@ -1156,6 +1197,7 @@ public final class Config {
 				throw new ApplicationException(
 						Resources.getString("Config.ILLEGAL_NUMBER_N_AGENTS"), e); //$NON-NLS-1$
 			}
+
 			// コネクションプールの接続数をエージェント数に合わせる
 			this.connPoolSize = nAgents;
 		}
@@ -1186,16 +1228,19 @@ public final class Config {
 			try {
 				// 書式1：-sleepTime 1000
 				long value = Long.parseLong(cl.getOptionValue(OPT_SLEEP_TIME));
+
 				for (int i = 0; i < nTxTypes; i++) {
 					this.sleepTimes[i] = value;
 				}
 			} catch (NumberFormatException e) {
 				// 書式2：-sleepTime 1000,2000
 				String[] array = cl.getOptionValue(OPT_SLEEP_TIME).split(","); //$NON-NLS-1$
+
 				if (array.length != nTxTypes) {
 					throw new ApplicationException(
 							Resources.getString("Config.ILLEGAL_NUMBER_OF_SLEEPTIMES")); //$NON-NLS-1$
 				}
+
 				for (int i = 0; i < nTxTypes; i++) {
 					try {
 						this.sleepTimes[i] = Long.parseLong(array[i]);
@@ -1211,17 +1256,21 @@ public final class Config {
 			try {
 				// 書式1：-throttle 100
 				int value = Integer.parseInt(cl.getOptionValue(OPT_THROTTLE));
+
 				for (int i = 0; i < nTxTypes; i++) {
 					throttles[i] = value;
 				}
+
 				this.doThrottleByTotal = true;
 			} catch (NumberFormatException e) {
 				// 書式2：-throttle 100,200
 				String[] array = cl.getOptionValue(OPT_THROTTLE).split(","); //$NON-NLS-1$
+
 				if (array.length != nTxTypes) {
 					throw new ApplicationException(
 							Resources.getString("Config.ILLEGAL_NUMBER_OF_THROTTLES")); //$NON-NLS-1$
 				}
+
 				for (int i = 0; i < nTxTypes; i++) {
 					try {
 						throttles[i] = Integer.parseInt(array[i]);
@@ -1230,6 +1279,7 @@ public final class Config {
 								Resources.getString("Config.ILLEGAL_NUMBERS_THROTTLE"), e2); //$NON-NLS-1$
 					}
 				}
+
 				this.doThrottleByTotal = false;
 			}
 		}

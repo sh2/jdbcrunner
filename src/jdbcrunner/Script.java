@@ -107,6 +107,7 @@ public class Script {
 			Object variable = null;
 
 			variable = scope.get("init", scope); //$NON-NLS-1$
+
 			if (variable instanceof Function) {
 				this.initFunction = (Function) variable;
 			} else {
@@ -114,6 +115,7 @@ public class Script {
 			}
 
 			variable = scope.get("run", scope); //$NON-NLS-1$
+
 			if (variable instanceof Function) {
 				this.runFunction = (Function) variable;
 			} else {
@@ -121,6 +123,7 @@ public class Script {
 			}
 
 			variable = scope.get("fin", scope); //$NON-NLS-1$
+
 			if (variable instanceof Function) {
 				this.finFunction = (Function) variable;
 			} else {
@@ -147,6 +150,7 @@ public class Script {
 				} else {
 					NativeArray sleepTimeArray = (NativeArray) context.newArray(scope,
 							config.getNTxTypes());
+
 					NativeArray throttleArray = (NativeArray) context.newArray(scope,
 							config.getNTxTypes());
 
@@ -163,16 +167,14 @@ public class Script {
 				scope.put(Config.VAR_TRACE, scope, config.isTrace());
 				scope.put(Config.VAR_LOG_DIR, scope, config.getLogDir());
 			}
-
 		} catch (WrappedException e) {
 			Throwable we = e.getWrappedException();
+
 			throw new ApplicationException(Resources.getString("Script.WRAPPED_EXCEPTION") //$NON-NLS-1$
 					+ SEPARATOR + we.toString() + SEPARATOR + e.getScriptStackTrace(), e);
-
 		} catch (EvaluatorException e) {
 			throw new ApplicationException(Resources.getString("Script.EVALUATOR_EXCEPTION") //$NON-NLS-1$
 					+ SEPARATOR + e.getMessage() + SEPARATOR + e.lineSource(), e);
-
 		} catch (RhinoException e) {
 			throw new ApplicationException(Resources.getString("Script.RHINO_EXCEPTION") //$NON-NLS-1$
 					+ SEPARATOR + e.getMessage() + SEPARATOR + e.getScriptStackTrace(), e);
@@ -275,7 +277,6 @@ public class Script {
 		if (function != null) {
 			try {
 				function.call(context, scope, scope, null);
-
 			} catch (WrappedException e) {
 				Throwable we = e.getWrappedException();
 
@@ -285,16 +286,13 @@ public class Script {
 									+ SEPARATOR + we.getMessage()
 									+ SEPARATOR
 									+ e.getScriptStackTrace(), we);
-
 				} else if (we instanceof SQLException) {
 					throw new ApplicationException(Resources.getString("Script.SQL_EXCEPTION") //$NON-NLS-1$
 							+ SEPARATOR + we.toString() + SEPARATOR + e.getScriptStackTrace(), we);
-
 				} else {
 					throw new ApplicationException(Resources.getString("Script.WRAPPED_EXCEPTION") //$NON-NLS-1$
 							+ SEPARATOR + we.toString() + SEPARATOR + e.getScriptStackTrace(), we);
 				}
-
 			} catch (RhinoException e) {
 				throw new ApplicationException(Resources.getString("Script.RHINO_EXCEPTION") //$NON-NLS-1$
 						+ SEPARATOR + e.getMessage() + SEPARATOR + e.getScriptStackTrace(), e);

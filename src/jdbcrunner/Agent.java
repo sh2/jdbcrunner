@@ -131,17 +131,14 @@ public class Agent implements Runnable {
 			}
 
 			manager.getFinEndLatch().countDown();
-
 		} catch (ApplicationException e) {
 			putMessage(new Message(Message.Level.ERROR,
 					Resources.getString("Agent.EXCEPTION_1") + id //$NON-NLS-1$
 							+ Resources.getString("Agent.EXCEPTION_2"), e)); //$NON-NLS-1$
-
 		} catch (Exception e) {
 			putMessage(new Message(Message.Level.ERROR,
 					Resources.getString("Agent.EXCEPTION_1") + id //$NON-NLS-1$
 							+ Resources.getString("Agent.EXCEPTION_2"), e)); //$NON-NLS-1$
-
 		} finally {
 			if (helper != null) {
 				helper.closeScript();
@@ -222,10 +219,8 @@ public class Agent implements Runnable {
 			connection = manager.getConnection();
 			helper.setConnection(connection);
 			helper.callInit();
-
 		} catch (SQLException e) {
 			throw new ApplicationException(Resources.getString("Agent.SQL_EXCEPTION"), e); //$NON-NLS-1$
-
 		} finally {
 			if (connection != null) {
 				try {
@@ -244,10 +239,8 @@ public class Agent implements Runnable {
 			connection = manager.getConnection();
 			helper.setConnection(connection);
 			helper.callRun();
-
 		} catch (SQLException e) {
 			throw new ApplicationException(Resources.getString("Agent.SQL_EXCEPTION"), e); //$NON-NLS-1$
-
 		} finally {
 			if (connection != null) {
 				try {
@@ -266,10 +259,8 @@ public class Agent implements Runnable {
 			connection = manager.getConnection();
 			helper.setConnection(connection);
 			helper.callFin();
-
 		} catch (SQLException e) {
 			throw new ApplicationException(Resources.getString("Agent.SQL_EXCEPTION"), e); //$NON-NLS-1$
-
 		} finally {
 			if (connection != null) {
 				try {
@@ -284,6 +275,7 @@ public class Agent implements Runnable {
 	private void sleep() {
 		if ((config.getSleepTime(txType) > 0L) && manager.getCondition()
 				&& (manager.getStatus() == Manager.Status.RUNNING)) {
+
 			try {
 				Thread.sleep(config.getSleepTime(txType));
 			} catch (InterruptedException e) {
@@ -296,13 +288,13 @@ public class Agent implements Runnable {
 	private void throttle(long txEndTime) {
 		if ((config.getThrottle(txType) > 0) && manager.getCondition()
 				&& (manager.getStatus() == Manager.Status.RUNNING)) {
+
 			try {
 				Thread.sleep(throttle.getSleepTime(txType, txEndTime));
 			} catch (InterruptedException e) {
 				putMessage(new Message(Message.Level.TRACE,
 						Resources.getString("Agent.INTERRUPTED_EXCEPTION"))); //$NON-NLS-1$
 			}
-
 		}
 	}
 }

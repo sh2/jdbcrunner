@@ -92,6 +92,7 @@ public class Template {
 			} else {
 				dataTypeList.add(DataType.valueOf(parameter.substring(1)
 						.toUpperCase(Locale.ENGLISH)));
+
 				matcher.appendReplacement(replacedStatement, "?"); //$NON-NLS-1$
 			}
 		}
@@ -257,6 +258,7 @@ public class Template {
 				if ((parameter != null)
 						&& (parameter.getClass().getName()
 								.equals("org.mozilla.javascript.NativeDate"))) { //$NON-NLS-1$
+
 					Date date = (Date) Context.jsToJava(parameter, Date.class);
 					Timestamp timestamp = new Timestamp(date.getTime());
 					preparedStatement.setTimestamp(parameterIndex, timestamp);

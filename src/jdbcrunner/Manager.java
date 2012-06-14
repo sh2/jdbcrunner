@@ -558,12 +558,10 @@ public class Manager {
 								break;
 							}
 						}
-
 					} catch (InterruptedException e) {
 						log.trace(Resources.getString("Manager.INTERRUPTED_EXCEPTION")); //$NON-NLS-1$
 					}
 				}
-
 			} catch (Exception e) {
 				log.error(Resources.getString("Manager.RECEIVER_EXCEPTION"), e); //$NON-NLS-1$
 				this.doReceive = false;
@@ -659,8 +657,8 @@ public class Manager {
 		public void run() {
 			try {
 				this.elapsedTime++;
-
 				int[] txCount = new int[config.getNTxTypes()];
+
 				for (int txType = 0; txType < config.getNTxTypes(); txType++) {
 					txCount[txType] = Manager.this.getTxCount(txType);
 				}
@@ -680,7 +678,6 @@ public class Manager {
 					this.doPrint = false;
 					progressEndLatch.countDown();
 				}
-
 			} catch (Exception e) {
 				log.error(Resources.getString("Manager.PROGRESS_EXCEPTION"), e); //$NON-NLS-1$
 				this.doPrint = false;
@@ -691,6 +688,7 @@ public class Manager {
 
 		private void print(int[] txCount) {
 			int[] throughput = new int[config.getNTxTypes()];
+
 			for (int txType = 0; txType < config.getNTxTypes(); txType++) {
 				throughput[txType] = (txCount[txType] - prevCount[txType]) / PROGRESS_INTERVAL;
 				this.prevCount[txType] = txCount[txType];
@@ -711,15 +709,18 @@ public class Manager {
 				message.append(throughput[txType]);
 				message.append(","); //$NON-NLS-1$
 			}
+
 			message.deleteCharAt(message.length() - 1);
 			message.append(" tps, "); //$NON-NLS-1$
 
 			if (elapsedTime <= 0) {
 				message.append("("); //$NON-NLS-1$
+
 				for (int txType = 0; txType < config.getNTxTypes(); txType++) {
 					message.append(txCount[txType]);
 					message.append(","); //$NON-NLS-1$
 				}
+
 				message.deleteCharAt(message.length() - 1);
 				message.append(" tx)"); //$NON-NLS-1$
 			} else {
@@ -727,6 +728,7 @@ public class Manager {
 					message.append(txCount[txType] - referenceCount[txType]);
 					message.append(","); //$NON-NLS-1$
 				}
+
 				message.deleteCharAt(message.length() - 1);
 				message.append(" tx"); //$NON-NLS-1$
 			}

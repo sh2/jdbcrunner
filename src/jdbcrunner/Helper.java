@@ -243,7 +243,6 @@ public class Helper {
 			while (resultSet.next()) {
 				rowCount++;
 			}
-
 		} finally {
 			if (resultSet != null) {
 				try {
@@ -309,7 +308,6 @@ public class Helper {
 				}
 				rowArray.put(rowCount++, rowArray, columnArray);
 			}
-
 		} finally {
 			if (resultSet != null) {
 				try {
@@ -362,7 +360,6 @@ public class Helper {
 			preparedStatement = connection.prepareStatement(template.getPreparableStatement());
 			template.setParameters(preparedStatement, parameters);
 			count = preparedStatement.executeUpdate();
-
 		} finally {
 			if (preparedStatement != null) {
 				try {
@@ -448,7 +445,6 @@ public class Helper {
 			for (int rowIndex = 0; rowIndex < counts.length; rowIndex++) {
 				countArray.put(rowIndex, countArray, counts[rowIndex]);
 			}
-
 		} finally {
 			if (preparedStatement != null) {
 				try {

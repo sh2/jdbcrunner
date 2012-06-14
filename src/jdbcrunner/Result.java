@@ -126,8 +126,8 @@ public class Result {
 		try {
 			writer = new FileWriter(config.getLogDir() + File.separator + "log_" //$NON-NLS-1$
 					+ config.getProgramStartTime() + "_t.csv"); //$NON-NLS-1$
-			buffer = new BufferedWriter(writer);
 
+			buffer = new BufferedWriter(writer);
 			line.append("Elapsed time[sec]"); //$NON-NLS-1$
 
 			if (config.getNTxTypes() == 1) {
@@ -155,7 +155,6 @@ public class Result {
 				buffer.write(line.toString());
 				buffer.newLine();
 			}
-
 		} finally {
 			if (buffer != null) {
 				try {
@@ -217,8 +216,8 @@ public class Result {
 		try {
 			writer = new FileWriter(config.getLogDir() + File.separator + "log_" //$NON-NLS-1$
 					+ config.getProgramStartTime() + "_r.csv"); //$NON-NLS-1$
-			buffer = new BufferedWriter(writer);
 
+			buffer = new BufferedWriter(writer);
 			line.append("Response time[msec]"); //$NON-NLS-1$
 
 			if (config.getNTxTypes() == 1) {
@@ -270,7 +269,6 @@ public class Result {
 				buffer.write(line.toString());
 				buffer.newLine();
 			}
-
 		} finally {
 			if (buffer != null) {
 				try {

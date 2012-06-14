@@ -72,6 +72,7 @@ public class Record {
 				returnResponseData[responseTime][txType] = responseData[responseTime][txType];
 			}
 		}
+
 		return returnResponseData;
 	}
 
@@ -125,16 +126,13 @@ public class Record {
 
 		if ((elapsedIndex >= 0) && (elapsedIndex < config.getMeasurementTime())) {
 			txData[elapsedIndex][txType]++;
-
 			int responseTime = (int) ((txEndTime - txBeginTime) / 1000000L);
 
 			if (responseTime >= 0) {
 				if (responseTime < RESPONSE_THRESHOLD) {
 					responseData[responseTime][txType]++;
-
 				} else if (slowResponseMap.containsKey(responseTime)) {
 					slowResponseMap.get(responseTime)[txType]++;
-
 				} else {
 					int[] txSubCount = new int[config.getNTxTypes()];
 					txSubCount[txType] = 1;

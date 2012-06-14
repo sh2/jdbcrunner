@@ -57,6 +57,7 @@ public class JR {
 
 			log.info("> " + Manager.APPLICATION_NAME //$NON-NLS-1$
 					+ " " + Manager.VERSION); //$NON-NLS-1$
+
 			status = new Manager(config).measure();
 
 			if (status == Manager.RETURN_SUCCESS) {
@@ -66,21 +67,19 @@ public class JR {
 				log.info("< " + Manager.APPLICATION_NAME //$NON-NLS-1$
 						+ " ERROR"); //$NON-NLS-1$
 			}
-
 		} catch (ApplicationException e) {
 			// configを作れなかったとき
 			status = Manager.RETURN_FAILURE;
+
 			if (e.getCause() instanceof RhinoException) {
 				printError(e, false);
 			} else {
 				printError(e, true);
 			}
-
 		} catch (IOException e) {
 			// log4jのログファイルを開けなかったとき
 			status = Manager.RETURN_FAILURE;
 			printError(new ApplicationException(Resources.getString("JR.IO_EXCEPTION"), e), true); //$NON-NLS-1$
-
 		} catch (Exception e) {
 			status = Manager.RETURN_FAILURE;
 			e.printStackTrace();
@@ -109,6 +108,7 @@ public class JR {
 
 		Appender fileAppender = new FileAppender(fileLayout, config.getLogDir() + File.separator
 				+ Config.LOG4J_FILENAME);
+
 		fileAppender.setName("File"); //$NON-NLS-1$
 		Logger.getRootLogger().addAppender(fileAppender);
 	}
@@ -119,6 +119,7 @@ public class JR {
 
 		if (isRecursive) {
 			Throwable cause = e.getCause();
+
 			while (cause != null) {
 				System.err.println(cause.getMessage());
 				cause = cause.getCause();
