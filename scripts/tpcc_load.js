@@ -1,5 +1,5 @@
 /*
- * Tiny TPC-C 1.1 - data loader
+ * Tiny TPC-C 1.2 - data loader
  * This script is based on TPC-C Standard Specification 5.10.1.
  *
  * [Oracle Database]
@@ -58,14 +58,6 @@ var SYLLABLE = [
     'BAR', 'OUGHT', 'ABLE', 'PRI', 'PRES',
     'ESE', 'ANTI', 'CALLY', 'ATION', 'EING'];
 
-var ALPHA_NUMERIC_2;
-var ALPHA_NUMERIC = [
-    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-    'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
-    'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
-    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-
 // JdbcRunner functions ----------------------------------------------
 
 function init() {
@@ -73,7 +65,7 @@ function init() {
         var scale = param0;
         var taskQueue = new java.util.concurrent.LinkedBlockingQueue();
         
-        info("Tiny TPC-C 1.1 - data loader");
+        info("Tiny TPC-C 1.2 - data loader");
         info("-param0  : Scale factor (default : 16)");
         info("-nAgents : Parallel loading degree (default : 4)");
         
@@ -681,9 +673,9 @@ function loadItem() {
         
         i_id[index] = itemId;
         i_im_id[index] = random(1, 10000);
-        i_name[index] = randomString(14, 24);
+        i_name[index] = randomString(random(14, 24));
         i_price[index] = random(100, 10000) / 100;
-        i_data[index] = randomString(26, 50);
+        i_data[index] = randomString(random(26, 50));
         
         if (random(1, 10) == 1) {
             var replace = random(0, i_data[index].length - 8);
@@ -714,11 +706,11 @@ function loadItem() {
 function loadWarehouse(warehouseId) {
     info("[Agent " + getId() + "] Loading warehouse ...");
     
-    var w_name = randomString(6, 10);
-    var w_street_1 = randomString(10, 20);
-    var w_street_2 = randomString(10, 20);
-    var w_city = randomString(10, 20);
-    var w_state = randomString(2, 2);
+    var w_name = randomString(random(6, 10));
+    var w_street_1 = randomString(random(10, 20));
+    var w_street_2 = randomString(random(10, 20));
+    var w_city = randomString(random(10, 20));
+    var w_state = randomString(2);
     var w_zip = (random(10000, 19999) + "11111").substring(1);
     var w_tax = random(0, 2000) / 10000;
     var w_ytd = 300000;
@@ -754,11 +746,11 @@ function loadDistrict(warehouseId) {
         
         d_id[index] = districtId;
         d_w_id[index] = warehouseId;
-        d_name[index] = randomString(6, 10);
-        d_street_1[index] = randomString(10, 20);
-        d_street_2[index] = randomString(10, 20);
-        d_city[index] = randomString(10, 20);
-        d_state[index] = randomString(2, 2);
+        d_name[index] = randomString(random(6, 10));
+        d_street_1[index] = randomString(random(10, 20));
+        d_street_2[index] = randomString(random(10, 20));
+        d_city[index] = randomString(random(10, 20));
+        d_state[index] = randomString(2);
         d_zip[index] = (random(10000, 19999) + "11111").substring(1);
         d_tax[index] = random(0, 2000) / 10000;
         d_ytd[index] = 30000;
@@ -820,7 +812,7 @@ function loadCustomer(warehouseId) {
             c_id[index] = customerId;
             c_d_id[index] = districtId;
             c_w_id[index] = warehouseId;
-            c_first[index] = randomString(8, 16);
+            c_first[index] = randomString(random(8, 16));
             c_middle[index] = "OE";
             
             if (customerId <= 1000) {
@@ -829,10 +821,10 @@ function loadCustomer(warehouseId) {
                 c_last[index] = lastName(nonUniformRandom(255, 0, 999));
             }
             
-            c_street_1[index] = randomString(10, 20);
-            c_street_2[index] = randomString(10, 20);
-            c_city[index] = randomString(10, 20);
-            c_state[index] = randomString(2, 2);
+            c_street_1[index] = randomString(random(10, 20));
+            c_street_2[index] = randomString(random(10, 20));
+            c_city[index] = randomString(random(10, 20));
+            c_state[index] = randomString(2);
             c_zip[index] = (random(10000, 19999) + "11111").substring(1);
             c_phone[index] = String(random(10000000000000000, 19999999999999999)).substring(1);
             c_since[index] = new Date();
@@ -849,7 +841,7 @@ function loadCustomer(warehouseId) {
             c_ytd_payment[index] = 10;
             c_payment_cnt[index] = 1;
             c_delivery_cnt[index] = 0;
-            c_data[index] = randomString(300, 500);
+            c_data[index] = randomString(random(300, 500));
             
             
             // history
@@ -860,7 +852,7 @@ function loadCustomer(warehouseId) {
             h_w_id[index] = warehouseId;
             h_date[index] = new Date();
             h_amount[index] = 10;
-            h_data[index] = randomString(12, 24);
+            h_data[index] = randomString(random(12, 24));
             
             if (customerId % BATCH_SIZE == 0) {
                 executeBatch("INSERT INTO customer "
@@ -925,20 +917,20 @@ function loadStock(warehouseId) {
         s_i_id[index] = itemId;
         s_w_id[index] = warehouseId;
         s_quantity[index] = random(10, 100);
-        s_dist_01[index] = randomString(24, 24);
-        s_dist_02[index] = randomString(24, 24);
-        s_dist_03[index] = randomString(24, 24);
-        s_dist_04[index] = randomString(24, 24);
-        s_dist_05[index] = randomString(24, 24);
-        s_dist_06[index] = randomString(24, 24);
-        s_dist_07[index] = randomString(24, 24);
-        s_dist_08[index] = randomString(24, 24);
-        s_dist_09[index] = randomString(24, 24);
-        s_dist_10[index] = randomString(24, 24);
+        s_dist_01[index] = randomString(24);
+        s_dist_02[index] = randomString(24);
+        s_dist_03[index] = randomString(24);
+        s_dist_04[index] = randomString(24);
+        s_dist_05[index] = randomString(24);
+        s_dist_06[index] = randomString(24);
+        s_dist_07[index] = randomString(24);
+        s_dist_08[index] = randomString(24);
+        s_dist_09[index] = randomString(24);
+        s_dist_10[index] = randomString(24);
         s_ytd[index] = 0;
         s_order_cnt[index] = 0;
         s_remote_cnt[index] = 0;
-        s_data[index] = randomString(26, 50);
+        s_data[index] = randomString(random(26, 50));
         
         if (random(1, 10) == 1) {
             var replace = random(0, s_data[index].length - 8);
@@ -1063,7 +1055,7 @@ function loadOrders(warehouseId) {
                 }
                 
                 ol_quantity.push(5);
-                ol_dist_info.push(randomString(24, 24));
+                ol_dist_info.push(randomString(24));
             }
             
             if (orderId % BATCH_SIZE == 0) {
@@ -1134,45 +1126,6 @@ function nonUniformRandom(a, x, y) {
     }
     
     return (((random(0, a) | random(x, y)) + c) % (y - x + 1)) + x;
-}
-
-function randomString(minLength, maxLength) {
-    if (!ALPHA_NUMERIC_2) {
-        ALPHA_NUMERIC_2 = new Array(3844);
-        
-        for (var i = 0; i < 62; i++) {
-            for (var j = 0; j < 62; j++) {
-                ALPHA_NUMERIC_2[i * 62 + j] = ALPHA_NUMERIC[i] + ALPHA_NUMERIC[j];
-            }
-        }
-    }
-    
-    var length = random(minLength, maxLength);
-    var index = 0;
-    var rand = 0;
-    var rest = 0;
-    var string = "";
-    
-    while (index < length) {
-        if (rest == 0) {
-            rand = random(0, 218340105584895);
-            rest = 8;
-        }
-        
-        if (index + 1 < length) {
-            var code = rand % 3844;
-            string += ALPHA_NUMERIC_2[code];
-            rand = (rand - code) / 3844;
-            rest -= 2;
-            index += 2;
-        } else {
-            var code = rand % 62;
-            string += ALPHA_NUMERIC[code];
-            break;
-        }
-    }
-    
-    return string;
 }
 
 function lastName(seed) {

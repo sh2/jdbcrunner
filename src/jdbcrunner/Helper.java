@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.mozilla.javascript.NativeArray;
@@ -17,13 +18,17 @@ import org.mozilla.javascript.RhinoException;
  * @author Sadao Hiratsuka
  */
 public class Helper {
-	private static final Map<String, Object> sharedData = new ConcurrentHashMap<String, Object>();
+	private static final Map<String, Object> SHARED_DATA = new ConcurrentHashMap<String, Object>();
 
 	private final Config config;
 	private final Agent agent;
 	private final Script script;
 	private final TemplateCache templateCache = new TemplateCache();
+	private final Random random = new Random();
 
+	private char[] stringElements;
+	private int stringPacks;
+	private int stringRange;
 	private Connection connection;
 
 	/**
@@ -40,6 +45,7 @@ public class Helper {
 		this.config = config;
 		this.agent = agent;
 		this.script = new Script(config, this, true);
+		setRandomStringElements("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"); //$NON-NLS-1$
 	}
 
 	/**
@@ -52,7 +58,7 @@ public class Helper {
 	 * @return 指定されたキーに関連付けされているデータ
 	 */
 	public static Object getData(String key) {
-		return sharedData.get(key);
+		return SHARED_DATA.get(key);
 	}
 
 	/**
@@ -66,7 +72,38 @@ public class Helper {
 	 *            指定されたキーに関連付けされるデータ
 	 */
 	public static void putData(String key, Object value) {
-		sharedData.put(key, value);
+		SHARED_DATA.put(key, value);
+	}
+
+	public String getRandomString(int length) {
+		char[] buffer = new char[length];
+		int rest = 0;
+		int rand = 0;
+
+		for (int index = 0; index < length; index++) {
+			if (rest == 0) {
+				rand = random.nextInt(stringRange);
+				rest = stringPacks;
+			}
+
+			buffer[index] = stringElements[rand % stringElements.length];
+			rand /= stringElements.length;
+			rest--;
+		}
+
+		return new String(buffer);
+	}
+
+	public void setRandomStringElements(String elements) {
+		int length = elements.length();
+		this.stringElements = new char[length];
+
+		for (int index = 0; index < length; index++) {
+			this.stringElements[index] = elements.charAt(index);
+		}
+
+		this.stringPacks = (int) (Math.log(Integer.MAX_VALUE) / Math.log(length));
+		this.stringRange = (int) Math.pow(length, stringPacks);
 	}
 
 	/**

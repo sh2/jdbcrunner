@@ -22,7 +22,20 @@ function random(min, max) {
     if (min > max) {
         throw "Error: min value is greater than max value at random(min, max).";
     }
+    
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function randomString(length) {
+    if (length < 0) {
+        throw "Error: length is less than 0 at randomString(length).";
+    }
+    
+    return String(helper.getRandomString(length));
+}
+
+function setRandomStringElements(elements) {
+    helper.setRandomStringElements(elements);
 }
 
 function takeConnection() {
