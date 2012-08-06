@@ -55,7 +55,7 @@ function init() {
         try{
             execute("DROP TABLE sample01");
         }catch(e){
-            if(e.toSource().indexOf("SQLSTATE: 42704")){
+            if(e.javaException instanceof java.sql.SQLException && e.javaException.getSQLState() == '42704'){
                 info("DROP TABLE failed. Table is not found.");
             }else{
                 throw e;
