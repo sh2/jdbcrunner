@@ -175,16 +175,14 @@ public class Template {
 										+ Resources.getString("Template.ILLEGAL_STRING_FOR_INT_2") //$NON-NLS-1$
 										+ (String) parameter, e);
 					}
+				} else if (parameter == null) {
+					preparedStatement.setNull(parameterIndex, java.sql.Types.INTEGER);
 				} else {
-					if (parameter == null) {
-						preparedStatement.setNull(parameterIndex, java.sql.Types.INTEGER);
-					} else {
-						throw new IllegalArgumentException(
-								Resources.getString("Template.ILLEGAL_NUMBER_1") //$NON-NLS-1$
-										+ parameterIndex
-										+ Resources.getString("Template.ILLEGAL_NUMBER_2") //$NON-NLS-1$
-										+ parameter.getClass().getName());
-					}
+					throw new IllegalArgumentException(
+							Resources.getString("Template.ILLEGAL_NUMBER_1") //$NON-NLS-1$
+									+ parameterIndex
+									+ Resources.getString("Template.ILLEGAL_NUMBER_2") //$NON-NLS-1$
+									+ parameter.getClass().getName());
 				}
 				break;
 			case LONG:
@@ -201,16 +199,14 @@ public class Template {
 										+ Resources.getString("Template.ILLEGAL_STRING_FOR_LONG_2") //$NON-NLS-1$
 										+ (String) parameter, e);
 					}
+				} else if (parameter == null) {
+					preparedStatement.setNull(parameterIndex, java.sql.Types.BIGINT);
 				} else {
-					if (parameter == null) {
-						preparedStatement.setNull(parameterIndex, java.sql.Types.BIGINT);
-					} else {
-						throw new IllegalArgumentException(
-								Resources.getString("Template.ILLEGAL_NUMBER_1") //$NON-NLS-1$
-										+ parameterIndex
-										+ Resources.getString("Template.ILLEGAL_NUMBER_2") //$NON-NLS-1$
-										+ parameter.getClass().getName());
-					}
+					throw new IllegalArgumentException(
+							Resources.getString("Template.ILLEGAL_NUMBER_1") //$NON-NLS-1$
+									+ parameterIndex
+									+ Resources.getString("Template.ILLEGAL_NUMBER_2") //$NON-NLS-1$
+									+ parameter.getClass().getName());
 				}
 				break;
 			case DOUBLE:
@@ -227,31 +223,27 @@ public class Template {
 										+ Resources.getString("Template.ILLEGAL_STRING_FOR_DOUBLE_2") //$NON-NLS-1$
 										+ (String) parameter, e);
 					}
+				} else if (parameter == null) {
+					preparedStatement.setNull(parameterIndex, java.sql.Types.DOUBLE);
 				} else {
-					if (parameter == null) {
-						preparedStatement.setNull(parameterIndex, java.sql.Types.DOUBLE);
-					} else {
-						throw new IllegalArgumentException(
-								Resources.getString("Template.ILLEGAL_NUMBER_1") //$NON-NLS-1$
-										+ parameterIndex
-										+ Resources.getString("Template.ILLEGAL_NUMBER_2") //$NON-NLS-1$
-										+ parameter.getClass().getName());
-					}
+					throw new IllegalArgumentException(
+							Resources.getString("Template.ILLEGAL_NUMBER_1") //$NON-NLS-1$
+									+ parameterIndex
+									+ Resources.getString("Template.ILLEGAL_NUMBER_2") //$NON-NLS-1$
+									+ parameter.getClass().getName());
 				}
 				break;
 			case STRING:
 				if (parameter instanceof String) {
 					preparedStatement.setString(parameterIndex, (String) parameter);
+				} else if (parameter == null) {
+					preparedStatement.setNull(parameterIndex, java.sql.Types.CHAR);
 				} else {
-					if (parameter == null) {
-						preparedStatement.setNull(parameterIndex, java.sql.Types.CHAR);
-					} else {
-						throw new IllegalArgumentException(
-								Resources.getString("Template.ILLEGAL_STRING_1") //$NON-NLS-1$
-										+ parameterIndex
-										+ Resources.getString("Template.ILLEGAL_STRING_2") //$NON-NLS-1$
-										+ parameter.getClass().getName());
-					}
+					throw new IllegalArgumentException(
+							Resources.getString("Template.ILLEGAL_STRING_1") //$NON-NLS-1$
+									+ parameterIndex
+									+ Resources.getString("Template.ILLEGAL_STRING_2") //$NON-NLS-1$
+									+ parameter.getClass().getName());
 				}
 				break;
 			case TIMESTAMP:
@@ -271,16 +263,14 @@ public class Template {
 				} else if (parameter instanceof String) {
 					Timestamp timestamp = Timestamp.valueOf((String) parameter);
 					preparedStatement.setTimestamp(parameterIndex, timestamp);
+				} else if (parameter == null) {
+					preparedStatement.setNull(parameterIndex, java.sql.Types.TIMESTAMP);
 				} else {
-					if (parameter == null) {
-						preparedStatement.setNull(parameterIndex, java.sql.Types.TIMESTAMP);
-					} else {
-						throw new IllegalArgumentException(
-								Resources.getString("Template.ILLEGAL_TIMESTAMP_1") //$NON-NLS-1$
-										+ parameterIndex
-										+ Resources.getString("Template.ILLEGAL_TIMESTAMP_2") //$NON-NLS-1$
-										+ parameter.getClass().getName());
-					}
+					throw new IllegalArgumentException(
+							Resources.getString("Template.ILLEGAL_TIMESTAMP_1") //$NON-NLS-1$
+									+ parameterIndex
+									+ Resources.getString("Template.ILLEGAL_TIMESTAMP_2") //$NON-NLS-1$
+									+ parameter.getClass().getName());
 				}
 			}
 		}
