@@ -2,12 +2,16 @@ package jdbcrunner;
 
 import static org.junit.Assert.*;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 import jdbcrunner.Template.DataType;
 
@@ -35,7 +39,6 @@ public class TemplateTest {
 		assertEquals("SELECT ename FROM emp WHERE empno = ?", template.getPreparableStatement());
 		assertTrue(template.getDataTypeList().size() == 1);
 		assertTrue(template.getDataTypeList().get(0).equals(DataType.INT));
-
 		template = new Template("SELECT ename FROM emp WHERE empno = $long");
 		assertEquals("SELECT ename FROM emp WHERE empno = ?", template.getPreparableStatement());
 		assertTrue(template.getDataTypeList().size() == 1);
@@ -483,11 +486,9 @@ public class TemplateTest {
 						+ Resources.getString("Template.ILLEGAL_NUMBER_OF_PARAMETERS_2") + "2",
 						we.getMessage());
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
-
 		} finally {
 			if (resultSet != null) {
 				try {
@@ -616,7 +617,7 @@ public class TemplateTest {
 
 			// INT -> DOUBLE
 			statement.execute("DROP TABLE IF EXISTS test02");
-			statement.execute("CREATE TABLE test02 (c1 DOUBLE PRECISION)");
+			statement.execute("CREATE TABLE test02 (c1 DOUBLE)");
 
 			template = new Template("INSERT INTO test02 VALUES ($int)");
 			preparedStatement = connection.prepareStatement(template.getPreparableStatement());
@@ -647,8 +648,6 @@ public class TemplateTest {
 
 			preparedStatement.close();
 
-			// TODO ここから実装
-
 			// INT -> DECIMAL
 			statement.execute("DROP TABLE IF EXISTS test02");
 			statement.execute("CREATE TABLE test02 (c1 DECIMAL(8, 4))");
@@ -662,28 +661,23 @@ public class TemplateTest {
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getBigDecimal(1).compareTo(new BigDecimal(1)) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(null);", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
-			preparedStatement.close();
-
-			// LONG -> BIGINT
-			statement.execute("DROP TABLE IF EXISTS test02");
-			statement.execute("CREATE TABLE test02 (c1 BIGINT)");
-
-			template = new Template("INSERT INTO test02 VALUES ($long)");
-			preparedStatement = connection.prepareStatement(template.getPreparableStatement());
-			scope.put("template", scope, template);
-			scope.put("preparedStatement", scope, preparedStatement);
-
-			context.evaluateString(scope, "setParameters(1);", "", 1, null);
-			count = preparedStatement.executeUpdate();
-			assertEquals(1, count);
-
-			context.evaluateString(scope, "setParameters(null);", "", 1, null);
-			count = preparedStatement.executeUpdate();
-			assertEquals(1, count);
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(null, resultSet.getBigDecimal(1));
+			assertTrue(resultSet.wasNull());
+			assertFalse(resultSet.next());
+			resultSet.close();
 
 			preparedStatement.close();
 
@@ -700,15 +694,29 @@ public class TemplateTest {
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(1, resultSet.getInt(1));
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(null);", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(0, resultSet.getInt(1));
+			assertTrue(resultSet.wasNull());
+			assertFalse(resultSet.next());
+			resultSet.close();
+
 			preparedStatement.close();
 
-			// LONG -> DOUBLE
+			// LONG -> BIGINT
 			statement.execute("DROP TABLE IF EXISTS test02");
-			statement.execute("CREATE TABLE test02 (c1 DOUBLE PRECISION)");
+			statement.execute("CREATE TABLE test02 (c1 BIGINT)");
 
 			template = new Template("INSERT INTO test02 VALUES ($long)");
 			preparedStatement = connection.prepareStatement(template.getPreparableStatement());
@@ -719,9 +727,56 @@ public class TemplateTest {
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(1L, resultSet.getLong(1));
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(null);", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(0L, resultSet.getLong(1));
+			assertTrue(resultSet.wasNull());
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			preparedStatement.close();
+
+			// LONG -> DOUBLE
+			statement.execute("DROP TABLE IF EXISTS test02");
+			statement.execute("CREATE TABLE test02 (c1 DOUBLE)");
+
+			template = new Template("INSERT INTO test02 VALUES ($long)");
+			preparedStatement = connection.prepareStatement(template.getPreparableStatement());
+			scope.put("template", scope, template);
+			scope.put("preparedStatement", scope, preparedStatement);
+
+			context.evaluateString(scope, "setParameters(1);", "", 1, null);
+			count = preparedStatement.executeUpdate();
+			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(1.0, resultSet.getDouble(1), 0.0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			statement.executeUpdate("DELETE FROM test02");
+			context.evaluateString(scope, "setParameters(null);", "", 1, null);
+			count = preparedStatement.executeUpdate();
+			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(0.0, resultSet.getDouble(1), 0.0);
+			assertTrue(resultSet.wasNull());
+			assertFalse(resultSet.next());
+			resultSet.close();
 
 			preparedStatement.close();
 
@@ -738,28 +793,23 @@ public class TemplateTest {
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getBigDecimal(1).compareTo(new BigDecimal(1)) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(null);", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
-			preparedStatement.close();
-
-			// DOUBLE -> DECIMAL
-			statement.execute("DROP TABLE IF EXISTS test02");
-			statement.execute("CREATE TABLE test02 (c1 DECIMAL(8, 4))");
-
-			template = new Template("INSERT INTO test02 VALUES ($double)");
-			preparedStatement = connection.prepareStatement(template.getPreparableStatement());
-			scope.put("template", scope, template);
-			scope.put("preparedStatement", scope, preparedStatement);
-
-			context.evaluateString(scope, "setParameters(1.5);", "", 1, null);
-			count = preparedStatement.executeUpdate();
-			assertEquals(1, count);
-
-			context.evaluateString(scope, "setParameters(null);", "", 1, null);
-			count = preparedStatement.executeUpdate();
-			assertEquals(1, count);
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(null, resultSet.getBigDecimal(1));
+			assertTrue(resultSet.wasNull());
+			assertFalse(resultSet.next());
+			resultSet.close();
 
 			preparedStatement.close();
 
@@ -776,9 +826,23 @@ public class TemplateTest {
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(2, resultSet.getInt(1));
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(null);", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(0, resultSet.getInt(1));
+			assertTrue(resultSet.wasNull());
+			assertFalse(resultSet.next());
+			resultSet.close();
 
 			preparedStatement.close();
 
@@ -795,15 +859,29 @@ public class TemplateTest {
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(2L, resultSet.getLong(1));
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(null);", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(0L, resultSet.getLong(1));
+			assertTrue(resultSet.wasNull());
+			assertFalse(resultSet.next());
+			resultSet.close();
 
 			preparedStatement.close();
 
 			// DOUBLE -> DOUBLE
 			statement.execute("DROP TABLE IF EXISTS test02");
-			statement.execute("CREATE TABLE test02 (c1 DOUBLE PRECISION)");
+			statement.execute("CREATE TABLE test02 (c1 DOUBLE)");
 
 			template = new Template("INSERT INTO test02 VALUES ($double)");
 			preparedStatement = connection.prepareStatement(template.getPreparableStatement());
@@ -814,9 +892,56 @@ public class TemplateTest {
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(1.5, resultSet.getDouble(1), 0.0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(null);", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(0.0, resultSet.getDouble(1), 0.0);
+			assertTrue(resultSet.wasNull());
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			preparedStatement.close();
+
+			// DOUBLE -> DECIMAL
+			statement.execute("DROP TABLE IF EXISTS test02");
+			statement.execute("CREATE TABLE test02 (c1 DECIMAL(8, 4))");
+
+			template = new Template("INSERT INTO test02 VALUES ($double)");
+			preparedStatement = connection.prepareStatement(template.getPreparableStatement());
+			scope.put("template", scope, template);
+			scope.put("preparedStatement", scope, preparedStatement);
+
+			context.evaluateString(scope, "setParameters(1.5);", "", 1, null);
+			count = preparedStatement.executeUpdate();
+			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getBigDecimal(1).compareTo(new BigDecimal(1.5)) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			statement.executeUpdate("DELETE FROM test02");
+			context.evaluateString(scope, "setParameters(null);", "", 1, null);
+			count = preparedStatement.executeUpdate();
+			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(null, resultSet.getBigDecimal(1));
+			assertTrue(resultSet.wasNull());
+			assertFalse(resultSet.next());
+			resultSet.close();
 
 			preparedStatement.close();
 
@@ -833,9 +958,23 @@ public class TemplateTest {
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals("abc", resultSet.getString(1));
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(null);", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(null, resultSet.getString(1));
+			assertTrue(resultSet.wasNull());
+			assertFalse(resultSet.next());
+			resultSet.close();
 
 			preparedStatement.close();
 
@@ -852,9 +991,23 @@ public class TemplateTest {
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals("abc", resultSet.getString(1));
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(null);", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(null, resultSet.getString(1));
+			assertTrue(resultSet.wasNull());
+			assertFalse(resultSet.next());
+			resultSet.close();
 
 			preparedStatement.close();
 
@@ -866,14 +1019,72 @@ public class TemplateTest {
 			preparedStatement = connection.prepareStatement(template.getPreparableStatement());
 			scope.put("template", scope, template);
 			scope.put("preparedStatement", scope, preparedStatement);
+			Timestamp correctTimestamp = Timestamp.valueOf("2010-01-02 03:04:05");
 
+			// 1. JavaScript Date
+			context.evaluateString(scope, "setParameters(new Date(2010, 0, 2, 3, 4, 5));", "", 1,
+					null);
+
+			count = preparedStatement.executeUpdate();
+			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getTimestamp(1).compareTo(correctTimestamp) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			// 2. Java Date
+			statement.executeUpdate("DELETE FROM test02");
+
+			context.evaluateString(scope, "setParameters(new java.util.Date(1262369045000));", "",
+					1, null);
+
+			count = preparedStatement.executeUpdate();
+			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getTimestamp(1).compareTo(correctTimestamp) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			// 3. Number
+			statement.executeUpdate("DELETE FROM test02");
+			context.evaluateString(scope, "setParameters(1262369045000);", "", 1, null);
+			count = preparedStatement.executeUpdate();
+			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getTimestamp(1).compareTo(correctTimestamp) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			// 4. String
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(\"2010-01-02 03:04:05\");", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getTimestamp(1).compareTo(correctTimestamp) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			// 5. Null
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(null);", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(null, resultSet.getTimestamp(1));
+			assertTrue(resultSet.wasNull());
+			assertFalse(resultSet.next());
+			resultSet.close();
 
 			preparedStatement.close();
 
@@ -885,14 +1096,72 @@ public class TemplateTest {
 			preparedStatement = connection.prepareStatement(template.getPreparableStatement());
 			scope.put("template", scope, template);
 			scope.put("preparedStatement", scope, preparedStatement);
+			Date correctDate = Date.valueOf("2010-01-02");
 
+			// 1. JavaScript Date
+			context.evaluateString(scope, "setParameters(new Date(2010, 0, 2, 3, 4, 5));", "", 1,
+					null);
+
+			count = preparedStatement.executeUpdate();
+			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getDate(1).compareTo(correctDate) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			// 2. Java Date
+			statement.executeUpdate("DELETE FROM test02");
+
+			context.evaluateString(scope, "setParameters(new java.util.Date(1262369045000));", "",
+					1, null);
+
+			count = preparedStatement.executeUpdate();
+			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getDate(1).compareTo(correctDate) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			// 3. Number
+			statement.executeUpdate("DELETE FROM test02");
+			context.evaluateString(scope, "setParameters(1262369045000);", "", 1, null);
+			count = preparedStatement.executeUpdate();
+			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getDate(1).compareTo(correctDate) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			// 4. String
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(\"2010-01-02 03:04:05\");", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getDate(1).compareTo(correctDate) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			// 5. Null
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(null);", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(null, resultSet.getDate(1));
+			assertTrue(resultSet.wasNull());
+			assertFalse(resultSet.next());
+			resultSet.close();
 
 			preparedStatement.close();
 
@@ -904,21 +1173,77 @@ public class TemplateTest {
 			preparedStatement = connection.prepareStatement(template.getPreparableStatement());
 			scope.put("template", scope, template);
 			scope.put("preparedStatement", scope, preparedStatement);
+			Time correctTime = Time.valueOf("03:04:05");
 
+			// 1. JavaScript Date
+			context.evaluateString(scope, "setParameters(new Date(2010, 0, 2, 3, 4, 5));", "", 1,
+					null);
+
+			count = preparedStatement.executeUpdate();
+			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getTime(1).compareTo(correctTime) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			// 2. Java Date
+			statement.executeUpdate("DELETE FROM test02");
+
+			context.evaluateString(scope, "setParameters(new java.util.Date(1262369045000));", "",
+					1, null);
+
+			count = preparedStatement.executeUpdate();
+			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getTime(1).compareTo(correctTime) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			// 3. Number
+			statement.executeUpdate("DELETE FROM test02");
+			context.evaluateString(scope, "setParameters(1262369045000);", "", 1, null);
+			count = preparedStatement.executeUpdate();
+			assertEquals(1, count);
+
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getTime(1).compareTo(correctTime) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			// 4. String
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(\"2010-01-02 03:04:05\");", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertTrue(resultSet.getTime(1).compareTo(correctTime) == 0);
+			assertFalse(resultSet.next());
+			resultSet.close();
+
+			// 5. Null
+			statement.executeUpdate("DELETE FROM test02");
 			context.evaluateString(scope, "setParameters(null);", "", 1, null);
 			count = preparedStatement.executeUpdate();
 			assertEquals(1, count);
 
-			preparedStatement.close();
+			resultSet = statement.executeQuery("SELECT c1 FROM test02");
+			assertTrue(resultSet.next());
+			assertEquals(null, resultSet.getTime(1));
+			assertTrue(resultSet.wasNull());
+			assertFalse(resultSet.next());
+			resultSet.close();
 
+			preparedStatement.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
-
 		} finally {
 			if (resultSet != null) {
 				try {
