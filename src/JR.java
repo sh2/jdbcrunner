@@ -15,9 +15,9 @@ import jdbcrunner.Config;
 import jdbcrunner.Manager;
 import jdbcrunner.Resources;
 
-// TODO 中断機能を作る
 // TODO tpcc-mysql互換ローダを作る
 // TODO Tiny TPC-C DeliveryトランザクションのSELECT FOR UPDATE文が空振りしないようにする
+// TODO randomString(length)のAPIドキュメントを書く
 
 /**
  * アプリケーションの起動用クラスです。
