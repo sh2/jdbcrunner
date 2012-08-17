@@ -75,6 +75,13 @@ public class Helper {
 		SHARED_DATA.put(key, value);
 	}
 
+	/**
+	 * ランダム文字列を生成して返します。
+	 *
+	 * @param length
+	 *            ランダム文字列の長さ
+	 * @return ランダム文字列
+	 */
 	public String getRandomString(int length) {
 		char[] buffer = new char[length];
 		int rest = 0;
@@ -94,6 +101,12 @@ public class Helper {
 		return new String(buffer);
 	}
 
+	/**
+	 * ランダム文字列生成に用いられる文字群を設定します。
+	 *
+	 * @param elements
+	 *            文字群
+	 */
 	public void setRandomStringElements(String elements) {
 		int length = elements.length();
 		this.stringElements = new char[length];
