@@ -39,6 +39,7 @@ public class TemplateTest {
 		assertEquals("SELECT ename FROM emp WHERE empno = ?", template.getPreparableStatement());
 		assertTrue(template.getDataTypeList().size() == 1);
 		assertTrue(template.getDataTypeList().get(0).equals(DataType.INT));
+
 		template = new Template("SELECT ename FROM emp WHERE empno = $long");
 		assertEquals("SELECT ename FROM emp WHERE empno = ?", template.getPreparableStatement());
 		assertTrue(template.getDataTypeList().size() == 1);
