@@ -472,7 +472,6 @@ function orderStatus() {
 }
 
 function delivery() {
-    var doPrint = true;
     var w_id = random(1, scale);
     var o_carrier_id = random(1, 10);
     
