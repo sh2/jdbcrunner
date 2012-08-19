@@ -1,5 +1,5 @@
 /*
- * Tiny TPC-C 1.1
+ * Tiny TPC-C 1.2
  * This script is based on TPC-C Standard Specification 5.10.1.
  */
 
@@ -71,7 +71,7 @@ txSequence.next = function() {
 
 function init() {
     if (getId() == 0) {
-        info("Tiny TPC-C 1.1");
+        info("Tiny TPC-C 1.2");
         
         putData("ScaleFactor", fetchAsArray("SELECT COUNT(*) FROM warehouse")[0][0]);
         info("Scale factor : " + Number(getData("ScaleFactor")));
@@ -472,63 +472,69 @@ function orderStatus() {
 }
 
 function delivery() {
+    var doPrint = true;
     var w_id = random(1, scale);
     var o_carrier_id = random(1, 10);
     
     for (var retry = 0; retry <= DEADLOCK_RETRY_LIMIT; retry++) {
         try {
-            for (var d_id = 1; d_id <= 10; d_id++) {
-                var rs01 = fetchAsArray("SELECT /* D-01 */ n1.no_o_id "
-                               + "FROM new_orders n1 "
-                               + "WHERE n1.no_w_id = $int AND n1.no_d_id = $int "
-                               + "AND n1.no_o_id = ("
-                                   + "SELECT MIN(n2.no_o_id) "
-                                   + "FROM new_orders n2 "
-                                   + "WHERE n2.no_w_id = $int AND n2.no_d_id = $int"
-                               + ") "
-                               + "FOR UPDATE",
-                               w_id, d_id, w_id, d_id);
-                
-                if (rs01.length == 0) {
-                    // If no matching row is found,
-                    // then the delivery of an order for this district is skipped.
-                    continue;
+            warehouse: for (;;) {
+                district: for (var d_id = 1; d_id <= 10; d_id++) {
+                    var rs01 = fetchAsArray("SELECT /* D-01 */ MIN(no_o_id) "
+                                + "FROM new_orders "
+                                + "WHERE no_w_id = $int AND no_d_id = $int",
+                                w_id, d_id);
+                    
+                    if (rs01[0][0] == null) {
+                        // If no matching row is found,
+                        // then the delivery of an order for this district is skipped.
+                        continue district;
+                    }
+                    
+                    var uc02 = execute("DELETE /* D-02 */ "
+                                   + "FROM new_orders "
+                                   + "WHERE no_w_id = $int AND no_d_id = $int AND no_o_id = $int",
+                                   w_id, d_id, rs01[0][0]);
+                    
+                    if (uc02 == 0) {
+                        // No row is deleted if another transaction have already done it.
+                        // So we do rollback this transaction and retry it.
+                        rollback();
+                        continue warehouse;
+                    }
+                    
+                    var rs03 = fetchAsArray("SELECT /* D-03 */ o_c_id "
+                                   + "FROM orders "
+                                   + "WHERE o_w_id = $int AND o_d_id = $int AND o_id = $int "
+                                   + "FOR UPDATE",
+                                   w_id, d_id, rs01[0][0]);
+                    
+                    var uc04 = execute("UPDATE /* D-04 */ orders "
+                                   + "SET o_carrier_id = $int "
+                                   + "WHERE o_w_id = $int AND o_d_id = $int AND o_id = $int",
+                                   o_carrier_id,
+                                   w_id, d_id, rs01[0][0]);
+                    
+                    var uc05 = execute("UPDATE /* D-05 */ order_line "
+                                   + "SET ol_delivery_d = $timestamp "
+                                   + "WHERE ol_w_id = $int AND ol_d_id = $int AND ol_o_id = $int",
+                                   new Date(), w_id, d_id, rs01[0][0]);
+                    
+                    var rs06 = fetchAsArray("SELECT /* D-06 */ SUM(ol_amount) "
+                                   + "FROM order_line "
+                                   + "WHERE ol_w_id = $int AND ol_d_id = $int AND ol_o_id = $int",
+                                   w_id, d_id, rs01[0][0]);
+                    
+                    // Notice: The sample code <A.4> is different from the specification <2.7.4.2>.
+                    // The sample code only updates c_balance.
+                    var uc07 = execute("UPDATE /* D-07 */ customer "
+                                   + "SET c_balance = c_balance + $double, "
+                                   + "c_delivery_cnt = c_delivery_cnt + 1 "
+                                   + "WHERE c_w_id = $int AND c_d_id = $int AND c_id = $int",
+                                   rs06[0][0], w_id, d_id, rs03[0][0]);
                 }
                 
-                var uc02 = execute("DELETE /* D-02 */ "
-                               + "FROM new_orders "
-                               + "WHERE no_w_id = $int AND no_d_id = $int AND no_o_id = $int",
-                               w_id, d_id, rs01[0][0]);
-                
-                var rs03 = fetchAsArray("SELECT /* D-03 */ o_c_id "
-                               + "FROM orders "
-                               + "WHERE o_w_id = $int AND o_d_id = $int AND o_id = $int "
-                               + "FOR UPDATE",
-                               w_id, d_id, rs01[0][0]);
-                
-                var uc04 = execute("UPDATE /* D-04 */ orders "
-                               + "SET o_carrier_id = $int "
-                               + "WHERE o_w_id = $int AND o_d_id = $int AND o_id = $int",
-                               o_carrier_id,
-                               w_id, d_id, rs01[0][0]);
-                
-                var uc05 = execute("UPDATE /* D-05 */ order_line "
-                               + "SET ol_delivery_d = $timestamp "
-                               + "WHERE ol_w_id = $int AND ol_d_id = $int AND ol_o_id = $int",
-                               new Date(), w_id, d_id, rs01[0][0]);
-                
-                var rs06 = fetchAsArray("SELECT /* D-06 */ SUM(ol_amount) "
-                               + "FROM order_line "
-                               + "WHERE ol_w_id = $int AND ol_d_id = $int AND ol_o_id = $int",
-                               w_id, d_id, rs01[0][0]);
-                
-                // Notice: The sample code <A.4> is different from the specification <2.7.4.2>.
-                // The sample code only updates c_balance.
-                var uc07 = execute("UPDATE /* D-07 */ customer "
-                               + "SET c_balance = c_balance + $double, "
-                               + "c_delivery_cnt = c_delivery_cnt + 1 "
-                               + "WHERE c_w_id = $int AND c_d_id = $int AND c_id = $int",
-                               rs06[0][0], w_id, d_id, rs03[0][0]);
+                break;
             }
             
             commit();
