@@ -16,7 +16,6 @@ import jdbcrunner.Manager;
 import jdbcrunner.Resources;
 
 // TODO tpcc-mysql互換ローダを作る
-// TODO Tiny TPC-C DeliveryトランザクションのSELECT FOR UPDATE文が空振りしないようにする
 // TODO randomString(length)のAPIドキュメントを書く
 
 /**
