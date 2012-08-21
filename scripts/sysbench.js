@@ -1,6 +1,7 @@
 /*
  * Tiny SysBench 1.0
  * This script is based on SysBench 0.4.12.
+ * http://sysbench.sourceforge.net/
  */
 
 // JdbcRunner settings -----------------------------------------------
