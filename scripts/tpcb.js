@@ -1,6 +1,7 @@
 /*
  * Tiny TPC-B 1.1
  * This script is based on TPC-B Standard Specification 2.0.
+ * http://tpc.org/tpcb/
  */
 
 // JdbcRunner settings -----------------------------------------------
