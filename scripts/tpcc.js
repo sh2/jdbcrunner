@@ -1,6 +1,6 @@
 /*
  * Tiny TPC-C 1.2
- * This script is based on TPC-C Standard Specification 5.10.1.
+ * This script is based on TPC-C Standard Specification 5.11.
  */
 
 // JdbcRunner settings -----------------------------------------------

@@ -1,6 +1,6 @@
 /*
  * Tiny TPC-C 1.2 - data loader
- * This script is based on TPC-C Standard Specification 5.10.1.
+ * This script is based on TPC-C Standard Specification 5.11.
  *
  * [Oracle Database]
  * shell> sqlplus "/ AS SYSDBA"
