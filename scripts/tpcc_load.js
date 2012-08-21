@@ -56,8 +56,8 @@ var C_1023 = 0;
 var C_8191 = 0;
 
 var SYLLABLE = [
-    'BAR', 'OUGHT', 'ABLE', 'PRI', 'PRES',
-    'ESE', 'ANTI', 'CALLY', 'ATION', 'EING'];
+    "BAR", "OUGHT", "ABLE", "PRI", "PRES",
+    "ESE", "ANTI", "CALLY", "ATION", "EING"];
 
 var beginTimestamp;
 
