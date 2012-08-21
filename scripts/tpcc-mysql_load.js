@@ -24,13 +24,15 @@ var BATCH_SIZE = 100;
 var COMMIT_SIZE = 1000;
 var PRINT_SIZE = 10000;
 
-var C_255 = 0;
-var C_1023 = 0;
-var C_8191 = 0;
+var C_255;
+var C_1023;
+var C_8191;
 
 var SYLLABLE = [
-    'BAR', 'OUGHT', 'ABLE', 'PRI', 'PRES',
-    'ESE', 'ANTI', 'CALLY', 'ATION', 'EING'];
+    "BAR", "OUGHT", "ABLE", "PRI", "PRES",
+    "ESE", "ANTI", "CALLY", "ATION", "EING"];
+
+var beginTimestamp;
 
 // JdbcRunner functions ----------------------------------------------
 
@@ -55,6 +57,10 @@ function init() {
         }
         
         putData("TaskQueue", taskQueue);
+        putData("BeginTimestamp", new Date());
+        putData("C_255", random(0, 255));
+        putData("C_1023", random(0, 1023));
+        putData("C_8191", random(0, 8191));
         dropTable();
         createTable();
         loadItem();
@@ -62,6 +68,13 @@ function init() {
 }
 
 function run() {
+    if (!beginTimestamp) {
+        beginTimestamp = getData("BeginTimestamp");
+        C_255 = Number(getData("C_255"));
+        C_1023 = Number(getData("C_1023"));
+        C_8191 = Number(getData("C_8191"));
+    }
+    
     var warehouseId = Number(getData("TaskQueue").poll());
     
     if (warehouseId != 0) {
@@ -287,7 +300,7 @@ function loadItem() {
             
             i_data[index] =
                 i_data[index].substring(0, replace)
-                + "ORIGINAL"
+                + "original"
                 + i_data[index].substring(replace + 8);
         }
         
@@ -316,9 +329,9 @@ function loadWarehouse(warehouseId) {
     var w_street_2 = randomString(random(10, 20));
     var w_city = randomString(random(10, 20));
     var w_state = randomString(2);
-    var w_zip = (random(10000, 19999) + "11111").substring(1);
-    var w_tax = random(0, 2000) / 10000;
-    var w_ytd = 300000;
+    var w_zip = String(random(1000000000, 1999999999)).substring(1);
+    var w_tax = random(10, 20) / 100;
+    var w_ytd = 3000000;
     
     execute("INSERT INTO warehouse "
         + "(w_id, w_name, w_street_1, w_street_2, w_city, "
@@ -356,8 +369,8 @@ function loadDistrict(warehouseId) {
         d_street_2[index] = randomString(random(10, 20));
         d_city[index] = randomString(random(10, 20));
         d_state[index] = randomString(2);
-        d_zip[index] = (random(10000, 19999) + "11111").substring(1);
-        d_tax[index] = random(0, 2000) / 10000;
+        d_zip[index] = String(random(1000000000, 1999999999)).substring(1);
+        d_tax[index] = random(10, 20) / 100;
         d_ytd[index] = 30000;
         d_next_o_id[index] = 3001;
     }
@@ -430,18 +443,18 @@ function loadCustomer(warehouseId) {
             c_street_2[index] = randomString(random(10, 20));
             c_city[index] = randomString(random(10, 20));
             c_state[index] = randomString(2);
-            c_zip[index] = (random(10000, 19999) + "11111").substring(1);
+            c_zip[index] = String(random(1000000000, 1999999999)).substring(1);
             c_phone[index] = String(random(10000000000000000, 19999999999999999)).substring(1);
-            c_since[index] = new Date();
+            c_since[index] = beginTimestamp;
             
-            if (random(1, 10) == 1) {
+            if (random(1, 2) == 1) {
                 c_credit[index] = "BC";
             } else {
                 c_credit[index] = "GC";
             }
             
             c_credit_lim[index] = 50000;
-            c_discount[index] = random(0, 5000) / 10000;
+            c_discount[index] = random(0, 50) / 100;
             c_balance[index] = -10;
             c_ytd_payment[index] = 10;
             c_payment_cnt[index] = 1;
@@ -455,7 +468,7 @@ function loadCustomer(warehouseId) {
             h_c_w_id[index] = warehouseId;
             h_d_id[index] = districtId;
             h_w_id[index] = warehouseId;
-            h_date[index] = new Date();
+            h_date[index] = beginTimestamp;
             h_amount[index] = 10;
             h_data[index] = randomString(random(12, 24));
             
@@ -542,7 +555,7 @@ function loadStock(warehouseId) {
             
             s_data[index] =
                 s_data[index].substring(0, replace)
-                + "ORIGINAL"
+                + "original"
                 + s_data[index].substring(replace + 8);
         }
         
@@ -624,7 +637,7 @@ function loadOrders(warehouseId) {
             o_d_id[index] = districtId;
             o_w_id[index] = warehouseId;
             o_c_id[index] = customerSequence[orderId - 1];
-            o_entry_d[index] = new Date();
+            o_entry_d[index] = beginTimestamp;
             
             if (orderId < 2101) {
                 o_carrier_id[index] = random(1, 10);
@@ -652,11 +665,11 @@ function loadOrders(warehouseId) {
                 ol_supply_w_id.push(warehouseId);
                 
                 if (orderId < 2101) {
-                    ol_delivery_d.push(o_entry_d[index]);
+                    ol_delivery_d.push(beginTimestamp);
                     ol_amount.push(0);
                 } else {
                     ol_delivery_d.push(null);
-                    ol_amount.push(random(1, 999999) / 100);
+                    ol_amount.push(random(10, 10000) / 100);
                 }
                 
                 ol_quantity.push(5);
