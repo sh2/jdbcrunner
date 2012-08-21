@@ -15,7 +15,7 @@ import jdbcrunner.Config;
 import jdbcrunner.Manager;
 import jdbcrunner.Resources;
 
-// TODO tpcc-mysql互換ローダを作る
+// TODO tpcc-mysql互換ローダのドキュメントを書く
 // TODO randomString(length)のAPIドキュメントを書く
 
 /**
