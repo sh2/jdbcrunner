@@ -59,6 +59,8 @@ var SYLLABLE = [
     'BAR', 'OUGHT', 'ABLE', 'PRI', 'PRES',
     'ESE', 'ANTI', 'CALLY', 'ATION', 'EING'];
 
+var beginTimestamp;
+
 // JdbcRunner functions ----------------------------------------------
 
 function init() {
@@ -82,6 +84,7 @@ function init() {
         }
         
         putData("TaskQueue", taskQueue);
+        putData("BeginTimestamp", new Date());
         
         if (getDatabaseProductName() == "Oracle") {
             dropTable();
@@ -101,6 +104,10 @@ function init() {
 }
 
 function run() {
+    if (!beginTimestamp) {
+        beginTimestamp = getData("BeginTimestamp");
+    }
+    
     var warehouseId = Number(getData("TaskQueue").poll());
     
     if (warehouseId != 0) {
@@ -836,7 +843,7 @@ function loadCustomer(warehouseId) {
             c_state[index] = randomString(2);
             c_zip[index] = (random(10000, 19999) + "11111").substring(1);
             c_phone[index] = String(random(10000000000000000, 19999999999999999)).substring(1);
-            c_since[index] = new Date();
+            c_since[index] = beginTimestamp;
             
             if (random(1, 10) == 1) {
                 c_credit[index] = "BC";
