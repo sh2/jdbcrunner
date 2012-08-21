@@ -106,11 +106,19 @@ function run() {
     if (warehouseId != 0) {
         info("Loading warehouse id " + warehouseId + " by agent " + getId() + " ...");
         
+        if (getDatabaseProductName() == "MySQL") {
+            execute("SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0");
+        }
+        
         loadWarehouse(warehouseId);
         loadDistrict(warehouseId);
         loadCustomer(warehouseId);
         loadStock(warehouseId);
         loadOrders(warehouseId);
+        
+        if (getDatabaseProductName() == "MySQL") {
+            execute("SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS");
+        }
     } else {
         setBreak();
     }
