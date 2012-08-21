@@ -35,8 +35,8 @@ var C_1023 = 100;
 var C_8191 = 100;
 
 var SYLLABLE = [
-    'BAR', 'OUGHT', 'ABLE', 'PRI', 'PRES',
-    'ESE', 'ANTI', 'CALLY', 'ATION', 'EING'];
+    "BAR", "OUGHT", "ABLE", "PRI", "PRES",
+    "ESE", "ANTI", "CALLY", "ATION", "EING"];
 
 var scale;
 
