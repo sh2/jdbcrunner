@@ -628,8 +628,6 @@ public class Manager {
 	 * @author Sadao Hiratsuka
 	 */
 	private class Progress implements Runnable {
-		private static final int PROGRESS_INTERVAL = 1;
-
 		private boolean doPrint = true;
 		private int elapsedTime = 0 - config.getWarmupTime();
 		private int[] referenceCount = new int[config.getNTxTypes()];
@@ -669,7 +667,7 @@ public class Manager {
 					}
 				}
 
-				if (condition && doPrint && (elapsedTime % PROGRESS_INTERVAL == 0)) {
+				if (condition && doPrint) {
 					print(txCount);
 					checkClock();
 				}
@@ -690,7 +688,7 @@ public class Manager {
 			int[] throughput = new int[config.getNTxTypes()];
 
 			for (int txType = 0; txType < config.getNTxTypes(); txType++) {
-				throughput[txType] = (txCount[txType] - prevCount[txType]) / PROGRESS_INTERVAL;
+				throughput[txType] = txCount[txType] - prevCount[txType];
 				this.prevCount[txType] = txCount[txType];
 			}
 
