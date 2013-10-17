@@ -29,7 +29,7 @@
 // JdbcRunner settings -----------------------------------------------
 
 // Oracle Database
-// var jdbcUrl = "jdbc:oracle:thin://@localhost:1521/TPCB";
+// var jdbcUrl = "jdbc:oracle:thin:@//localhost:1521/TPCB";
 
 // MySQL
 var jdbcUrl = "jdbc:mysql://localhost:3306/tpcb?rewriteBatchedStatements=true";

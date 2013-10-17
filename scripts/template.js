@@ -5,7 +5,7 @@
 // JdbcRunner settings -----------------------------------------------
 
 // Oracle Database
-// var jdbcUrl = "jdbc:oracle:thin://@localhost:1521/ORCL";
+// var jdbcUrl = "jdbc:oracle:thin:@//localhost:1521/ORCL";
 
 // MySQL
 var jdbcUrl = "jdbc:mysql://localhost:3306/test";

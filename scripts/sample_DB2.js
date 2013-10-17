@@ -28,7 +28,7 @@ var jdbcDriver = "com.ibm.db2.jcc.DB2Driver";
 // JDBC URLを指定します。
 // 起動時に-jdbcUrlオプションを指定すると上書きすることができます。
 // DB2の場合、JDBC URLの書式は
-// 「jdbc:db2://<server_name>:<port_number>/<database_name>」です。
+// 「jdbc:db2://<server_host>:<port_number>/<database_name>」です。
 var jdbcUrl = "jdbc:db2://localhost:50000/sample";
 
 // データベースのユーザ名を指定します。

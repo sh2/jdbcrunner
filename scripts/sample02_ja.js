@@ -21,8 +21,8 @@
 // JdbcRunner settings -----------------------------------------------
 
 // Oracleの場合、JDBC URLの書式は
-// 「jdbc:oracle:thin://@<server_name>:<port_number>/<service_name>」です。
-var jdbcUrl = "jdbc:oracle:thin://@localhost:1521/ORCL";
+// 「jdbc:oracle:thin:@//<server_host>:<port_number>/<service_name>」です。
+var jdbcUrl = "jdbc:oracle:thin:@//localhost:1521/ORCL";
 
 var jdbcUser = "scott";
 var jdbcPass = "tiger";
