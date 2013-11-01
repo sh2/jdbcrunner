@@ -46,6 +46,14 @@ function getDatabaseProductName() {
     return helper.getDatabaseProductName();
 }
 
+function getDatabaseMajorVersion() {
+    return helper.getDatabaseMajorVersion();
+}
+
+function getDatabaseMinorVersion() {
+	return helper.getDatabaseMinorVersion();
+}
+
 function commit() {
     helper.commit();
 }

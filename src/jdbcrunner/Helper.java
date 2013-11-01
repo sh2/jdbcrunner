@@ -236,6 +236,28 @@ public class Helper {
 	}
 
 	/**
+	 * データベースのメジャーバージョンを返します。
+	 *
+	 * @return データベースのメジャーバージョン
+	 * @throws SQLException
+	 *             データベースアクセス中に例外が発生した場合
+	 */
+	public int getDatabaseMajorVersion() throws SQLException {
+		return connection.getMetaData().getDatabaseMajorVersion();
+	}
+
+	/**
+	 * データベースのマイナーバージョンを返します。
+	 *
+	 * @return データベースのマイナーバージョン
+	 * @throws SQLException
+	 *             データベースアクセス中に例外が発生した場合
+	 */
+	public int getDatabaseMinorVersion() throws SQLException {
+		return connection.getMetaData().getDatabaseMinorVersion();
+	}
+
+	/**
 	 * データベースへの変更を確定します。
 	 *
 	 * @throws SQLException
