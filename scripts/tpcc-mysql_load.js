@@ -1,5 +1,5 @@
 /*
- * tpcc-mysql compatible data loader 1.0
+ * tpcc-mysql compatible data loader 1.1
  * This script is based on tpcc-mysql revision 42.
  * https://code.launchpad.net/~percona-dev/perconatools/tpcc-mysql
  *
@@ -62,7 +62,16 @@ function init() {
         putData("C_1023", random(0, 1023));
         putData("C_8191", random(0, 8191));
         dropTable();
-        createTable();
+        
+        var version = 100 * getDatabaseMajorVersion() + getDatabaseMinorVersion();
+        
+        if (version >= 505) {
+            // Delaying index creation
+            createTable505();
+        } else {
+            createTable501();
+        }
+        
         loadItem();
     }
 }
@@ -94,6 +103,13 @@ function run() {
 
 function fin() {
     if (getId() == 0) {
+        var version = 100 * getDatabaseMajorVersion() + getDatabaseMinorVersion();
+        
+        if (version >= 505) {
+            // Using fast index creation
+            createIndex505();
+        }
+        
         info("Completed.");
     }
 }
@@ -114,7 +130,168 @@ function dropTable() {
     execute("DROP TABLE IF EXISTS warehouse");
 }
 
-function createTable() {
+function createTable505() {
+    info("Creating tables ...");
+    
+    execute("CREATE TABLE warehouse ("
+        + "w_id SMALLINT NOT NULL, "
+        + "w_name VARCHAR(10), "
+        + "w_street_1 VARCHAR(20), "
+        + "w_street_2 VARCHAR(20), "
+        + "w_city VARCHAR(20), "
+        + "w_state CHAR(2), "
+        + "w_zip CHAR(9), "
+        + "w_tax DECIMAL(4, 2), "
+        + "w_ytd DECIMAL(12, 2), "
+        + "PRIMARY KEY (w_id)) "
+        + "ENGINE = InnoDB");
+    
+    execute("CREATE TABLE district ("
+        + "d_id TINYINT NOT NULL, "
+        + "d_w_id SMALLINT NOT NULL, "
+        + "d_name VARCHAR(10), "
+        + "d_street_1 VARCHAR(20), "
+        + "d_street_2 VARCHAR(20), "
+        + "d_city VARCHAR(20), "
+        + "d_state CHAR(2), "
+        + "d_zip CHAR(9), "
+        + "d_tax DECIMAL(4, 2), "
+        + "d_ytd DECIMAL(12, 2), "
+        + "d_next_o_id INT, "
+        + "PRIMARY KEY (d_w_id, d_id), "
+        + "CONSTRAINT fkey_district_1 "
+            + "FOREIGN KEY (d_w_id) "
+            + "REFERENCES warehouse (w_id)) "
+        + "ENGINE = InnoDB");
+    
+    execute("CREATE TABLE customer ("
+        + "c_id INT NOT NULL, "
+        + "c_d_id TINYINT NOT NULL, "
+        + "c_w_id SMALLINT NOT NULL, "
+        + "c_first VARCHAR(16), "
+        + "c_middle CHAR(2), "
+        + "c_last VARCHAR(16), "
+        + "c_street_1 VARCHAR(20), "
+        + "c_street_2 VARCHAR(20), "
+        + "c_city VARCHAR(20), "
+        + "c_state CHAR(2), "
+        + "c_zip CHAR(9), "
+        + "c_phone CHAR(16), "
+        + "c_since DATETIME, "
+        + "c_credit CHAR(2), "
+        + "c_credit_lim BIGINT, "
+        + "c_discount DECIMAL(4, 2), "
+        + "c_balance DECIMAL(12, 2), "
+        + "c_ytd_payment DECIMAL(12, 2), "
+        + "c_payment_cnt SMALLINT, "
+        + "c_delivery_cnt SMALLINT, "
+        + "c_data TEXT, "
+        + "PRIMARY KEY (c_w_id, c_d_id, c_id), "
+        + "CONSTRAINT fkey_customer_1 "
+            + "FOREIGN KEY (c_w_id, c_d_id) "
+            + "REFERENCES district (d_w_id, d_id)) "
+        + "ENGINE = InnoDB");
+    
+    execute("CREATE TABLE history ("
+        + "h_c_id INT, "
+        + "h_c_d_id TINYINT, "
+        + "h_c_w_id SMALLINT, "
+        + "h_d_id TINYINT, "
+        + "h_w_id SMALLINT, "
+        + "h_date DATETIME, "
+        + "h_amount DECIMAL(6, 2), "
+        + "h_data VARCHAR(24), "
+        + "CONSTRAINT fkey_history_1 "
+            + "FOREIGN KEY (h_c_w_id, h_c_d_id, h_c_id) "
+            + "REFERENCES customer (c_w_id, c_d_id, c_id), "
+        + "CONSTRAINT fkey_history_2 "
+            + "FOREIGN KEY (h_w_id, h_d_id) "
+            + "REFERENCES district (d_w_id, d_id)) "
+        + "ENGINE = InnoDB");
+    
+    execute("CREATE TABLE item ("
+        + "i_id INT NOT NULL, "
+        + "i_im_id INT, "
+        + "i_name VARCHAR(24), "
+        + "i_price DECIMAL(5, 2), "
+        + "i_data VARCHAR(50), "
+        + "PRIMARY KEY (i_id)) "
+        + "ENGINE = InnoDB");
+    
+    execute("CREATE TABLE stock ("
+        + "s_i_id INT NOT NULL, "
+        + "s_w_id SMALLINT NOT NULL, "
+        + "s_quantity SMALLINT, "
+        + "s_dist_01 CHAR(24), "
+        + "s_dist_02 CHAR(24), "
+        + "s_dist_03 CHAR(24), "
+        + "s_dist_04 CHAR(24), "
+        + "s_dist_05 CHAR(24), "
+        + "s_dist_06 CHAR(24), "
+        + "s_dist_07 CHAR(24), "
+        + "s_dist_08 CHAR(24), "
+        + "s_dist_09 CHAR(24), "
+        + "s_dist_10 CHAR(24), "
+        + "s_ytd DECIMAL(8, 0), "
+        + "s_order_cnt SMALLINT, "
+        + "s_remote_cnt SMALLINT, "
+        + "s_data VARCHAR(50), "
+        + "PRIMARY KEY (s_w_id, s_i_id), "
+        + "CONSTRAINT fkey_stock_1 "
+            + "FOREIGN KEY (s_w_id) "
+            + "REFERENCES warehouse (w_id), "
+        + "CONSTRAINT fkey_stock_2 "
+            + "FOREIGN KEY (s_i_id) "
+            + "REFERENCES item (i_id)) "
+        + "ENGINE = InnoDB");
+    
+    execute("CREATE TABLE orders ("
+        + "o_id INT NOT NULL, "
+        + "o_d_id TINYINT NOT NULL, "
+        + "o_w_id SMALLINT NOT NULL, "
+        + "o_c_id INT, "
+        + "o_entry_d DATETIME, "
+        + "o_carrier_id TINYINT, "
+        + "o_ol_cnt TINYINT, "
+        + "o_all_local TINYINT, "
+        + "PRIMARY KEY (o_w_id, o_d_id, o_id), "
+        + "CONSTRAINT fkey_orders_1 "
+            + "FOREIGN KEY (o_w_id, o_d_id, o_c_id) "
+            + "REFERENCES customer (c_w_id, c_d_id, c_id)) "
+        + "ENGINE = InnoDB");
+    
+    execute("CREATE TABLE new_orders ("
+        + "no_o_id INT NOT NULL, "
+        + "no_d_id TINYINT NOT NULL, "
+        + "no_w_id SMALLINT NOT NULL, "
+        + "PRIMARY KEY (no_w_id, no_d_id, no_o_id), "
+        + "CONSTRAINT fkey_new_orders_1 "
+            + "FOREIGN KEY (no_w_id, no_d_id, no_o_id) "
+            + "REFERENCES orders (o_w_id, o_d_id, o_id)) "
+        + "ENGINE = InnoDB");
+    
+    execute("CREATE TABLE order_line ("
+        + "ol_o_id INT NOT NULL, "
+        + "ol_d_id TINYINT NOT NULL, "
+        + "ol_w_id SMALLINT NOT NULL, "
+        + "ol_number TINYINT NOT NULL, "
+        + "ol_i_id INT, "
+        + "ol_supply_w_id SMALLINT, "
+        + "ol_delivery_d DATETIME, "
+        + "ol_quantity TINYINT, "
+        + "ol_amount DECIMAL(6, 2), "
+        + "ol_dist_info CHAR(24), "
+        + "PRIMARY KEY (ol_w_id, ol_d_id, ol_o_id, ol_number), "
+        + "CONSTRAINT fkey_order_line_1 "
+            + "FOREIGN KEY (ol_w_id, ol_d_id, ol_o_id) "
+            + "REFERENCES orders (o_w_id, o_d_id, o_id), "
+        + "CONSTRAINT fkey_order_line_2 "
+            + "FOREIGN KEY (ol_supply_w_id, ol_i_id) "
+            + "REFERENCES stock (s_w_id, s_i_id)) "
+        + "ENGINE = InnoDB");
+}
+
+function createTable501() {
     info("Creating tables ...");
     
     execute("CREATE TABLE warehouse ("
@@ -275,6 +452,16 @@ function createTable() {
             + "FOREIGN KEY (ol_supply_w_id, ol_i_id) "
             + "REFERENCES stock (s_w_id, s_i_id)) "
         + "ENGINE = InnoDB");
+}
+
+function createIndex505() {
+    info("Creating indexes ...");
+    
+    execute("ALTER TABLE customer "
+        + "ADD KEY idx_customer (c_w_id, c_d_id, c_last, c_first)");
+    
+    execute("ALTER TABLE orders "
+        + "ADD KEY idx_orders (o_w_id, o_d_id, o_c_id, o_id)");
 }
 
 function loadItem() {
