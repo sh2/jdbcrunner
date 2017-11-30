@@ -301,11 +301,21 @@ function payment() {
     
     for (var retry = 0; retry <= DEADLOCK_RETRY_LIMIT; retry++) {
         try {
+            var version = 100 * getDatabaseMajorVersion() + getDatabaseMinorVersion();
+            
+            // If RDBMS is PostgreSQL and version >= 9.3
+            // use "FOR NO KEY UPDATE" instead of "FOR UPDATE" in P-01
+            // to avoid deadlocks.
+            var wSelectLockMode = "FOR UPDATE";
+            if (getDatabaseProductName() == "PostgreSQL" && 903 <= version) {
+              wSelectLockMode = "FOR NO KEY UPDATE";
+            }
+
             var rs01 = fetchAsArray("SELECT /* P-01 */ "
                            + "w_name, w_street_1, w_street_2, w_city, w_state, w_zip "
                            + "FROM warehouse "
                            + "WHERE w_id = $int "
-                           + "FOR UPDATE",
+                           + wSelectLockMode,
                            w_id);
             
             var uc02 = execute("UPDATE /* P-02 */ warehouse "
