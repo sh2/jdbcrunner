@@ -15,9 +15,6 @@ import jdbcrunner.Config;
 import jdbcrunner.Manager;
 import jdbcrunner.Resources;
 
-// TODO tpcc-mysql互換ローダのドキュメントを書く
-// TODO randomString(length)のAPIドキュメントを書く
-
 /**
  * アプリケーションの起動用クラスです。
  *
