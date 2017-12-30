@@ -307,10 +307,11 @@ function payment() {
             // use "FOR NO KEY UPDATE" instead of "FOR UPDATE" in P-01
             // to avoid deadlocks.
             var wSelectLockMode = "FOR UPDATE";
+            
             if (getDatabaseProductName() == "PostgreSQL" && 903 <= version) {
-              wSelectLockMode = "FOR NO KEY UPDATE";
+                wSelectLockMode = "FOR NO KEY UPDATE";
             }
-
+            
             var rs01 = fetchAsArray("SELECT /* P-01 */ "
                            + "w_name, w_street_1, w_street_2, w_city, w_state, w_zip "
                            + "FROM warehouse "
