@@ -13,8 +13,6 @@ import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
 
-import jdbcrunner.Template.DataType;
-
 import org.junit.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ContextFactory;
@@ -22,10 +20,12 @@ import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.WrappedException;
 
+import jdbcrunner.Template.DataType;
+
 public class TemplateTest {
-	public static final String JDBC_URL = "jdbc:mysql://localhost/jdbcrunner";
+	public static final String JDBC_URL = "jdbc:mysql://k02c7/jdbcrunner";
 	public static final String JDBC_USER = "jdbcrunner";
-	public static final String JDBC_PASS = "";
+	public static final String JDBC_PASS = "jdbcrunner";
 
 	@Test
 	public void testTemplate() {
