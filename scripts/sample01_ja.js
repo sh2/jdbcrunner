@@ -20,7 +20,7 @@
 // JDBCドライバのクラス名を指定します。
 // 起動時に-jdbcDriverオプションを指定すると上書きすることができます。
 // JDBCドライバがJDBC 4.0以上に対応している場合は、指定不要です。
-var jdbcDriver = "com.mysql.jdbc.Driver";
+var jdbcDriver = "com.mysql.cj.jdbc.Driver";
 
 // JDBC URLを指定します。
 // 起動時に-jdbcUrlオプションを指定すると上書きすることができます。

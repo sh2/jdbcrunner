@@ -1,2 +1,2 @@
-com.mysql.jdbc.Driver
+com.mysql.cj.jdbc.Driver
 org.postgresql.Driver

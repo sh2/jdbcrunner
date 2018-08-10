@@ -21,7 +21,6 @@
 				<attribute name="Main-Class" value="JR" />
 			</manifest>
 			<fileset dir="classes" />
-			<fileset dir="meta-inf" />
 			<fileset file="helper.js" />
 			<zipgroupfileset dir="lib" includes="*.jar" />
 		</jar>
