@@ -40,7 +40,7 @@ JdbcRunnerからSQLを発行する際は、必ずPreparedStatementを用いパ�
 
 JdbcRunnerを動作させるには、以下の環境が必要です。
 
-* Java SE 6
+* Java SE 8
 * 各RDBMS用のJDBCドライバ
 
 MySQLとPostgreSQLについてはJDBCドライバを内蔵しているため、別途JDBCドライバを用意する必要はありません。
