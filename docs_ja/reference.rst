@@ -189,6 +189,20 @@ getDatabaseProductName()
 
 RDBMSの製品名を返すファンクションです。内部的にはDatabaseMetaData#getDatabaseProductName()のラッパになっています。
 
+getDatabaseMajorVersion()
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* 戻り値 : RDBMSのメジャー・バージョン
+
+RDBMSのメジャー・バージョンを返すファンクションです。内部的にはDatabaseMetaData#getDatabaseMajorVersion()のラッパになっています。
+
+getDatabaseMinorVersion()
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* 戻り値 : RDBMSのマイナー・バージョン
+
+RDBMSのマイナー・バージョンを返すファンクションです。内部的にはDatabaseMetaData#getDatabaseMinorVersion()のラッパになっています。
+
 commit()
 ^^^^^^^^
 
@@ -295,6 +309,21 @@ random(min, max)
 * 戻り値 : min以上max以下のランダムな整数
 
 mix以上max以下のランダムな整数を返すファンクションです。maxを含みます。
+
+randomString(length)
+^^^^^^^^^^^^^^^^^^^^
+
+* length : 文字列の長さ
+* 戻り値 : 長さlengthのランダムな文字列
+
+長さlengthのランダムな文字列を返すファンクションです。初期状態では英小文字、英大文字、数字の62文字を使用してランダムな文字列を生成します。setRandomStringElements()ファンクションによって、使用する文字群を変更することができます。
+
+setRandomStringElements(elements)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* elements : 使用する文字群
+
+randomString()ファンクションで使用する文字群を指定するファンクションです。使用したい文字を並べた文字列で指定します。
 
 getScriptStackTrace(object)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
