@@ -138,7 +138,8 @@ function fin() {
             createForeignKeyOracle();
             gatherStatsOracle();
         } else if (getDatabaseProductName() == "MySQL") {
-            // Do nothing.
+            createIndexMySQL();
+            gatherStatsMySQL();
         } else if (getDatabaseProductName() == "PostgreSQL") {
             createIndexPostgreSQL();
             createForeignKeyPostgreSQL();
@@ -348,7 +349,6 @@ function createTableMySQL() {
         + "c_delivery_cnt DECIMAL(4, 0), "
         + "c_data VARCHAR(500), "
         + "PRIMARY KEY (c_w_id, c_d_id, c_id), "
-        + "KEY customer_ix1 (c_w_id, c_d_id, c_last), "
         + "CONSTRAINT customer_fk1 "
             + "FOREIGN KEY (c_w_id, c_d_id) "
             + "REFERENCES district (d_w_id, d_id)) "
@@ -418,7 +418,6 @@ function createTableMySQL() {
         + "o_ol_cnt DECIMAL(2, 0), "
         + "o_all_local DECIMAL(1, 0), "
         + "PRIMARY KEY (o_w_id, o_d_id, o_id), "
-        + "KEY orders_ix1 (o_w_id, o_d_id, o_c_id), "
         + "CONSTRAINT orders_fk1 "
             + "FOREIGN KEY (o_w_id, o_d_id, o_c_id) "
             + "REFERENCES customer (c_w_id, c_d_id, c_id)) "
@@ -601,6 +600,14 @@ function createIndexOracle() {
     execute("CREATE INDEX orders_ix1 ON orders (o_w_id, o_d_id, o_c_id)");
 }
 
+function createIndexMySQL() {
+    info("Creating indexes ...");
+    
+    execute("ALTER TABLE customer ADD KEY customer_ix1 (c_w_id, c_d_id, c_last)");
+    
+    execute("ALTER TABLE orders ADD KEY orders_ix1 (o_w_id, o_d_id, o_c_id)");
+}
+
 function createIndexPostgreSQL() {
     createIndexOracle();
 }
@@ -657,6 +664,20 @@ function gatherStatsOracle() {
     info("Analyzing tables ...");
     
     execute("BEGIN DBMS_STATS.GATHER_SCHEMA_STATS(ownname => NULL); END;");
+}
+
+function gatherStatsMySQL() {
+    info("Analyzing tables ...");
+    
+    execute("ANALYZE TABLE warehouse");
+    execute("ANALYZE TABLE district");
+    execute("ANALYZE TABLE customer");
+    execute("ANALYZE TABLE history");
+    execute("ANALYZE TABLE item");
+    execute("ANALYZE TABLE stock");
+    execute("ANALYZE TABLE orders");
+    execute("ANALYZE TABLE new_orders");
+    execute("ANALYZE TABLE order_line");
 }
 
 function gatherStatsPostgreSQL() {
