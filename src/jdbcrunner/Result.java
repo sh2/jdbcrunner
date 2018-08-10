@@ -94,8 +94,7 @@ public class Result {
 	 * <li>「
 	 * {@literal <ログの出力先ディレクトリ>/log_<プログラムの開始日時>_t.log}
 	 * 」 という形式で、出力ファイル名を求めます。
-	 * <li>
-	 * トランザクションの種類数が1の場合、以下のフォーマットでデータを出力します。
+	 * <li>トランザクションの種類数が1の場合、以下のフォーマットでデータを出力します。
 	 *
 	 * <pre>
 	 * Elapsed time[sec],Throughput[tps]
@@ -181,8 +180,7 @@ public class Result {
 	 * <li>「
 	 * {@literal <ログの出力先ディレクトリ>/log_<プログラムの開始日時>_r.log}
 	 * 」 という形式で、出力ファイル名を求めます。
-	 * <li>
-	 * トランザクションの種類数が1の場合、以下のフォーマットでデータを出力します。
+	 * <li>トランザクションの種類数が1の場合、以下のフォーマットでデータを出力します。
 	 *
 	 * <pre>
 	 * Response time[msec],Count
@@ -351,18 +349,24 @@ public class Result {
 		StringBuilder message = new StringBuilder();
 		Formatter formatter = new Formatter(message);
 
-		message.append(header);
-		message.append(" "); //$NON-NLS-1$
+		try {
+			message.append(header);
+			message.append(" "); //$NON-NLS-1$
 
-		for (double element : data) {
-			formatter.format("%.1f,", element); //$NON-NLS-1$
+			for (double element : data) {
+				formatter.format("%.1f,", element); //$NON-NLS-1$
+			}
+
+			message.deleteCharAt(message.length() - 1);
+			message.append(" "); //$NON-NLS-1$
+			message.append(footer);
+
+			log.info(message.toString());
+		} finally {
+			if (formatter != null) {
+				formatter.close();
+			}
 		}
-
-		message.deleteCharAt(message.length() - 1);
-		message.append(" "); //$NON-NLS-1$
-		message.append(footer);
-
-		log.info(message.toString());
 	}
 
 	private double[] getThroughput() {
