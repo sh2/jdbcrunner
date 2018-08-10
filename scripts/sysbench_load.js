@@ -1,5 +1,5 @@
 /*
- * Tiny SysBench 1.0 - data loader
+ * Tiny SysBench - data loader
  * This script is based on SysBench 0.4.12.
  * http://sysbench.sourceforge.net/
  *
@@ -54,7 +54,7 @@ var oltpTableSize;
 
 function init() {
     if (getId() == 0) {
-        info("Tiny SysBench 1.0 - data loader");
+        info("Tiny SysBench - data loader");
         info("-param0 : Number of records (default : 10000)");
         
         oltpTableSize = param0;

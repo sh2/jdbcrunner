@@ -1,5 +1,5 @@
 /*
- * Tiny SysBench 1.0
+ * Tiny SysBench
  * This script is based on SysBench 0.4.12.
  * http://sysbench.sourceforge.net/
  */
@@ -58,7 +58,7 @@ var oltpDistRes = 75;
 
 function init() {
     if (getId() == 0) {
-        info("Tiny SysBench 1.0");
+        info("Tiny SysBench");
         
         putData("OltpTableSize", fetchAsArray("SELECT COUNT(*) FROM sbtest")[0][0]);
         info("Number of records : " + Number(getData("OltpTableSize")));

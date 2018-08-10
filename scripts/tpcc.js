@@ -1,5 +1,5 @@
 /*
- * Tiny TPC-C 1.2
+ * Tiny TPC-C
  * This script is based on TPC-C Standard Specification 5.11.
  * http://tpc.org/tpcc/
  */
@@ -72,7 +72,7 @@ txSequence.next = function() {
 
 function init() {
     if (getId() == 0) {
-        info("Tiny TPC-C 1.2");
+        info("Tiny TPC-C");
         
         putData("ScaleFactor", fetchAsArray("SELECT COUNT(*) FROM warehouse")[0][0]);
         info("Scale factor : " + Number(getData("ScaleFactor")));

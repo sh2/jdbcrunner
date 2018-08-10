@@ -1,5 +1,5 @@
 /*
- * Tiny TPC-B 1.1
+ * Tiny TPC-B
  * This script is based on TPC-B Standard Specification 2.0.
  * http://tpc.org/tpcb/
  */
@@ -35,7 +35,7 @@ var scale;
 
 function init() {
     if (getId() == 0) {
-        info("Tiny TPC-B 1.1");
+        info("Tiny TPC-B");
         
         putData("ScaleFactor", fetchAsArray("SELECT COUNT(*) FROM branches")[0][0]);
         info("Scale factor : " + Number(getData("ScaleFactor")));

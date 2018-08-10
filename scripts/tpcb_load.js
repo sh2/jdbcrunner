@@ -1,5 +1,5 @@
 /*
- * Tiny TPC-B 1.1 - data loader
+ * Tiny TPC-B - data loader
  * This script is based on TPC-B Standard Specification 2.0.
  * http://tpc.org/tpcb/
  *
@@ -58,7 +58,7 @@ function init() {
         var scale = param0;
         var taskQueue = new java.util.concurrent.LinkedBlockingQueue();
         
-        info("Tiny TPC-B 1.1 - data loader");
+        info("Tiny TPC-B - data loader");
         info("-param0  : Scale factor (default : 16)");
         info("-nAgents : Parallel loading degree (default : 4)");
         
