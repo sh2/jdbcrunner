@@ -212,7 +212,7 @@ public final class Config {
 	private String scriptFilename;
 	private String scriptCharset;
 	private String jdbcDriver = ""; //$NON-NLS-1$
-	private String jdbcUrl = "jdbc:mysql://localhost:3306/test"; //$NON-NLS-1$
+	private String jdbcUrl = "jdbc:mysql://localhost:3306/test?useSSL=false"; //$NON-NLS-1$
 	private String jdbcUser = ""; //$NON-NLS-1$
 	private String jdbcPass = ""; //$NON-NLS-1$
 	private boolean isLoad = false;

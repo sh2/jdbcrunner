@@ -65,7 +65,7 @@ JdbcRunnerのエージェントは、それぞれが独立したスクリプト�
 
 以下のサンプルを用いて説明します。 ::
 
-  var jdbcUrl = "jdbc:mysql://dbserver01:3306/scott";
+  var jdbcUrl = "jdbc:mysql://dbserver01:3306/scott?useSSL=false";
   var jdbcUser = "scott";
   var jdbcPass = "tiger";
   var warmupTime = 5;
@@ -94,7 +94,7 @@ JdbcRunnerのエージェントは、それぞれが独立したスクリプト�
 
 JdbcRunnerでは設定パラメータをコマンドラインオプションで指定するほかに、特定のグローバル変数を宣言することでも行うことができます。 ::
 
-  var jdbcUrl = "jdbc:mysql://dbserver01:3306/scott";
+  var jdbcUrl = "jdbc:mysql://dbserver01:3306/scott?useSSL=false";
   var jdbcUser = "scott";
   var jdbcPass = "tiger";
   var warmupTime = 5;
@@ -103,7 +103,7 @@ JdbcRunnerでは設定パラメータをコマンドラインオプションで�
 
 これはコマンドラインに以下のオプションを設定することと同じです。 ::
 
-  > java JR test.js -jdbcUrl jdbc:mysql://dbserver01:3306/scott
+  > java JR test.js -jdbcUrl jdbc:mysql://dbserver01:3306/scott?useSSL=false
                     -jdbcUser scott
                     -jdbcPass tiger
                     -warmupTime 5
@@ -162,7 +162,7 @@ JavaScriptそのものにはデータベースアクセス機能はありませ�
   // var jdbcUrl = "jdbc:oracle:thin://@localhost:1521/ORCL";
   
   // MySQL
-  var jdbcUrl = "jdbc:mysql://localhost:3306/test";
+  var jdbcUrl = "jdbc:mysql://localhost:3306/test?useSSL=false";
   
   // PostgreSQL
   // var jdbcUrl = "jdbc:postgresql://localhost:5432/postgres";

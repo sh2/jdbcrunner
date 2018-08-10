@@ -63,7 +63,7 @@ Linuxなどでbashを使用している場合は、exportコマンドで設定�
   -debug                デバッグモードを有効にします (デフォルト : false)
   -jdbcDriver <arg>     JDBCドライバのクラス名を指定します (デフォルト : (なし))
   -jdbcPass <arg>       データベースユーザのパスワードを指定します (デフォルト : (なし))
-  -jdbcUrl <arg>        JDBC接続URLを指定します (デフォルト : jdbc:mysql://localhost:3306/test)
+  -jdbcUrl <arg>        JDBC接続URLを指定します (デフォルト : jdbc:mysql://localhost:3306/test?useSSL=false)
   -jdbcUser <arg>       データベースのユーザ名を指定します (デフォルト : (なし))
   -logDir <arg>         ログの出力先ディレクトリを指定します (デフォルト : .)
   -measurementTime <arg>測定時間[sec]を指定します (デフォルト : 60)
@@ -109,7 +109,7 @@ JdbcRunnerでは、負荷テストのシナリオをスクリプトで定義し�
   Program start time   : 20111010-224058
   Script filename      : test.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://localhost:3306/test
+  JDBC URL             : jdbc:mysql://localhost:3306/test?useSSL=false
   JDBC user            :
   Warmup time          : 10 sec
   Measurement time     : 60 sec

@@ -10,7 +10,7 @@
 // var jdbcUrl = "jdbc:oracle:thin:@//localhost:1521/TPCB";
 
 // MySQL
-var jdbcUrl = "jdbc:mysql://localhost:3306/tpcb";
+var jdbcUrl = "jdbc:mysql://localhost:3306/tpcb?useSSL=false";
 
 // PostgreSQL
 // var jdbcUrl = "jdbc:postgresql://localhost:5432/tpcb";

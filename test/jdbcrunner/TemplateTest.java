@@ -23,7 +23,7 @@ import org.mozilla.javascript.WrappedException;
 import jdbcrunner.Template.DataType;
 
 public class TemplateTest {
-	public static final String JDBC_URL = "jdbc:mysql://k02c7/jdbcrunner";
+	public static final String JDBC_URL = "jdbc:mysql://k02c7/jdbcrunner?useSSL=false";
 	public static final String JDBC_USER = "jdbcrunner";
 	public static final String JDBC_PASS = "jdbcrunner";
 
