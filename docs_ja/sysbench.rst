@@ -111,7 +111,7 @@ scripts/sysbench_load.jsを用いてテストデータの生成を行います�
   Program start time   : 20111011-014156
   Script filename      : scripts\sysbench_load.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://localhost:3306/sbtest?useSSL=false&rewriteBatchedStatements=true
+  JDBC URL             : jdbc:mysql://localhost:3306/sbtest?useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
   JDBC user            : sbtest
   Load mode            : true
   Number of agents     : 1
@@ -162,14 +162,14 @@ scripts/sysbench.jsを用いてテストを実行します。JdbcRunnerを動作
 
 Oracle Java SE/OpenJDKを利用する際は、Server VMを用いることをおすすめします。詳細は `JDK 6 仮想マシン (VM) 関連 API & 開発者ガイド <http://java.sun.com/javase/ja/6/docs/ja/technotes/guides/vm/index.html>`_ をご参照ください。 ::
 
-  > java -server JR scripts\sysbench.js -jdbcUrl jdbc:mysql://server/sbtest?useSSL=false
+  > java -server JR scripts\sysbench.js -jdbcUrl jdbc:mysql://server/sbtest?useSSL=false&allowPublicKeyRetrieval=true
   
   02:19:12 [INFO ] > JdbcRunner 1.2
   02:19:12 [INFO ] [Config]
   Program start time   : 20111011-021911
   Script filename      : scripts\sysbench.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://server/sbtest?useSSL=false
+  JDBC URL             : jdbc:mysql://server/sbtest?useSSL=false&allowPublicKeyRetrieval=true
   JDBC user            : sbtest
   Warmup time          : 60 sec
   Measurement time     : 180 sec

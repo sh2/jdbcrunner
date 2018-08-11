@@ -32,7 +32,7 @@
 // var jdbcUrl = "jdbc:oracle:thin:@//localhost:1521/TPCC";
 
 // MySQL
-var jdbcUrl = "jdbc:mysql://localhost:3306/tpcc?useSSL=false&rewriteBatchedStatements=true";
+var jdbcUrl = "jdbc:mysql://localhost:3306/tpcc?useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true";
 
 // PostgreSQL
 // var jdbcUrl = "jdbc:postgresql://localhost:5432/tpcc";

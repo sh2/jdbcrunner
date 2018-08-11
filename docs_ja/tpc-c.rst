@@ -181,7 +181,7 @@ scripts/tpcc_load.jsを用いてテストデータの生成を行います。こ
   Program start time   : 20111011-025300
   Script filename      : scripts\tpcc_load.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://localhost:3306/tpcc?useSSL=false&rewriteBatchedStatements=true
+  JDBC URL             : jdbc:mysql://localhost:3306/tpcc?useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
   JDBC user            : tpcc
   Load mode            : true
   Number of agents     : 4
@@ -284,14 +284,14 @@ scripts/tpcc.jsを用いてテストを実行します。JdbcRunnerを動作さ�
 
 Oracle Java SE/OpenJDKを利用する際は、Server VMを用いることをおすすめします。詳細は `JDK 6 仮想マシン (VM) 関連 API & 開発者ガイド <http://java.sun.com/javase/ja/6/docs/ja/technotes/guides/vm/index.html>`_ をご参照ください。 ::
 
-  > java -server JR scripts\tpcc.js -jdbcUrl jdbc:mysql://server/tpcc?useSSL=false
+  > java -server JR scripts\tpcc.js -jdbcUrl jdbc:mysql://server/tpcc?useSSL=false&allowPublicKeyRetrieval=true
   
   03:14:51 [INFO ] > JdbcRunner 1.2
   03:14:51 [INFO ] [Config]
   Program start time   : 20111011-031451
   Script filename      : scripts\tpcc.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://server/tpcc?useSSL=false
+  JDBC URL             : jdbc:mysql://server/tpcc?useSSL=false&allowPublicKeyRetrieval=true
   JDBC user            : tpcc
   Warmup time          : 300 sec
   Measurement time     : 900 sec

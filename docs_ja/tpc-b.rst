@@ -106,7 +106,7 @@ scripts/tpcb_load.jsを用いてテストデータの生成を行います。こ
   Program start time   : 20111011-023534
   Script filename      : scripts\tpcb_load.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://localhost:3306/tpcb?useSSL=false&rewriteBatchedStatements=true
+  JDBC URL             : jdbc:mysql://localhost:3306/tpcb?useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
   JDBC user            : tpcb
   Load mode            : true
   Number of agents     : 4
@@ -169,14 +169,14 @@ scripts/tpcb.jsを用いてテストを実行します。JdbcRunnerを動作さ�
 
 Oracle Java SE/OpenJDKを利用する際は、Server VMを用いることをおすすめします。詳細は `JDK 6 仮想マシン (VM) 関連 API & 開発者ガイド <http://java.sun.com/javase/ja/6/docs/ja/technotes/guides/vm/index.html>`_ をご参照ください。 ::
 
-  > java -server JR scripts\tpcb.js -jdbcUrl jdbc:mysql://server/tpcb?useSSL=false
+  > java -server JR scripts\tpcb.js -jdbcUrl jdbc:mysql://server/tpcb?useSSL=false&allowPublicKeyRetrieval=true
   
   02:40:05 [INFO ] > JdbcRunner 1.2
   02:40:05 [INFO ] [Config]
   Program start time   : 20111011-024004
   Script filename      : scripts\tpcb.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://server/tpcb?useSSL=false
+  JDBC URL             : jdbc:mysql://server/tpcb?useSSL=false&allowPublicKeyRetrieval=true
   JDBC user            : tpcb
   Warmup time          : 60 sec
   Measurement time     : 180 sec

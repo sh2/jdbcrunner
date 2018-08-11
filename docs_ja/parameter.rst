@@ -8,12 +8,12 @@
 
 設定パラメータの一覧を以下に示します。設定パラメータはスクリプトのグローバル変数として指定できるものと、コマンドラインオプションとして指定できるものがあります。
 
-================ ========================== ======== =================================================
+================ ========================== ======== ==============================================================================
 グローバル変数   コマンドラインオプション   タイプ   デフォルト値
-================ ========================== ======== =================================================
+================ ========================== ======== ==============================================================================
 (なし)           -scriptCharset             文字列   (なし)
 jdbcDriver       -jdbcDriver                文字列   (なし)
-jdbcUrl          -jdbcUrl                   文字列   ``jdbc:mysql://localhost:3306/test?useSSL=false``
+jdbcUrl          -jdbcUrl                   文字列   ``jdbc:mysql://localhost:3306/test?useSSL=false&allowPublicKeyRetrieval=true``
 jdbcUser         -jdbcUser                  文字列   (なし)
 jdbcPass         -jdbcPass                  文字列   (なし)
 isLoad           (なし)                     真偽値   false
@@ -39,7 +39,7 @@ logDir           -logDir                    文字列   .
 (なし)           -param7                    整数     0
 (なし)           -param8                    整数     0
 (なし)           -param9                    整数     0
-================ ========================== ======== =================================================
+================ ========================== ======== ==============================================================================
 
 パラメータの設定方法
 --------------------
@@ -51,7 +51,7 @@ JdbcRunnerのパラメータを設定するには、以下の2つの方法があ
 
 以下はスクリプト内でグローバル変数を宣言する例です。 ::
 
-  var jdbcUrl = "jdbc:mysql://dbserver01:3306/scott?useSSL=false";
+  var jdbcUrl = "jdbc:mysql://dbserver01:3306/scott?useSSL=false&allowPublicKeyRetrieval=true";
   var jdbcUser = "scott";
   var jdbcPass = "tiger";
   var warmupTime = 120;
@@ -62,7 +62,7 @@ JdbcRunnerのパラメータを設定するには、以下の2つの方法があ
 
 同じ設定をコマンドラインオプションで行うと、次のようになります。コマンドラインオプションを指定すると、グローバル変数による設定は上書きされます。 ::
 
-  > java JR test.js -jdbcUrl jdbc:mysql://dbserver01:3306/scott?useSSL=false
+  > java JR test.js -jdbcUrl jdbc:mysql://dbserver01:3306/scott?useSSL=false&allowPublicKeyRetrieval=true
                     -jdbcUser scott
                     -jdbcPass tiger
                     -warmupTime 120
@@ -110,7 +110,7 @@ JDBC接続URL
 * グローバル変数 : jdbcUrl
 * コマンドラインオプション : -jdbcUrl
 * タイプ : 文字列
-* デフォルト値 : ``jdbc:mysql://localhost:3306/test?useSSL=false``
+* デフォルト値 : ``jdbc:mysql://localhost:3306/test?useSSL=false&allowPublicKeyRetrieval=true``
 
 JDBC接続URLを指定するパラメータです。デフォルトはMySQLでローカルホストのtestデータベースに接続する設定になっています。テスト対象のRDBMSにあわせて設定してください。
 
