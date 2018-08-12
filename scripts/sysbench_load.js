@@ -6,7 +6,7 @@
  * [Oracle Database]
  * shell> sqlplus "/ AS SYSDBA"
  * sql> CREATE USER sbtest IDENTIFIED BY sbtest;
- * sql> GRANT connect, resource TO sbtest;
+ * sql> GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO sbtest;
  *
  * [MySQL]
  * shell> mysql -u root [-p]

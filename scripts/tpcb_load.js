@@ -6,7 +6,7 @@
  * [Oracle Database]
  * shell> sqlplus "/ AS SYSDBA"
  * sql> CREATE USER tpcb IDENTIFIED BY tpcb;
- * sql> GRANT connect, resource TO tpcb;
+ * sql> GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO tpcb;
  *
  * [MySQL]
  * shell> mysql -u root [-p]
