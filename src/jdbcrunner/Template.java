@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.mozilla.javascript.ConsString;
 import org.mozilla.javascript.Context;
 
 /**
@@ -236,6 +237,9 @@ public class Template {
 			case STRING:
 				if (parameter instanceof String) {
 					preparedStatement.setString(parameterIndex, (String) parameter);
+				} else if (parameter instanceof ConsString) {
+					// Rhino 1.7R4 uses ConsString for string concatenation
+					preparedStatement.setString(parameterIndex, parameter.toString());
 				} else if (parameter == null) {
 					preparedStatement.setNull(parameterIndex, java.sql.Types.CHAR);
 				} else {
