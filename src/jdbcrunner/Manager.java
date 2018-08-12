@@ -176,13 +176,11 @@ public class Manager {
 			// 終了処理を行う
 			this.status = Status.FINALIZING;
 			progress.shutdownNow();
-			interrupt(agentList);
 			waitRun();
 		}
 
 		finStartLatch.countDown();
 		waitFin();
-		interrupt(agentList);
 		waitShutdown(agentList);
 		receiver.stop();
 		closeDataSource();
@@ -419,12 +417,6 @@ public class Manager {
 			} catch (InterruptedException e) {
 				log.trace(Resources.getString("Manager.INTERRUPTED_EXCEPTION")); //$NON-NLS-1$
 			}
-		}
-	}
-
-	private void interrupt(List<Agent> agentList) {
-		for (Agent agent : agentList) {
-			agent.getThread().interrupt();
 		}
 	}
 
