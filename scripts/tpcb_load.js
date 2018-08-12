@@ -16,7 +16,7 @@
  *
  * [PostgreSQL]
  * shell> psql -U postgres
- * sql> CREATE DATABASE tpcb;
+ * sql> CREATE DATABASE tpcb TEMPLATE template0 ENCODING 'UTF-8' LC_COLLATE 'C' LC_CTYPE 'C';
  * sql> CREATE USER tpcb PASSWORD 'tpcb';
  *
  * <postgresql.conf>

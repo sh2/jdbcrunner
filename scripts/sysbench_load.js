@@ -16,7 +16,7 @@
  *
  * [PostgreSQL]
  * shell> psql -U postgres
- * sql> CREATE DATABASE sbtest;
+ * sql> CREATE DATABASE sbtest TEMPLATE template0 ENCODING 'UTF-8' LC_COLLATE 'C' LC_CTYPE 'C';
  * sql> CREATE USER sbtest PASSWORD 'sbtest';
  *
  * <postgresql.conf>
