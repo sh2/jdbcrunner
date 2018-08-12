@@ -159,7 +159,7 @@ JavaScriptそのものにはデータベースアクセス機能はありませ�
   // JdbcRunner settings -----------------------------------------------
   
   // Oracle Database
-  // var jdbcUrl = "jdbc:oracle:thin://@localhost:1521/ORCL";
+  // var jdbcUrl = "jdbc:oracle:thin://@localhost:1521/orcl.local";
   
   // MySQL
   var jdbcUrl = "jdbc:mysql://localhost:3306/test?useSSL=false&allowPublicKeyRetrieval=true";

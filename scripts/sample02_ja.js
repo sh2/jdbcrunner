@@ -22,7 +22,7 @@
 
 // Oracleの場合、JDBC URLの書式は
 // 「jdbc:oracle:thin:@//<server_host>:<port_number>/<service_name>」です。
-var jdbcUrl = "jdbc:oracle:thin:@//localhost:1521/ORCL";
+var jdbcUrl = "jdbc:oracle:thin:@//localhost:1521/orcl.local";
 
 var jdbcUser = "scott";
 var jdbcPass = "tiger";
