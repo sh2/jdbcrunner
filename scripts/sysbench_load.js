@@ -9,9 +9,10 @@
  * sql> GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO sbtest;
  *
  * [MySQL]
- * shell> mysql -u root [-p]
+ * shell> mysql -u root -p
  * sql> CREATE DATABASE sbtest;
- * sql> GRANT ALL PRIVILEGES ON sbtest.* TO sbtest@'%' IDENTIFIED BY 'sbtest';
+ * sql> CREATE USER sbtest@'%' IDENTIFIED BY 'sbtest';
+ * sql> GRANT ALL PRIVILEGES ON sbtest.* TO sbtest@'%';
  *
  * [PostgreSQL]
  * shell> psql -U postgres

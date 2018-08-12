@@ -9,9 +9,10 @@
  * sql> GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO tpcc;
  *
  * [MySQL]
- * shell> mysql -u root [-p]
+ * shell> mysql -u root -p
  * sql> CREATE DATABASE tpcc;
- * sql> GRANT ALL PRIVILEGES ON tpcc.* TO tpcc@'%' IDENTIFIED BY 'tpcc';
+ * sql> CREATE USER tpcc@'%' IDENTIFIED BY 'tpcc';
+ * sql> GRANT ALL PRIVILEGES ON tpcc.* TO tpcc@'%';
  *
  * [PostgreSQL]
  * shell> psql -U postgres

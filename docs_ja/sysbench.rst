@@ -76,9 +76,12 @@ MySQLにおけるテストの準備手順を以下に示します。Oracle Datab
 
 MySQLにrootユーザで接続し、sbtestユーザを作成します。 ::
 
-  > mysql -u root
+  > mysql -u root -p
   
-  mysql> GRANT ALL PRIVILEGES ON sbtest.* TO sbtest@'%' IDENTIFIED BY 'sbtest';
+  mysql> CREATE USER sbtest@'%' IDENTIFIED BY 'sbtest';
+  Query OK, 0 rows affected (0.00 sec)
+
+  mysql> GRANT ALL PRIVILEGES ON sbtest.* TO sbtest@'%';
   Query OK, 0 rows affected (0.00 sec)
 
 ネットワーク環境によっては、接続元ホストを制限したりsbtestをより安全なパスワードに変更することをおすすめします。

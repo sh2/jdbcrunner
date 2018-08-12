@@ -146,9 +146,12 @@ MySQLにおけるテストの準備手順を以下に示します。Oracle Datab
 
 MySQLにrootユーザで接続し、tpccユーザを作成します。 ::
 
-  > mysql -u root
+  > mysql -u root -p
   
-  mysql> GRANT ALL PRIVILEGES ON tpcc.* TO tpcc@'%' IDENTIFIED BY 'tpcc';
+  mysql> CREATE USER tpcc@'%' IDENTIFIED BY 'tpcc';
+  Query OK, 0 rows affected (0.00 sec)
+
+  mysql> GRANT ALL PRIVILEGES ON tpcc.* TO tpcc@'%';
   Query OK, 0 rows affected (0.00 sec)
 
 ネットワーク環境によっては、接続元ホストを制限したりtpccをより安全なパスワードに変更することをおすすめします。

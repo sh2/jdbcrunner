@@ -71,9 +71,12 @@ MySQLにおけるテストの準備手順を以下に示します。Oracle Datab
 
 MySQLにrootユーザで接続し、tpcbユーザを作成します。 ::
 
-  > mysql -u root
+  > mysql -u root -p
   
-  mysql> GRANT ALL PRIVILEGES ON tpcb.* TO tpcb@'%' IDENTIFIED BY 'tpcb';
+  mysql> CREATE USER tpcb@'%' IDENTIFIED BY 'tpcb';
+  Query OK, 0 rows affected (0.00 sec)
+
+  mysql> GRANT ALL PRIVILEGES ON tpcb.* TO tpcb@'%';
   Query OK, 0 rows affected (0.00 sec)
 
 ネットワーク環境によっては、接続元ホストを制限したりtpcbをより安全なパスワードに変更することをおすすめします。
