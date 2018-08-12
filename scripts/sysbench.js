@@ -33,6 +33,9 @@ var DIST_SPECIAL = 3;
 // Number of records in the test table
 var oltpTableSize;
 
+// Database product name
+var databaseProductName;
+
 // Ratio of queries in a transaction
 var oltpPointSelects = 10;
 var oltpSimpleRanges = 1;
@@ -62,12 +65,18 @@ function init() {
         
         putData("OltpTableSize", fetchAsArray("SELECT COUNT(*) FROM sbtest")[0][0]);
         info("Number of records : " + Number(getData("OltpTableSize")));
+        
+        putData("DatabaseProductName", getDatabaseProductName());
     }
 }
 
 function run() {
     if (!oltpTableSize) {
         oltpTableSize = Number(getData("OltpTableSize"));
+    }
+    
+    if (!databaseProductName) {
+        databaseProductName = getData("DatabaseProductName");
     }
     
     oltpExecuteRequest();
@@ -260,13 +269,13 @@ function isDeadlock(exception) {
     var javaException = exception.javaException;
     
     if (javaException instanceof java.sql.SQLException) {
-        if (getDatabaseProductName() == "Oracle"
+        if (databaseProductName == "Oracle"
             && javaException.getErrorCode() == 60) {
             return true;
-        } else if (getDatabaseProductName() == "MySQL"
+        } else if (databaseProductName == "MySQL"
             && javaException.getErrorCode() == 1213) {
             return true;
-        } else if (getDatabaseProductName() == "PostgreSQL"
+        } else if (databaseProductName == "PostgreSQL"
             && javaException.getSQLState() == "40P01") {
             return true;
         } else {

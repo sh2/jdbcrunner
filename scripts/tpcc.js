@@ -39,6 +39,7 @@ var SYLLABLE = [
     "ESE", "ANTI", "CALLY", "ATION", "EING"];
 
 var scale;
+var databaseProductName;
 
 // Transaction sequence
 var txSequence = [
@@ -77,6 +78,8 @@ function init() {
         putData("ScaleFactor", fetchAsArray("SELECT COUNT(*) FROM warehouse")[0][0]);
         info("Scale factor : " + Number(getData("ScaleFactor")));
         
+        putData("DatabaseProductName", getDatabaseProductName());
+        
         info("tx0 : New-Order transaction");
         info("tx1 : Payment transaction");
         info("tx2 : Order-Status transaction");
@@ -88,6 +91,10 @@ function init() {
 function run() {
     if (!scale) {
         scale = Number(getData("ScaleFactor"));
+    }
+    
+    if (!databaseProductName) {
+        databaseProductName = getData("DatabaseProductName");
     }
     
     switch (txSequence.next()) {
@@ -308,7 +315,7 @@ function payment() {
             // to avoid deadlocks.
             var wSelectLockMode = "FOR UPDATE";
             
-            if (getDatabaseProductName() == "PostgreSQL" && 903 <= version) {
+            if (databaseProductName == "PostgreSQL" && 903 <= version) {
                 wSelectLockMode = "FOR NO KEY UPDATE";
             }
             
@@ -609,13 +616,13 @@ function isDeadlock(exception) {
     var javaException = exception.javaException;
     
     if (javaException instanceof java.sql.SQLException) {
-        if (getDatabaseProductName() == "Oracle"
+        if (databaseProductName == "Oracle"
             && javaException.getErrorCode() == 60) {
             return true;
-        } else if (getDatabaseProductName() == "MySQL"
+        } else if (databaseProductName == "MySQL"
             && javaException.getErrorCode() == 1213) {
             return true;
-        } else if (getDatabaseProductName() == "PostgreSQL"
+        } else if (databaseProductName == "PostgreSQL"
             && javaException.getSQLState() == "40P01") {
             return true;
         } else {
