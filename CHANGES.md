@@ -7,6 +7,7 @@
     - Commons Poolを1.5.6から1.6に更新しました。([Commit](https://github.com/sh2/jdbcrunner/commit/03befde30ade3738ed3ccb8d3b7386febf7304d9))
     - Log4jを1.2.16から1.2.17に更新しました。([Commit](https://github.com/sh2/jdbcrunner/commit/0bc1f6d1e71d00e18594adff9ec63fb2e74cc907))
     - Rhinoを1.7R3から1.7.9に更新しました。([Commit](https://github.com/sh2/jdbcrunner/commit/f95f8959b53789853a820ca0c376bdf833adfd69))
+* MySQL、PostgreSQLのJDBCドライバを組み込まないバイナリも同梱するようにしました。([Commit](https://github.com/sh2/jdbcrunner/commit/c7ba1f6de46bcc3d7c51a015eb5caaedc7906cad))
 * ヒストグラム作成シートをLibreOffice版からExcel版に変更しました。([Commit](https://github.com/sh2/jdbcrunner/commit/464506904a3ae02d640f1ff16a575410b2c26c88))
 * getDatabaseMajorVersion()、getDatabaseMinorVersion()ファンクションを追加しました。([Commit](https://github.com/sh2/jdbcrunner/commit/c3e20610330038655a113ede4157447cce0e72ae))
 * ランダム文字列を生成するためのrandomString()、setRandomStringElements()ファンクションを追加しました。([Commit](https://github.com/sh2/jdbcrunner/commit/b4dbdffaf6fb8eca8770cd990dd000210b3f99c7))
