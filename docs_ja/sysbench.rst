@@ -1,10 +1,10 @@
-テストキット Tiny SysBench
+テストキット Tiny sysbench
 ==========================
 
-SysBenchとは
+sysbenchとは
 ------------
 
-`SysBench <http://sysbench.sourceforge.net/>`_ はAlexey Kopytov氏によってメンテナンスされているオープンソースソフトウェアで、以下の5種類のテストを行うことができる総合的なベンチマークツールです。ライセンスはGPLv2です。
+`sysbench <http://sysbench.sourceforge.net/>`_ はAlexey Kopytov氏によってメンテナンスされているオープンソースソフトウェアで、以下の5種類のテストを行うことができる総合的なベンチマークツールです。ライセンスはGPLv2です。
 
 * file I/O performance
 * scheduler performance
@@ -45,12 +45,12 @@ complexモードで実行されるトランザクションの内容は以下の�
   INSERT INTO sbtest (id, k, c, pad) VALUES (:1, :2, :3, :4);
   COMMIT;
 
-SysBenchのOLTPベンチマークはMySQLをターゲットとして開発されていますが、Oracle DatabaseとPostgreSQLにも対応しています。
+sysbenchのOLTPベンチマークはMySQLをターゲットとして開発されていますが、Oracle DatabaseとPostgreSQLにも対応しています。
 
-Tiny SysBenchとは
+Tiny sysbenchとは
 -----------------
 
-Tiny SysBenchは、SysBenchのOLTPベンチマークのうちcomplexモードをJdbcRunner上に移植したものです。以下の二つのスクリプトから構成されています。
+Tiny sysbenchは、sysbenchのOLTPベンチマークのうちcomplexモードをJdbcRunner上に移植したものです。以下の二つのスクリプトから構成されています。
 
 * scripts/sysbench_load.js : テストデータ生成用スクリプト
 * scripts/sysbench.js : テスト用スクリプト
@@ -58,7 +58,7 @@ Tiny SysBenchは、SysBenchのOLTPベンチマークのうちcomplexモードを
 対応RDBMS
 ---------
 
-Tiny SysBenchは以下のRDBMSに対応しています。
+Tiny sysbenchは以下のRDBMSに対応しています。
 
 * Oracle Database 11g Release 2
 * MySQL 5.1、5.5
@@ -132,7 +132,7 @@ scripts/sysbench_load.jsを用いてテストデータの生成を行います�
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  01:41:56 [INFO ] Tiny SysBench 1.0 - data loader
+  01:41:56 [INFO ] Tiny sysbench - data loader
   01:41:56 [INFO ] -param0 : Number of records (default : 10000)
   01:41:56 [INFO ] Number of records : 10000
   01:41:56 [INFO ] Dropping a table ...
@@ -196,7 +196,7 @@ Oracle Java SE/OpenJDKを利用する際は、Server VMを用いることをお�
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  02:19:13 [INFO ] Tiny SysBench 1.0
+  02:19:13 [INFO ] Tiny sysbench
   02:19:13 [INFO ] Number of records : 10000
   02:19:14 [INFO ] [Warmup] -59 sec, 150 tps, (150 tx)
   02:19:15 [INFO ] [Warmup] -58 sec, 241 tps, (391 tx)
@@ -221,12 +221,12 @@ Oracle Java SE/OpenJDKを利用する際は、Server VMを用いることをお�
   02:23:13 [INFO ] [Response time (maximum)] 449 msec
   02:23:13 [INFO ] < JdbcRunner SUCCESS
 
-OLTPベンチマークのcomplexモードでは、デッドロックが発生することがあります。これはオリジナル版のSysBenchでも発生するものです。Tiny SysBenchはデッドロックが発生した場合、該当のトランザクションをロールバックして再度実行します。
+OLTPベンチマークのcomplexモードでは、デッドロックが発生することがあります。これはオリジナル版のsysbenchでも発生するものです。Tiny sysbenchはデッドロックが発生した場合、該当のトランザクションをロールバックして再度実行します。
 
 テストのカスタマイズ
 --------------------
 
-Tiny SysBenchはスクリプトscripts/sysbench.jsの変数定義を修正することで、オリジナル版のSysBenchが持つ設定オプションをある程度再現することができます。変数はスクリプトのApplication settingsという箇所に定義されていますので、ここを修正してご利用ください。 ::
+Tiny sysbenchはスクリプトscripts/sysbench.jsの変数定義を修正することで、オリジナル版のsysbenchが持つ設定オプションをある程度再現することができます。変数はスクリプトのApplication settingsという箇所に定義されていますので、ここを修正してご利用ください。 ::
 
   // Application settings ----------------------------------------------
   
@@ -258,10 +258,10 @@ Tiny SysBenchはスクリプトscripts/sysbench.jsの変数定義を修正する
   var oltpDistPct = 1;
   var oltpDistRes = 75;
 
-オリジナル版SysBenchとの対応表を以下に示します。
+オリジナル版sysbenchとの対応表を以下に示します。
 
 ====================== =================== ====================================================================
-SysBenchのオプション   sysbench.jsの変数   説明
+sysbenchのオプション   sysbench.jsの変数   説明
 ====================== =================== ====================================================================
 oltp-test-mode         (未対応)            テストモードを指定するオプションです
 oltp-reconnect-mode    (未対応)            テスト中にデータベースに再接続する方式を指定するオプションです

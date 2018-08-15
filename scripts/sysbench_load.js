@@ -1,7 +1,7 @@
 /*
  * Tiny SysBench - data loader
  * This script is based on SysBench 0.4.12.
- * http://sysbench.sourceforge.net/
+ * https://github.com/akopytov/sysbench
  *
  * [Oracle Database]
  * shell> sqlplus "/ AS SYSDBA"
