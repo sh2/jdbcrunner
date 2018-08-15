@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jdbcrunner" default="create_zip" basedir=".">
+	<description>
+		JdbcRunner package
+	</description>
+	<property file="src/jdbcrunner/resources.properties" />
+	<target name="create_zip" depends="delete_zip">
+		<zip destfile="jdbcrunner-${Manager.VERSION}.zip">
+			<zipfileset dir="docs_ja/_build/html" prefix="jdbcrunner-${Manager.VERSION}/docs_ja" />
+			<zipfileset dir="misc" prefix="jdbcrunner-${Manager.VERSION}/misc" />
+			<zipfileset dir="scripts" prefix="jdbcrunner-${Manager.VERSION}/scripts" />
+			<zipfileset dir="." includes="*.md,*.txt,jdbcrunner-*.jar" prefix="jdbcrunner-${Manager.VERSION}" />
+		</zip>
+	</target>
+	<target name="delete_zip">
+		<delete file="jdbcrunner-${Manager.VERSION}.zip" />
+	</target>
+</project>
