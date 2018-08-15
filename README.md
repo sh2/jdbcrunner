@@ -8,7 +8,7 @@ Additionaly, JdbcRunner bundles some test kits for Oracle Database, MySQL and Po
 - Tiny TPC-B - Simplified implementation of [TPC-B](http://www.tpc.org/tpcb/default.asp).
 - Tiny TPC-C - Simplified implementation of [TPC-C](http://www.tpc.org/tpcc/default.asp).
 
-Please see [the website](https://dbstudy.info/jdbcrunner/) for details.
+Please see [dbstudy.info](https://dbstudy.info/jdbcrunner/) for details, [GitHub](https://github.com/sh2/jdbcrunner) for source code.
 
 ## Tutorial
 
