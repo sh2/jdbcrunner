@@ -6,11 +6,12 @@ JdbcRunnerでは負荷テストのシナリオをスクリプトで記述しま�
 JavaScriptとMozilla Rhinoの基礎
 -------------------------------
 
-JdbcRunnerではJavaScriptを用いて負荷シナリオを記述します。JavaScriptの実装としては、 `Mozilla Rhino <https://developer.mozilla.org/en/Rhino>`_ を利用しています。
+JdbcRunnerではJavaScriptを用いてテストシナリオを記述します。JavaScriptの実装としては、 `Mozilla Rhino <https://developer.mozilla.org/en/Rhino>`_ を利用しています。
 
-Mozilla Rhinoは少し古いバージョンがSun JDK 6以降に含まれていますので、文法の確認などであればこれを使ってすぐに行うことができます。JavaScriptはかなり奥の深いプログラミング言語なのですが、JdbcRunnerを動かすためだけであればとりあえず変数の扱い方、if文、それからfor文さえ覚えておけば十分かと思います。 ::
+Mozilla RhinoのライブラリはJdbcRunnerのJARファイルに組み込まれているので、以下のコマンドでJavaScriptの動作確認をすることができます。JdbcRunnerを動かすためであれば変数の扱い方、if文、それからfor文の文法を覚えておけばさしあたりは十分かと思います。 ::
 
-  > jrunscript
+  shell> export CLASSPATH=jdbcrunner-1.3.jar
+  shell> java org.mozilla.javascript.tools.shell.Main
   
   js> var a = 1
   js> var b = 2
@@ -25,13 +26,13 @@ Mozilla Rhinoは少し古いバージョンがSun JDK 6以降に含まれてい�
   5050.0
   
 
-Mozilla RhinoにはJavaScriptの純粋な言語仕様しか実装されていないので、ウェブブラウザで用いられるdocumentオブジェクトなどはありません。 ::
+ウェブブラウザで用いられるdocumentオブジェクトなどはありません。 ::
 
   js> document.write("test")
   script error: sun.org.mozilla.javascript.internal.EcmaError:
   ReferenceError: "document" is not defined. (<STDIN>#1) in <STDIN> at line number 1
 
-Mozilla Rhinoの特長として、スクリプトからJavaのクラスを呼び出せる点があります。いろいろ使い道はあるのですが、特にJavaのコレクションクラスを利用できるところが便利です。 ::
+Mozilla Rhinoの便利なところとして、JavaScriptからJavaのクラスを呼び出す機能があります。以下はJavaのコレクションクラスを利用する例です。 ::
 
   js> var map = new java.util.HashMap()
   js> map.put("7788", "scott")
@@ -65,7 +66,7 @@ JdbcRunnerのエージェントは、それぞれが独立したスクリプト�
 
 以下のサンプルを用いて説明します。 ::
 
-  var jdbcUrl = "jdbc:mysql://dbserver01:3306/scott?useSSL=false&allowPublicKeyRetrieval=true";
+  var jdbcUrl = "jdbc:mysql://dbserver01:3306/scott";
   var jdbcUser = "scott";
   var jdbcPass = "tiger";
   var warmupTime = 5;
@@ -94,7 +95,7 @@ JdbcRunnerのエージェントは、それぞれが独立したスクリプト�
 
 JdbcRunnerでは設定パラメータをコマンドラインオプションで指定するほかに、特定のグローバル変数を宣言することでも行うことができます。 ::
 
-  var jdbcUrl = "jdbc:mysql://dbserver01:3306/scott?useSSL=false&allowPublicKeyRetrieval=true";
+  var jdbcUrl = "jdbc:mysql://dbserver01:3306/scott";
   var jdbcUser = "scott";
   var jdbcPass = "tiger";
   var warmupTime = 5;
@@ -103,7 +104,7 @@ JdbcRunnerでは設定パラメータをコマンドラインオプションで�
 
 これはコマンドラインに以下のオプションを設定することと同じです。 ::
 
-  > java JR test.js -jdbcUrl jdbc:mysql://dbserver01:3306/scott?useSSL=false&allowPublicKeyRetrieval=true
+  > java JR test.js -jdbcUrl jdbc:mysql://dbserver01:3306/scott
                     -jdbcUser scott
                     -jdbcPass tiger
                     -warmupTime 5
@@ -119,7 +120,7 @@ JdbcRunnerでは設定パラメータをコマンドラインオプションで�
 トップレベルのスコープにロジックを書かない
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-スクリプトを作成する際は、トップレベルのスコープになるべく処理を書かないようにしてください。JdbcRunnerは最初にスクリプトをコンパイルしますが、その際にトップレベルのスコープに書いたロジックが実行されます。この時点ではデータベースにまだ接続していないので、データベース操作などを行おうとするとエラーになります。
+スクリプトを作成する際は、トップレベルのスコープになるべく処理を書かないようにしてください。JdbcRunnerは最初にスクリプトをコンパイルしますが、その際にトップレベルのスコープに書いたロジックが実行されます。この時点ではデータベースにまだ接続していないので、データベース操作を行おうとするとエラーになります。
 
 エージェントがスクリプトにアクセスするパターンを図にすると以下のようになります。
 
@@ -145,7 +146,7 @@ JdbcRunnerでは設定パラメータをコマンドラインオプションで�
       query("SELECT ename FROM emp WHERE empno = $int", empno);
   }
 
-JavaScriptそのものにはデータベースアクセス機能はありませんので、ツール側でquery()、commit()などの独自ファンクションを用意しています。これらのファンクションを利用してトランザクションを組み立てていきます。
+JavaScriptそのものにはデータベースアクセス機能はありませんので、ツール側でquery()、commit()などの独自ファンクションを用意しています。これらのファンクションを利用して処理を組み立てていきます。
 
 スクリプトのテンプレート
 ------------------------
