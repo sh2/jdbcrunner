@@ -51,7 +51,7 @@ JdbcRunnerのパラメータを設定するには、以下の2つの方法があ
 
 以下はスクリプト内でグローバル変数を宣言する例です。 ::
 
-  var jdbcUrl = "jdbc:mysql://dbserver01:3306/scott?useSSL=false&allowPublicKeyRetrieval=true";
+  var jdbcUrl = "jdbc:mysql://dbserver01:3306/scott";
   var jdbcUser = "scott";
   var jdbcPass = "tiger";
   var warmupTime = 120;
@@ -62,14 +62,14 @@ JdbcRunnerのパラメータを設定するには、以下の2つの方法があ
 
 同じ設定をコマンドラインオプションで行うと、次のようになります。コマンドラインオプションを指定すると、グローバル変数による設定は上書きされます。 ::
 
-  > java JR test.js -jdbcUrl jdbc:mysql://dbserver01:3306/scott?useSSL=false&allowPublicKeyRetrieval=true
-                    -jdbcUser scott
-                    -jdbcPass tiger
-                    -warmupTime 120
-                    -measurementTime 600
-                    -nAgents 20
-                    -autoCommit false
-                    -debug
+  shell> java JR test.js -jdbcUrl jdbc:mysql://dbserver01:3306/scott
+                         -jdbcUser scott
+                         -jdbcPass tiger
+                         -warmupTime 120
+                         -measurementTime 600
+                         -nAgents 20
+                         -autoCommit false
+                         -debug
 
 パラメータの説明
 ----------------
@@ -88,11 +88,11 @@ JdbcRunnerのパラメータを設定するには、以下の2つの方法があ
 
 デフォルトとは異なる文字セットを指定したい場合、例えばLinuxで作成したスクリプトをWindowsの日本語環境で動かすといった場合は以下のようにします。 ::
 
-  > java JR test.js -scriptCharset UTF-8
+  shell> java JR test.js -scriptCharset UTF-8
   
 逆に、Windowsの日本語環境で作成したスクリプトをLinuxで動かす場合は以下のようにします。 ::
 
-  $ java JR test.js -scriptCharset Windows-31J
+  shell> java JR test.js -scriptCharset Windows-31J
 
 JDBCドライバ
 ^^^^^^^^^^^^
@@ -172,7 +172,7 @@ JDBC接続URLを指定するパラメータです。デフォルトはMySQLで�
 
 測定開始後、トランザクションを集計から除外する時間を指定するパラメータです。単位は秒です。
 
-多くのRDBMSは起動直後、メモリ上のキャッシュにデータが溜まるまでは十分な性能が出ません。ウォームアップ時間を適切に設定することで、そうしたデータを除外することができます。
+多くのRDBMSは起動直後、メモリ上のキャッシュにデータが溜まるまでは十分な性能が出ません。ウォームアップ時間を適切に設定することで、序盤のデータを除外することができます。
 
 測定時間
 ^^^^^^^^
@@ -184,7 +184,7 @@ JDBC接続URLを指定するパラメータです。デフォルトはMySQLで�
 
 run()ファンクションを繰り返し実行して測定を行う時間を指定するパラメータです。単位は秒です。
 
-ウォームアップ時間はこのパラメータで指定する測定時間には含まれません。そのためツール全体の実行時間は、ウォームアップ時間と測定時間で指定した値の合計となります。
+このパラメータで指定する測定時間は、ウォームアップ時間を包含していません。ツール全体の実行時間は、ウォームアップ時間と測定時間で指定した値の合計となります。
 
 トランザクションの種類数
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -278,7 +278,7 @@ run()ファンクションの実行後にスリープする時間を指定する
 
 コマンドラインオプションの場合は、カンマ区切りで指定します。 ::
 
-  > java JR test.js -sleepTime 100,200
+  shell> java JR test.js -sleepTime 100,200
 
 個別指定を行わないこともできます。その場合はすべてのトランザクション種別で同じスリープ時間となります。
 
@@ -292,7 +292,7 @@ run()ファンクションの実行後にスリープする時間を指定する
 
 スループットの上限値を指定するパラメータです。単位はトランザクション/秒です。デフォルトは0ですが、これは0トランザクション/秒ではなく、この機能を使わないことを意味します。
 
-スリープ時間と似たパラメータですが、このパラメータを指定すると指定したスループットを超えないように時間を逆算してスリープします。これによってRDBMSに一定の負荷をかけ続けることができます。
+スリープ時間と似たパラメータですが、このパラメータを指定するとスループットの上限値を超えないように時間を計算してスリープします。これによってRDBMSに一定の負荷をかけ続けることができます。
 
 トランザクションの種類数が2以上の場合は、それぞれのトランザクション種別に対して値を指定することができます。グローバル変数の場合は配列として宣言します。 ::
 
@@ -300,7 +300,7 @@ run()ファンクションの実行後にスリープする時間を指定する
 
 コマンドラインオプションの場合は、カンマ区切りで指定します。 ::
 
-  > java JR test.js -throttle 100,200
+  shell> java JR test.js -throttle 100,200
 
 個別指定を行わないこともできます。その場合はすべてのトランザクション種別を合計したスループットが上限値を超えないように、スリープを行います。
 
