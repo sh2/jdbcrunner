@@ -4,15 +4,16 @@
 sysbenchとは
 ------------
 
-`sysbench <http://sysbench.sourceforge.net/>`_ はAlexey Kopytov氏によってメンテナンスされているオープンソースソフトウェアで、以下の5種類のテストを行うことができる総合的なベンチマークツールです。ライセンスはGPLv2です。
+`sysbench <https://github.com/akopytov/sysbench>`_ はAlexey Kopytov氏によってメンテナンスされているオープンソースソフトウェアで、以下の6種類のテストを行うことができる総合的なベンチマークツールです。ライセンスはGPLv2です。
 
-* file I/O performance
-* scheduler performance
-* memory allocation and transfer speed
-* POSIX threads implementation performance
-* database server performance (OLTP benchmark)
+* a collection of OLTP-like database benchmarks
+* a filesystem-level benchmark
+* a simple CPU benchmark
+* a memory access benchmark
+* a thread-based scheduler benchmark
+* a POSIX mutex benchmark
 
-OLTPベンチマークで用いられるデータベースのER図を以下に示します。テーブルは一つだけで、ごく単純な作りとなっています。
+以下は `sysbench 0.4 <https://github.com/akopytov/sysbench/tree/0.4>`_ についての説明です。OLTPベンチマークで用いられるデータベースのER図を以下に示します。テーブルは一つだけで、ごく単純な作りとなっています。
 
 .. image:: images/sysbench.png
 
@@ -45,54 +46,52 @@ complexモードで実行されるトランザクションの内容は以下の�
   INSERT INTO sbtest (id, k, c, pad) VALUES (:1, :2, :3, :4);
   COMMIT;
 
-sysbenchのOLTPベンチマークはMySQLをターゲットとして開発されていますが、Oracle DatabaseとPostgreSQLにも対応しています。
+sysbench 0.4のOLTPベンチマークはMySQLをターゲットとして開発されていますが、Oracle DatabaseとPostgreSQLにも対応しています。
 
 Tiny sysbenchとは
 -----------------
 
-Tiny sysbenchは、sysbenchのOLTPベンチマークのうちcomplexモードをJdbcRunner上に移植したものです。以下の二つのスクリプトから構成されています。
+Tiny sysbenchは、sysbench 0.4のOLTPベンチマークのうちcomplexモードをJdbcRunner上に移植したものです。以下の二つのスクリプトから構成されています。
 
 * scripts/sysbench_load.js : テストデータ生成用スクリプト
 * scripts/sysbench.js : テスト用スクリプト
 
-対応RDBMS
----------
+動作確認RDBMS
+-------------
 
-Tiny sysbenchは以下のRDBMSに対応しています。
+Tiny sysbenchは、以下のRDBMSで動作確認をしています。
 
-* Oracle Database 11g Release 2
-* MySQL 5.1、5.5
-* PostgreSQL 8.4、9.0、9.1
-
-RDBMSのバージョンは実際に動作確認を行ったバージョンを示しており、これ以外のバージョンでも動作する可能性はあります。
+* Oracle Database 18c
+* MySQL 8.0
+* PostgreSQL 10
 
 テストの準備
 ------------
 
 MySQLにおけるテストの準備手順を以下に示します。Oracle Database、PostgreSQLについてはscripts/sysbench_load.jsのコメントをご参照ください。
 
-ユーザの作成
-^^^^^^^^^^^^
-
-MySQLにrootユーザで接続し、sbtestユーザを作成します。 ::
-
-  > mysql -u root -p
-  
-  mysql> CREATE USER sbtest@'%' IDENTIFIED BY 'sbtest';
-  Query OK, 0 rows affected (0.00 sec)
-
-  mysql> GRANT ALL PRIVILEGES ON sbtest.* TO sbtest@'%';
-  Query OK, 0 rows affected (0.00 sec)
-
-ネットワーク環境によっては、接続元ホストを制限したりsbtestをより安全なパスワードに変更することをおすすめします。
-
 データベースの作成
 ^^^^^^^^^^^^^^^^^^
 
-sbtestデータベースを作成します。 ::
+MySQLにrootユーザで接続し、sbtestデータベースを作成します。 ::
 
-  mysql> CREATE DATABASE sbtest;
+  shell> mysql -u root -p
+  
+  sql> CREATE DATABASE sbtest;
   Query OK, 1 row affected (0.00 sec)
+
+ユーザの作成
+^^^^^^^^^^^^
+
+sbtestユーザを作成します。 ::
+
+  sql> CREATE USER sbtest@'%' IDENTIFIED BY 'sbtest';
+  Query OK, 0 rows affected (0.00 sec)
+
+  sql> GRANT ALL PRIVILEGES ON sbtest.* TO sbtest@'%';
+  Query OK, 0 rows affected (0.00 sec)
+
+ネットワーク環境によっては、接続元ホストを制限したりsbtestをより安全なパスワードに変更することをおすすめします。
 
 テストデータの生成
 ^^^^^^^^^^^^^^^^^^
@@ -102,17 +101,16 @@ scripts/sysbench_load.jsを用いてテストデータの生成を行います�
 * テーブルの削除
 * テーブルの作成
 * データロード
-* インデックスの作成 (MySQLのみデータロード前に作成)
-* 統計情報の更新 (Oracle Database、PostgreSQLのみ実施)
+* インデックスの作成
+* 統計情報の更新
 
 ::
 
-  > java JR scripts\sysbench_load.js
-  
-  01:41:56 [INFO ] > JdbcRunner 1.2
-  01:41:56 [INFO ] [Config]
-  Program start time   : 20111011-014156
-  Script filename      : scripts\sysbench_load.js
+  shell> java JR scripts/sysbench_load.js
+  11:32:32 [INFO ] > JdbcRunner 1.3
+  11:32:32 [INFO ] [Config]
+  Program start time   : 20180819-113231
+  Script filename      : scripts/sysbench_load.js
   JDBC driver          : -
   JDBC URL             : jdbc:mysql://localhost:3306/sbtest?useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
   JDBC user            : sbtest
@@ -132,45 +130,46 @@ scripts/sysbench_load.jsを用いてテストデータの生成を行います�
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  01:41:56 [INFO ] Tiny sysbench - data loader
-  01:41:56 [INFO ] -param0 : Number of records (default : 10000)
-  01:41:56 [INFO ] Number of records : 10000
-  01:41:56 [INFO ] Dropping a table ...
-  01:41:56 [WARN ] JavaException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown table 'sbtest'
-  01:41:56 [INFO ] Creating a table ...
-  01:41:56 [INFO ] Loading sbtest ...
-  01:41:57 [INFO ] sbtest : 1000 / 10000
-  01:41:57 [INFO ] sbtest : 2000 / 10000
-  01:41:57 [INFO ] sbtest : 3000 / 10000
-  01:41:57 [INFO ] sbtest : 4000 / 10000
-  01:41:57 [INFO ] sbtest : 5000 / 10000
-  01:41:57 [INFO ] sbtest : 6000 / 10000
-  01:41:57 [INFO ] sbtest : 7000 / 10000
-  01:41:57 [INFO ] sbtest : 8000 / 10000
-  01:41:57 [INFO ] sbtest : 9000 / 10000
-  01:41:57 [INFO ] sbtest : 10000 / 10000
-  01:41:57 [INFO ] Completed.
-  01:41:57 [INFO ] < JdbcRunner SUCCESS
+  11:32:32 [INFO ] Tiny SysBench - data loader
+  11:32:32 [INFO ] -param0 : Number of records (default : 10000)
+  11:32:32 [INFO ] Number of records : 10000
+  11:32:32 [INFO ] Dropping a table ...
+  11:32:32 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'sbtest.sbtest'
+  11:32:32 [INFO ] Creating a table ...
+  11:32:33 [INFO ] Loading sbtest ...
+  11:32:33 [INFO ] sbtest : 1000 / 10000
+  11:32:33 [INFO ] sbtest : 2000 / 10000
+  11:32:33 [INFO ] sbtest : 3000 / 10000
+  11:32:33 [INFO ] sbtest : 4000 / 10000
+  11:32:33 [INFO ] sbtest : 5000 / 10000
+  11:32:33 [INFO ] sbtest : 6000 / 10000
+  11:32:33 [INFO ] sbtest : 7000 / 10000
+  11:32:33 [INFO ] sbtest : 8000 / 10000
+  11:32:33 [INFO ] sbtest : 9000 / 10000
+  11:32:33 [INFO ] sbtest : 10000 / 10000
+  11:32:33 [INFO ] Creating an index ...
+  11:32:33 [INFO ] Analyzing a table ...
+  11:32:33 [INFO ] Completed.
+  11:32:33 [INFO ] < JdbcRunner SUCCESS
 
 「Unknown table 'sbtest'」という警告は、存在しないsbtestテーブルを削除しようとして出力されるものです。無視して構いません。
 
 また、-param0を指定することによってsbtestテーブルにロードするレコード数を変更することが可能です。デフォルトは1万レコードとなっています。 ::
 
-  > java JR scripts\sysbench_load.js -param0 50000
+  shell> java JR scripts/sysbench_load.js -param0 50000
 
 テストの実行
 ------------
 
-scripts/sysbench.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することを強くおすすめします。
+scripts/sysbench.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することをおすすめします。
 
-Oracle Java SE/OpenJDKを利用する際は、Server VMを用いることをおすすめします。詳細は `JDK 6 仮想マシン (VM) 関連 API & 開発者ガイド <http://java.sun.com/javase/ja/6/docs/ja/technotes/guides/vm/index.html>`_ をご参照ください。 ::
+::
 
-  > java -server JR scripts\sysbench.js -jdbcUrl jdbc:mysql://server/sbtest?useSSL=false&allowPublicKeyRetrieval=true
-  
-  02:19:12 [INFO ] > JdbcRunner 1.2
-  02:19:12 [INFO ] [Config]
-  Program start time   : 20111011-021911
-  Script filename      : scripts\sysbench.js
+  shell> java JR scripts/sysbench.js -jdbcUrl jdbc:mysql://server/sbtest?useSSL=false\&allowPublicKeyRetrieval=true
+  11:36:19 [INFO ] > JdbcRunner 1.3
+  11:36:19 [INFO ] [Config]
+  Program start time   : 20180819-113619
+  Script filename      : scripts/sysbench.js
   JDBC driver          : -
   JDBC URL             : jdbc:mysql://server/sbtest?useSSL=false&allowPublicKeyRetrieval=true
   JDBC user            : sbtest
@@ -196,30 +195,42 @@ Oracle Java SE/OpenJDKを利用する際は、Server VMを用いることをお�
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  02:19:13 [INFO ] Tiny sysbench
-  02:19:13 [INFO ] Number of records : 10000
-  02:19:14 [INFO ] [Warmup] -59 sec, 150 tps, (150 tx)
-  02:19:15 [INFO ] [Warmup] -58 sec, 241 tps, (391 tx)
-  02:19:16 [INFO ] [Warmup] -57 sec, 268 tps, (659 tx)
-  02:19:17 [WARN ] [Agent 7] Deadlock detected.
-  02:19:17 [INFO ] [Warmup] -56 sec, 368 tps, (1027 tx)
-  02:19:18 [WARN ] [Agent 0] Deadlock detected.
-  02:19:18 [INFO ] [Warmup] -55 sec, 370 tps, (1397 tx)
+  11:36:21 [INFO ] Tiny SysBench
+  11:36:21 [INFO ] Number of records : 10000
+  11:36:22 [WARN ] [Agent 6] Deadlock detected.
+  11:36:22 [INFO ] [Warmup] -59 sec, 103 tps, (103 tx)
+  11:36:22 [WARN ] [Agent 11] Deadlock detected.
+  11:36:22 [WARN ] [Agent 2] Deadlock detected.
+  11:36:23 [INFO ] [Warmup] -58 sec, 127 tps, (230 tx)
+  11:36:23 [WARN ] [Agent 2] Deadlock detected.
+  11:36:23 [WARN ] [Agent 10] Deadlock detected.
+  11:36:23 [WARN ] [Agent 15] Deadlock detected.
+  11:36:23 [WARN ] [Agent 11] Deadlock detected.
+  11:36:23 [WARN ] [Agent 10] Deadlock detected.
+  11:36:24 [WARN ] [Agent 9] Deadlock detected.
+  11:36:24 [INFO ] [Warmup] -57 sec, 136 tps, (366 tx)
   ...
-  02:23:09 [INFO ] [Progress] 176 sec, 379 tps, 67112 tx
-  02:23:10 [INFO ] [Progress] 177 sec, 353 tps, 67465 tx
-  02:23:11 [INFO ] [Progress] 178 sec, 370 tps, 67835 tx
-  02:23:12 [INFO ] [Progress] 179 sec, 355 tps, 68190 tx
-  02:23:13 [INFO ] [Progress] 180 sec, 376 tps, 68566 tx
-  02:23:13 [INFO ] [Total tx count] 68565 tx
-  02:23:13 [INFO ] [Throughput] 380.9 tps
-  02:23:13 [INFO ] [Response time (minimum)] 21 msec
-  02:23:13 [INFO ] [Response time (50%tile)] 40 msec
-  02:23:13 [INFO ] [Response time (90%tile)] 53 msec
-  02:23:13 [INFO ] [Response time (95%tile)] 58 msec
-  02:23:13 [INFO ] [Response time (99%tile)] 71 msec
-  02:23:13 [INFO ] [Response time (maximum)] 449 msec
-  02:23:13 [INFO ] < JdbcRunner SUCCESS
+  11:40:18 [INFO ] [Progress] 177 sec, 190 tps, 33291 tx
+  11:40:18 [WARN ] [Agent 12] Deadlock detected.
+  11:40:18 [WARN ] [Agent 0] Deadlock detected.
+  11:40:19 [WARN ] [Agent 14] Deadlock detected.
+  11:40:19 [INFO ] [Progress] 178 sec, 192 tps, 33483 tx
+  11:40:19 [WARN ] [Agent 12] Deadlock detected.
+  11:40:19 [WARN ] [Agent 4] Deadlock detected.
+  11:40:20 [INFO ] [Progress] 179 sec, 194 tps, 33677 tx
+  11:40:20 [WARN ] [Agent 1] Deadlock detected.
+  11:40:20 [WARN ] [Agent 12] Deadlock detected.
+  11:40:20 [WARN ] [Agent 11] Deadlock detected.
+  11:40:21 [INFO ] [Progress] 180 sec, 193 tps, 33870 tx
+  11:40:21 [INFO ] [Total tx count] 33873 tx
+  11:40:21 [INFO ] [Throughput] 188.2 tps
+  11:40:21 [INFO ] [Response time (minimum)] 17 msec
+  11:40:21 [INFO ] [Response time (50%tile)] 82 msec
+  11:40:21 [INFO ] [Response time (90%tile)] 130 msec
+  11:40:21 [INFO ] [Response time (95%tile)] 146 msec
+  11:40:21 [INFO ] [Response time (99%tile)] 182 msec
+  11:40:21 [INFO ] [Response time (maximum)] 326 msec
+  11:40:21 [INFO ] < JdbcRunner SUCCESS
 
 OLTPベンチマークのcomplexモードでは、デッドロックが発生することがあります。これはオリジナル版のsysbenchでも発生するものです。Tiny sysbenchはデッドロックが発生した場合、該当のトランザクションをロールバックして再度実行します。
 
