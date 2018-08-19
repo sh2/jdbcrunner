@@ -161,9 +161,7 @@ scripts/sysbench_load.jsを用いてテストデータの生成を行います�
 テストの実行
 ------------
 
-scripts/sysbench.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することをおすすめします。
-
-::
+scripts/sysbench.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することをおすすめします。 ::
 
   shell> java JR scripts/sysbench.js -jdbcUrl jdbc:mysql://server/sbtest?useSSL=false\&allowPublicKeyRetrieval=true
   11:36:19 [INFO ] > JdbcRunner 1.3
