@@ -1,4 +1,4 @@
-# 1.3 (20xx-xx-xx)
+# 1.3 (2018-08-19)
 
 * ライセンスを三条項BSDライセンスから二条項BSDライセンスに変更しました。([Commit](https://github.com/sh2/jdbcrunner/commit/13cecc665127f9df1bfe2def853cf7b0879ee3a3))
 * 動作環境を更新しました。
@@ -11,8 +11,10 @@
 * ヒストグラム作成シートをLibreOffice版からExcel版に変更しました。([Commit](https://github.com/sh2/jdbcrunner/commit/464506904a3ae02d640f1ff16a575410b2c26c88))
 * getDatabaseMajorVersion()、getDatabaseMinorVersion()ファンクションを追加しました。([Commit](https://github.com/sh2/jdbcrunner/commit/c3e20610330038655a113ede4157447cce0e72ae))
 * ランダム文字列を生成するためのrandomString()、setRandomStringElements()ファンクションを追加しました。([Commit](https://github.com/sh2/jdbcrunner/commit/b4dbdffaf6fb8eca8770cd990dd000210b3f99c7))
+* sysbench MySQLでのデータロード手順を変更し、高速化しました。([Commit](https://github.com/sh2/jdbcrunner/commit/52d14decaa39d3a30cc6e8e32272f637b2adbecc))
+* TPC-B MySQLでのデータロード手順を変更し、高速化しました。([Commit](https://github.com/sh2/jdbcrunner/commit/bea1998c61b5216e86242d95d34817a613c75649))([Commit](https://github.com/sh2/jdbcrunner/commit/25f8475c71dbdb5c8711f5e1355fdf91666782f4))
 * TPC-CのデータロードをrandomString()ファンクションを用いて高速化しました。([Commit](https://github.com/sh2/jdbcrunner/commit/b4dbdffaf6fb8eca8770cd990dd000210b3f99c7))
-* TPC-C MySQLでのデータロード手順を見直し、高速化しました。([Commit](https://github.com/sh2/jdbcrunner/commit/cf2d07cdc652fc6a1689f804e6c53dbb1926f244))([Commit](https://github.com/sh2/jdbcrunner/commit/4100086ca6ae9ae3d41bfa630ef1350a6882e08e))
+* TPC-C MySQLでのデータロード手順を変更し、高速化しました。([Commit](https://github.com/sh2/jdbcrunner/commit/cf2d07cdc652fc6a1689f804e6c53dbb1926f244))([Commit](https://github.com/sh2/jdbcrunner/commit/4100086ca6ae9ae3d41bfa630ef1350a6882e08e))
 * TPC-C PaymentトランザクションがPostgreSQLでデッドロックを起こしていたのを軽減しました。([Commit](https://github.com/sh2/jdbcrunner/commit/5668990d0813c3b2be84208a0cc5c50e7496274f))(by [myzkyy](https://github.com/myzkyy))
 * TPC-C DeliveryトランザクションのSELECT FOR UPDATE文においてサブクエリを使わないように修正し、より多くのRDBMSで動作するようにしました。([Commit](https://github.com/sh2/jdbcrunner/commit/660226be7e7e2af4dd8d4a605fa9b0db242059b7))
 * TPC-C customerテーブルのc_since列に、現在時刻ではなくデータロード開始時刻を入れるように修正しました。([Commit](https://github.com/sh2/jdbcrunner/commit/a48a95d87c008e1454ccb601278b0a6679e4d743))
