@@ -104,12 +104,12 @@ JdbcRunnerでは設定パラメータをコマンドラインオプションで�
 
 これはコマンドラインに以下のオプションを設定することと同じです。 ::
 
-  > java JR test.js -jdbcUrl jdbc:mysql://dbserver01:3306/scott
-                    -jdbcUser scott
-                    -jdbcPass tiger
-                    -warmupTime 5
-                    -measurementTime 20
-                    -nAgents 4
+  shell> java JR test.js -jdbcUrl jdbc:mysql://dbserver01:3306/scott
+                         -jdbcUser scott
+                         -jdbcPass tiger
+                         -warmupTime 5
+                         -measurementTime 20
+                         -nAgents 4
 
 グローバル変数とコマンドラインオプションを両方設定した場合は、コマンドラインオプションの設定が優先されます。固定的なパラメータをスクリプト内で設定しておくと便利です。
 
