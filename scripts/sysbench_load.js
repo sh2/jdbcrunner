@@ -1,12 +1,12 @@
 /*
- * Tiny SysBench - data loader
- * This script is based on SysBench 0.4.12.
+ * Tiny sysbench - data loader
+ * This script is based on sysbench 0.4.12.
  * https://github.com/akopytov/sysbench
  *
  * [Oracle Database]
  * shell> sqlplus "/ AS SYSDBA"
  * sql> CREATE USER sbtest IDENTIFIED BY sbtest;
- * sql> GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO sbtest;
+ * sql> GRANT CREATE SESSION, CREATE TABLE, CREATE SEQUENCE, CREATE TRIGGER, UNLIMITED TABLESPACE TO sbtest;
  *
  * [MySQL]
  * shell> mysql -u root -p
@@ -55,7 +55,7 @@ var oltpTableSize;
 
 function init() {
     if (getId() == 0) {
-        info("Tiny SysBench - data loader");
+        info("Tiny sysbench - data loader");
         info("-param0 : Number of records (default : 10000)");
         
         oltpTableSize = param0;
@@ -131,7 +131,8 @@ function fin() {
             createIndexOracle();
             gatherStatsOracle();
         } else if (getDatabaseProductName() == "MySQL") {
-            // Do nothing.
+            createIndexMySQL();
+            gatherStatsMySQL();
         } else if (getDatabaseProductName() == "PostgreSQL") {
             createIndexPostgreSQL();
             gatherStatsPostgreSQL();
@@ -211,8 +212,7 @@ function createTableMySQL() {
         + "id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT, "
         + "k INT UNSIGNED DEFAULT 0 NOT NULL, "
         + "c CHAR(120) DEFAULT '' NOT NULL, "
-        + "pad CHAR(60) DEFAULT '' NOT NULL, "
-        + "KEY k (k)) "
+        + "pad CHAR(60) DEFAULT '' NOT NULL) "
         + "ENGINE = InnoDB");
 }
 
@@ -227,10 +227,16 @@ function createTablePostgreSQL() {
 }
 
 function createIndexOracle() {
-    info("Creating indexes ...");
+    info("Creating an index ...");
     
     execute("ALTER TABLE sbtest ADD CONSTRAINT sbtest_pk PRIMARY KEY (id)");
     execute("CREATE INDEX sbtest_ix1 ON sbtest (k)");
+}
+
+function createIndexMySQL() {
+    info("Creating an index ...");
+    
+    execute("ALTER TABLE sbtest ADD KEY sbtest_ix1 (k)");
 }
 
 function createIndexPostgreSQL() {
@@ -243,8 +249,14 @@ function gatherStatsOracle() {
     execute("BEGIN DBMS_STATS.GATHER_SCHEMA_STATS(ownname => NULL); END;");
 }
 
+function gatherStatsMySQL() {
+    info("Analyzing a table ...")
+    
+    execute("ANALYZE TABLE sbtest");
+}
+
 function gatherStatsPostgreSQL() {
-    info("Vacuuming and analyzing tables ...");
+    info("Vacuuming and analyzing a table ...");
     
     takeConnection().setAutoCommit(true);
     execute("VACUUM ANALYZE sbtest");
