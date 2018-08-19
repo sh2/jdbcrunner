@@ -21,10 +21,3 @@ JdbcRunner - 汎用データベース負荷テストツール
    sysbench
    tpc-b
    tpc-c
-
-索引
-====
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
