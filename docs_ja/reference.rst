@@ -96,7 +96,7 @@ RDBMSに対してクエリを発行するファンクションです。内部的
 
 query()では結果セットのレコード数しか得ることができませんが、fetchAsArray()では結果セットをJavaScriptの二次元配列として得ることができます。 ::
 
-  mysql> SELECT * FROM dept ORDER BY deptno;
+  sql> SELECT * FROM dept ORDER BY deptno;
   +--------+------------+----------+
   | deptno | dname      | loc      |
   +--------+------------+----------+
@@ -150,7 +150,7 @@ paramArrayにはJavaScriptの配列を指定します。パラメータが複数
 
 この例では、3つのレコードを一度にINSERTすることができます。 ::
 
-  mysql> SELECT * FROM test ORDER BY c1;
+  sql> SELECT * FROM test ORDER BY c1;
   +----+--------+
   | c1 | c2     |
   +----+--------+
