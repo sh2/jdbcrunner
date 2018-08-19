@@ -97,7 +97,7 @@ Stock-Level            R                              R                       R
 Tiny TPC-Cとは
 --------------
 
-Tiny TPC-Cは、TPC-C Standard Specification 5.10.1の仕様を抜粋しJdbcRunnerのスクリプトとして実装したものです。仕様書のうち以下の章節を実装しています。
+Tiny TPC-Cは、TPC-C Standard Specification 5.11の仕様を抜粋しJdbcRunnerのスクリプトとして実装したものです。仕様書のうち以下の章節を実装しています。
 
 * 1 LOGICAL DATABASE DESIGN
 * 2 TRANSACTION and TERMINAL PROFILES
@@ -125,44 +125,42 @@ Tiny TPC-Cは以下の二つのスクリプトから構成されています。
 * scripts/tpcc_load.js : テストデータ生成用スクリプト
 * scripts/tpcc.js : テスト用スクリプト
 
-対応RDBMS
----------
+動作確認RDBMS
+-------------
 
-Tiny TPC-Cは以下のRDBMSに対応しています。
+Tiny TPC-Cは、以下のRDBMSで動作確認をしています。
 
-* Oracle Database 11g Release 2
-* MySQL 5.1、5.5
-* PostgreSQL 8.4、9.0、9.1
-
-RDBMSのバージョンは実際に動作確認を行ったバージョンを示しており、これ以外のバージョンでも動作する可能性はあります。
+* Oracle Database 18c
+* MySQL 8.0
+* PostgreSQL 10
 
 テストの準備
 ------------
 
 MySQLにおけるテストの準備手順を以下に示します。Oracle Database、PostgreSQLについてはscripts/tpcc_load.jsのコメントをご参照ください。
 
-ユーザの作成
-^^^^^^^^^^^^
-
-MySQLにrootユーザで接続し、tpccユーザを作成します。 ::
-
-  > mysql -u root -p
-  
-  mysql> CREATE USER tpcc@'%' IDENTIFIED BY 'tpcc';
-  Query OK, 0 rows affected (0.00 sec)
-
-  mysql> GRANT ALL PRIVILEGES ON tpcc.* TO tpcc@'%';
-  Query OK, 0 rows affected (0.00 sec)
-
-ネットワーク環境によっては、接続元ホストを制限したりtpccをより安全なパスワードに変更することをおすすめします。
-
 データベースの作成
 ^^^^^^^^^^^^^^^^^^
 
-tpccデータベースを作成します。 ::
+MySQLにrootユーザで接続し、tpccデータベースを作成します。 ::
 
-  mysql> CREATE DATABASE tpcc;
+  shell> mysql -u root -p
+  
+  sql> CREATE DATABASE tpcc;
   Query OK, 1 row affected (0.00 sec)
+
+ユーザの作成
+^^^^^^^^^^^^
+
+tpccユーザを作成します。 ::
+
+  sql> CREATE USER tpcc@'%' IDENTIFIED BY 'tpcc';
+  Query OK, 0 rows affected (0.00 sec)
+
+  sql> GRANT ALL PRIVILEGES ON tpcc.* TO tpcc@'%';
+  Query OK, 0 rows affected (0.00 sec)
+
+ネットワーク環境によっては、接続元ホストを制限したりtpccをより安全なパスワードに変更することをおすすめします。
 
 テストデータの生成
 ^^^^^^^^^^^^^^^^^^
@@ -172,17 +170,16 @@ scripts/tpcc_load.jsを用いてテストデータの生成を行います。こ
 * テーブルの削除
 * テーブルの作成
 * データロード
-* インデックスの作成 (MySQLのみデータロード前に作成)
-* 統計情報の更新 (Oracle Database、PostgreSQLのみ実施)
+* インデックスの作成 (MySQLの主キーはデータロード前に作成)
+* 統計情報の更新
 
 ::
 
-  > java JR scripts\tpcc_load.js
-  
-  02:53:00 [INFO ] > JdbcRunner 1.2
-  02:53:00 [INFO ] [Config]
-  Program start time   : 20111011-025300
-  Script filename      : scripts\tpcc_load.js
+  shell> java JR scripts/tpcc_load.js
+  15:53:05 [INFO ] > JdbcRunner 1.3
+  15:53:05 [INFO ] [Config]
+  Program start time   : 20180819-155305
+  Script filename      : scripts/tpcc_load.js
   JDBC driver          : -
   JDBC URL             : jdbc:mysql://localhost:3306/tpcc?useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
   JDBC user            : tpcc
@@ -202,64 +199,50 @@ scripts/tpcc_load.jsを用いてテストデータの生成を行います。こ
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  02:53:01 [INFO ] Tiny TPC-C 1.1 - data loader
-  02:53:01 [INFO ] -param0  : Scale factor (default : 16)
-  02:53:01 [INFO ] -nAgents : Parallel loading degree (default : 4)
-  02:53:01 [INFO ] Scale factor            : 16
-  02:53:01 [INFO ] Parallel loading degree : 4
-  02:53:01 [INFO ] Dropping tables ...
-  02:53:01 [WARN ] JavaException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown table 'order_line'
-  02:53:01 [WARN ] JavaException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown table 'new_orders'
-  02:53:01 [WARN ] JavaException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown table 'orders'
-  02:53:01 [WARN ] JavaException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown table 'stock'
-  02:53:01 [WARN ] JavaException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown table 'item'
-  02:53:01 [WARN ] JavaException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown table 'history'
-  02:53:01 [WARN ] JavaException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown table 'customer'
-  02:53:01 [WARN ] JavaException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown table 'district'
-  02:53:01 [WARN ] JavaException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown table 'warehouse'
-  02:53:01 [INFO ] Creating tables ...
-  02:53:01 [INFO ] Loading item ...
-  02:53:02 [INFO ] item : 10000 / 100000
-  02:53:03 [INFO ] item : 20000 / 100000
-  02:53:03 [INFO ] item : 30000 / 100000
-  02:53:04 [INFO ] item : 40000 / 100000
-  02:53:05 [INFO ] item : 50000 / 100000
-  02:53:05 [INFO ] item : 60000 / 100000
-  02:53:06 [INFO ] item : 70000 / 100000
-  02:53:07 [INFO ] item : 80000 / 100000
-  02:53:07 [INFO ] item : 90000 / 100000
-  02:53:08 [INFO ] item : 100000 / 100000
-  02:53:08 [INFO ] Loading warehouse id 1 by agent 3 ...
-  02:53:08 [INFO ] [Agent 3] Loading warehouse ...
-  02:53:08 [INFO ] Loading warehouse id 2 by agent 1 ...
-  02:53:08 [INFO ] [Agent 1] Loading warehouse ...
-  02:53:08 [INFO ] Loading warehouse id 3 by agent 2 ...
-  02:53:08 [INFO ] [Agent 2] Loading warehouse ...
-  02:53:08 [INFO ] [Agent 1] Loading district ...
-  02:53:08 [INFO ] [Agent 2] Loading district ...
-  02:53:08 [INFO ] Loading warehouse id 4 by agent 0 ...
-  02:53:08 [INFO ] [Agent 0] Loading warehouse ...
-  02:53:08 [INFO ] [Agent 0] Loading district ...
-  02:53:08 [INFO ] [Agent 3] Loading district ...
-  02:53:08 [INFO ] [Agent 3] Loading customer and history ...
-  02:53:08 [INFO ] [Agent 0] Loading customer and history ...
-  02:53:08 [INFO ] [Agent 2] Loading customer and history ...
-  02:53:08 [INFO ] [Agent 1] Loading customer and history ...
-  02:53:21 [INFO ] [Agent 1] customer : 10000 / 30000
-  02:53:21 [INFO ] [Agent 3] customer : 10000 / 30000
-  02:53:22 [INFO ] [Agent 0] customer : 10000 / 30000
-  02:53:23 [INFO ] [Agent 2] customer : 10000 / 30000
+  15:53:06 [INFO ] Tiny TPC-C - data loader
+  15:53:06 [INFO ] -param0  : Scale factor (default : 16)
+  15:53:06 [INFO ] -nAgents : Parallel loading degree (default : 4)
+  15:53:06 [INFO ] Scale factor            : 16
+  15:53:06 [INFO ] Parallel loading degree : 4
+  15:53:06 [INFO ] Dropping tables ...
+  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.order_line'
+  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.new_orders'
+  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.orders'
+  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.stock'
+  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.item'
+  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.history'
+  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.customer'
+  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.district'
+  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.warehouse'
+  15:53:06 [INFO ] Creating tables ...
+  15:53:06 [INFO ] Loading item ...
+  15:53:07 [INFO ] item : 10000 / 100000
+  15:53:08 [INFO ] item : 20000 / 100000
+  15:53:09 [INFO ] item : 30000 / 100000
+  15:53:09 [INFO ] item : 40000 / 100000
+  15:53:10 [INFO ] item : 50000 / 100000
+  15:53:10 [INFO ] item : 60000 / 100000
+  15:53:10 [INFO ] item : 70000 / 100000
+  15:53:11 [INFO ] item : 80000 / 100000
+  15:53:11 [INFO ] item : 90000 / 100000
+  15:53:12 [INFO ] item : 100000 / 100000
+  15:53:12 [INFO ] Loading warehouse id 1 by agent 1 ...
+  15:53:12 [INFO ] Loading warehouse id 2 by agent 2 ...
+  15:53:12 [INFO ] Loading warehouse id 3 by agent 3 ...
+  15:53:12 [INFO ] Loading warehouse id 4 by agent 0 ...
   ...
-  03:12:22 [INFO ] [Agent 3] orders : 30000 / 30000
-  03:12:33 [INFO ] [Agent 2] orders : 30000 / 30000
-  03:12:34 [INFO ] [Agent 0] orders : 30000 / 30000
-  03:12:38 [INFO ] [Agent 1] orders : 30000 / 30000
-  03:12:38 [INFO ] Completed.
-  03:12:38 [INFO ] < JdbcRunner SUCCESS
+  15:59:17 [INFO ] [Agent 2] orders : 30000 / 30000
+  15:59:18 [INFO ] [Agent 0] orders : 30000 / 30000
+  15:59:19 [INFO ] [Agent 1] orders : 30000 / 30000
+  15:59:19 [INFO ] [Agent 3] orders : 30000 / 30000
+  15:59:19 [INFO ] Creating indexes ...
+  15:59:24 [INFO ] Analyzing tables ...
+  15:59:24 [INFO ] Completed.
+  15:59:24 [INFO ] < JdbcRunner SUCCESS
 
 「Unknown table 'order_line'」などの警告は、存在しないテーブルを削除しようとして出力されるものです。無視して構いません。
 
--param0を指定することによって、スケールファクタを変更することが可能です。スケールファクタ1あたりwarehouseテーブルが1レコード増加し、その他のテーブルもレコード数が以下のように増加します。デフォルトのスケールファクタは16です。
+-param0を指定することによって、スケールファクタを変更することが可能です。スケールファクタ1あたりwarehouseテーブルのレコード数が1増加し、その他のテーブルについてもレコード数が以下のように増加します。デフォルトのスケールファクタは16です。
 
 ========== ======================
 Table      Records
@@ -275,24 +258,21 @@ new_orders sf x 9,000
 order_line sf x 300,000 (approx.)
 ========== ======================
 
--nAgentsを指定することによって、ロードの並列度を変更することが可能です。RDBMSがCPUスケーラビリティに優れておりクアッドコアなどCPUコア数の多い環境では、並列度を上げることでロード時間を短縮することができます。デフォルトの並列度は4です。 ::
+-nAgentsを指定することによって、ロードの並列度を変更することが可能です。CPUコア数の多い環境では、並列度を上げることでロード時間を短縮することができます。デフォルトの並列度は4です。 ::
 
-  > java JR scripts\tpcc_load.js -nAgents 8 -param0 100
+  shell> java JR scripts/tpcc_load.js -nAgents 8 -param0 100
 
 
 テストの実行
 ------------
 
-scripts/tpcc.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することを強くおすすめします。
+scripts/tpcc.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することをおすすめします。 ::
 
-Oracle Java SE/OpenJDKを利用する際は、Server VMを用いることをおすすめします。詳細は `JDK 6 仮想マシン (VM) 関連 API & 開発者ガイド <http://java.sun.com/javase/ja/6/docs/ja/technotes/guides/vm/index.html>`_ をご参照ください。 ::
-
-  > java -server JR scripts\tpcc.js -jdbcUrl jdbc:mysql://server/tpcc?useSSL=false&allowPublicKeyRetrieval=true
-  
-  03:14:51 [INFO ] > JdbcRunner 1.2
-  03:14:51 [INFO ] [Config]
-  Program start time   : 20111011-031451
-  Script filename      : scripts\tpcc.js
+  shell> java JR scripts/tpcc.js -jdbcUrl jdbc:mysql://server/tpcc?useSSL=false\&allowPublicKeyRetrieval=true
+  16:05:22 [INFO ] > JdbcRunner 1.3
+  16:05:22 [INFO ] [Config]
+  Program start time   : 20180819-160522
+  Script filename      : scripts/tpcc.js
   JDBC driver          : -
   JDBC URL             : jdbc:mysql://server/tpcc?useSSL=false&allowPublicKeyRetrieval=true
   JDBC user            : tpcc
@@ -318,34 +298,31 @@ Oracle Java SE/OpenJDKを利用する際は、Server VMを用いることをお�
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  03:14:53 [INFO ] Tiny TPC-C 1.1
-  03:14:53 [INFO ] Scale factor : 16
-  03:14:53 [INFO ] tx0 : New-Order transaction
-  03:14:53 [INFO ] tx1 : Payment transaction
-  03:14:53 [INFO ] tx2 : Order-Status transaction
-  03:14:53 [INFO ] tx3 : Delivery transaction
-  03:14:53 [INFO ] tx4 : Stock-Level transaction
-  03:14:54 [INFO ] [Warmup] -299 sec, 29,51,7,2,4 tps, (29,51,7,2,4 tx)
-  03:14:55 [INFO ] [Warmup] -298 sec, 25,21,2,4,2 tps, (54,72,9,6,6 tx)
-  03:14:56 [INFO ] [Warmup] -297 sec, 77,64,7,7,6 tps, (131,136,16,13,12 tx)
-  03:14:57 [INFO ] [Warmup] -296 sec, 81,87,7,5,7 tps, (212,223,23,18,19 tx)
-  03:14:58 [INFO ] [Warmup] -295 sec, 102,86,10,12,13 tps, (314,309,33,30,32 tx)
+  16:05:23 [INFO ] Tiny TPC-C
+  16:05:23 [INFO ] Scale factor : 16
+  16:05:23 [INFO ] tx0 : New-Order transaction
+  16:05:23 [INFO ] tx1 : Payment transaction
+  16:05:23 [INFO ] tx2 : Order-Status transaction
+  16:05:23 [INFO ] tx3 : Delivery transaction
+  16:05:23 [INFO ] tx4 : Stock-Level transaction
+  16:05:24 [INFO ] [Warmup] -299 sec, 18,34,2,0,3 tps, (18,34,2,0,3 tx)
+  16:05:25 [INFO ] [Warmup] -298 sec, 42,27,3,2,5 tps, (60,61,5,2,8 tx)
+  16:05:26 [INFO ] [Warmup] -297 sec, 40,33,5,6,5 tps, (100,94,10,8,13 tx)
   ...
-  03:34:49 [INFO ] [Progress] 896 sec, 59,70,5,9,8 tps, 57542,57533,5755,5753,5754 tx
-  03:34:50 [INFO ] [Progress] 897 sec, 65,65,4,8,5 tps, 57607,57598,5759,5761,5759 tx
-  03:34:51 [INFO ] [Progress] 898 sec, 55,75,7,5,9 tps, 57662,57673,5766,5766,5768 tx
-  03:34:52 [INFO ] [Progress] 899 sec, 54,47,10,5,4 tps, 57716,57720,5776,5771,5772 tx
-  03:34:53 [INFO ] [Progress] 900 sec, 75,57,5,4,6 tps, 57791,57777,5781,5775,5778 tx
-  03:34:53 [INFO ] [Total tx count] 57791,57777,5781,5775,5778 tx
-  03:34:53 [INFO ] [Throughput] 64.2,64.2,6.4,6.4,6.4 tps
-  03:34:53 [INFO ] [Response time (minimum)] 7,7,6,95,4 msec
-  03:34:53 [INFO ] [Response time (50%tile)] 134,22,45,220,263 msec
-  03:34:53 [INFO ] [Response time (90%tile)] 220,86,94,551,419 msec
-  03:34:53 [INFO ] [Response time (95%tile)] 249,107,107,629,488 msec
-  03:34:53 [INFO ] [Response time (99%tile)] 516,192,146,841,783 msec
-  03:34:53 [INFO ] [Response time (maximum)] 1277,839,703,1359,1144 msec
-  03:34:54 [INFO ] < JdbcRunner SUCCESS
+  16:25:20 [INFO ] [Progress] 897 sec, 47,60,5,7,5 tps, 42576,42577,4259,4254,4257 tx
+  16:25:21 [INFO ] [Progress] 898 sec, 50,47,2,7,3 tps, 42626,42624,4261,4261,4260 tx
+  16:25:22 [INFO ] [Progress] 899 sec, 50,46,4,5,8 tps, 42676,42670,4265,4266,4268 tx
+  16:25:23 [INFO ] [Progress] 900 sec, 51,52,7,5,3 tps, 42727,42722,4272,4271,4271 tx
+  16:25:23 [INFO ] [Total tx count] 42727,42723,4272,4271,4271 tx
+  16:25:23 [INFO ] [Throughput] 47.5,47.5,4.7,4.7,4.7 tps
+  16:25:23 [INFO ] [Response time (minimum)] 9,6,2,79,3 msec
+  16:25:23 [INFO ] [Response time (50%tile)] 212,52,12,465,48 msec
+  16:25:23 [INFO ] [Response time (90%tile)] 347,100,42,662,117 msec
+  16:25:23 [INFO ] [Response time (95%tile)] 386,131,51,730,137 msec
+  16:25:23 [INFO ] [Response time (99%tile)] 476,252,72,903,180 msec
+  16:25:23 [INFO ] [Response time (maximum)] 916,567,111,1507,421 msec
+  16:25:23 [INFO ] < JdbcRunner SUCCESS
 
-TPC-Cには5種類のトランザクションが定義されていることから、Tiny TPC-Cではそれぞれを別のトランザクションとして集計しています。スループット、レスポンスタイムの出力はそれぞれ左からNew-Order、Payment、Order-Status、Delivery、Stock-Levelトランザクションのものを表しています。
+TPC-Cでは5種類のトランザクションが定義されており、結果は左からNew-Order、Payment、Order-Status、Delivery、Stock-Levelトランザクションのものとなっています。
 
-TPC-CのスコアにはNew-Orderトランザクションの1分あたりの実行回数を用います。上記の例では15分間で57,791txですから、スコアは3,852.7tpmとなります。
+TPC-CのスコアにはNew-Orderトランザクションの1分あたりの実行回数を用いることが多いです。上記の例では15分間で42,727txですから、スコアは2,848.5tpmとなります。
