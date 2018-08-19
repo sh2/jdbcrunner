@@ -50,44 +50,42 @@ Tiny TPC-Bは以下の二つのスクリプトから構成されています。
 * scripts/tpcb_load.js : テストデータ生成用スクリプト
 * scripts/tpcb.js : テスト用スクリプト
 
-対応RDBMS
----------
+動作確認RDBMS
+-------------
 
-Tiny TPC-Bは以下のRDBMSに対応しています。
+Tiny TPC-Bは、以下のRDBMSで動作確認をしています。
 
-* Oracle Database 11g Release 2
-* MySQL 5.1、5.5
-* PostgreSQL 8.4、9.0、9.1
-
-RDBMSのバージョンは実際に動作確認を行ったバージョンを示しており、これ以外のバージョンでも動作する可能性はあります。
+* Oracle Database 18c
+* MySQL 8.0
+* PostgreSQL 10
 
 テストの準備
 ------------
 
 MySQLにおけるテストの準備手順を以下に示します。Oracle Database、PostgreSQLについてはscripts/tpcb_load.jsのコメントをご参照ください。
 
-ユーザの作成
-^^^^^^^^^^^^
-
-MySQLにrootユーザで接続し、tpcbユーザを作成します。 ::
-
-  > mysql -u root -p
-  
-  mysql> CREATE USER tpcb@'%' IDENTIFIED BY 'tpcb';
-  Query OK, 0 rows affected (0.00 sec)
-
-  mysql> GRANT ALL PRIVILEGES ON tpcb.* TO tpcb@'%';
-  Query OK, 0 rows affected (0.00 sec)
-
-ネットワーク環境によっては、接続元ホストを制限したりtpcbをより安全なパスワードに変更することをおすすめします。
-
 データベースの作成
 ^^^^^^^^^^^^^^^^^^
 
-tpcbデータベースを作成します。 ::
+MySQLにrootユーザで接続し、tpcbデータベースを作成します。 ::
 
-  mysql> CREATE DATABASE tpcb;
+  shell> mysql -u root -p
+  
+  sql> CREATE DATABASE tpcb;
   Query OK, 1 row affected (0.00 sec)
+
+ユーザの作成
+^^^^^^^^^^^^
+
+tpcbユーザを作成します。 ::
+
+  sql> CREATE USER tpcb@'%' IDENTIFIED BY 'tpcb';
+  Query OK, 0 rows affected (0.00 sec)
+
+  sql> GRANT ALL PRIVILEGES ON tpcb.* TO tpcb@'%';
+  Query OK, 0 rows affected (0.00 sec)
+
+ネットワーク環境によっては、接続元ホストを制限したりtpcbをより安全なパスワードに変更することをおすすめします。
 
 テストデータの生成
 ^^^^^^^^^^^^^^^^^^
@@ -97,17 +95,16 @@ scripts/tpcb_load.jsを用いてテストデータの生成を行います。こ
 * テーブルの削除
 * テーブルの作成
 * データロード
-* インデックスの作成 (MySQLのみデータロード前に作成)
-* 統計情報の更新 (Oracle Database、PostgreSQLのみ実施)
+* インデックスの作成 (MySQLの主キーはデータロード前に作成)
+* 統計情報の更新
 
 ::
 
-  > java JR scripts\tpcb_load.js
-  
-  02:35:34 [INFO ] > JdbcRunner 1.2
-  02:35:34 [INFO ] [Config]
-  Program start time   : 20111011-023534
-  Script filename      : scripts\tpcb_load.js
+  shell> java JR scripts/tpcb_load.js
+  14:41:01 [INFO ] > JdbcRunner 1.3
+  14:41:01 [INFO ] [Config]
+  Program start time   : 20180819-144100
+  Script filename      : scripts/tpcb_load.js
   JDBC driver          : -
   JDBC URL             : jdbc:mysql://localhost:3306/tpcb?useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
   JDBC user            : tpcb
@@ -127,57 +124,55 @@ scripts/tpcb_load.jsを用いてテストデータの生成を行います。こ
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  02:35:35 [INFO ] Tiny TPC-B 1.1 - data loader
-  02:35:35 [INFO ] -param0  : Scale factor (default : 16)
-  02:35:35 [INFO ] -nAgents : Parallel loading degree (default : 4)
-  02:35:35 [INFO ] Scale factor            : 16
-  02:35:35 [INFO ] Parallel loading degree : 4
-  02:35:35 [INFO ] Dropping tables ...
-  02:35:35 [WARN ] JavaException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown table 'history'
-  02:35:35 [WARN ] JavaException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown table 'accounts'
-  02:35:35 [WARN ] JavaException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown table 'tellers'
-  02:35:35 [WARN ] JavaException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown table 'branches'
-  02:35:35 [INFO ] Creating tables ...
-  02:35:35 [INFO ] Loading branch id 1 by agent 1 ...
-  02:35:35 [INFO ] Loading branch id 2 by agent 2 ...
-  02:35:35 [INFO ] Loading branch id 3 by agent 0 ...
-  02:35:35 [INFO ] Loading branch id 4 by agent 3 ...
-  02:35:44 [INFO ] Loading branch id 5 by agent 1 ...
-  02:35:56 [INFO ] Loading branch id 6 by agent 3 ...
-  02:36:04 [INFO ] Loading branch id 7 by agent 0 ...
-  02:36:04 [INFO ] Loading branch id 8 by agent 2 ...
-  02:36:10 [INFO ] Loading branch id 9 by agent 3 ...
-  02:36:10 [INFO ] Loading branch id 10 by agent 1 ...
-  02:36:13 [INFO ] Loading branch id 11 by agent 2 ...
-  02:36:15 [INFO ] Loading branch id 12 by agent 0 ...
-  02:36:19 [INFO ] Loading branch id 13 by agent 1 ...
-  02:36:20 [INFO ] Loading branch id 14 by agent 3 ...
-  02:36:23 [INFO ] Loading branch id 15 by agent 2 ...
-  02:36:26 [INFO ] Loading branch id 16 by agent 0 ...
-  02:36:53 [INFO ] Completed.
-  02:36:53 [INFO ] < JdbcRunner SUCCESS
+  14:41:02 [INFO ] Tiny TPC-B - data loader
+  14:41:02 [INFO ] -param0  : Scale factor (default : 16)
+  14:41:02 [INFO ] -nAgents : Parallel loading degree (default : 4)
+  14:41:02 [INFO ] Scale factor            : 16
+  14:41:02 [INFO ] Parallel loading degree : 4
+  14:41:02 [INFO ] Dropping tables ...
+  14:41:02 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcb.history'
+  14:41:02 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcb.accounts'
+  14:41:02 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcb.tellers'
+  14:41:02 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcb.branches'
+  14:41:02 [INFO ] Creating tables ...
+  14:41:02 [INFO ] Loading branch id 2 by agent 3 ...
+  14:41:02 [INFO ] Loading branch id 3 by agent 1 ...
+  14:41:02 [INFO ] Loading branch id 4 by agent 0 ...
+  14:41:02 [INFO ] Loading branch id 1 by agent 2 ...
+  14:41:16 [INFO ] Loading branch id 5 by agent 3 ...
+  14:41:16 [INFO ] Loading branch id 6 by agent 0 ...
+  14:41:17 [INFO ] Loading branch id 7 by agent 2 ...
+  14:41:17 [INFO ] Loading branch id 8 by agent 1 ...
+  14:41:29 [INFO ] Loading branch id 9 by agent 0 ...
+  14:41:30 [INFO ] Loading branch id 10 by agent 3 ...
+  14:41:30 [INFO ] Loading branch id 11 by agent 2 ...
+  14:41:30 [INFO ] Loading branch id 12 by agent 1 ...
+  14:41:41 [INFO ] Loading branch id 13 by agent 0 ...
+  14:41:41 [INFO ] Loading branch id 14 by agent 2 ...
+  14:41:41 [INFO ] Loading branch id 15 by agent 3 ...
+  14:41:42 [INFO ] Loading branch id 16 by agent 1 ...
+  14:41:53 [INFO ] Analyzing tables ...
+  14:41:53 [INFO ] Completed.
+  14:41:53 [INFO ] < JdbcRunner SUCCESS
 
 「Unknown table 'history'」などの警告は、存在しないテーブルを削除しようとして出力されるものです。無視して構いません。
 
 -param0を指定することによって、スケールファクタを変更することが可能です。スケールファクタ1あたり、branchesテーブルが1レコード、tellersテーブルが10レコード、accountsテーブルが10万レコード増加します。デフォルトのスケールファクタは16です。
 
--nAgentsを指定することによって、ロードの並列度を変更することが可能です。RDBMSがCPUスケーラビリティに優れておりクアッドコアなどCPUコア数の多い環境では、並列度を上げることでロード時間を短縮することができます。デフォルトの並列度は4です。 ::
+-nAgentsを指定することによって、ロードの並列度を変更することが可能です。CPUコア数の多い環境では、並列度を上げることでロード時間を短縮することができます。デフォルトの並列度は4です。 ::
 
-  > java JR scripts\tpcb_load.js -nAgents 8 -param0 100
+  shell> java JR scripts/tpcb_load.js -nAgents 8 -param0 100
 
 テストの実行
 ------------
 
-scripts/tpcb.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することを強くおすすめします。
+scripts/tpcb.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することをおすすめします。 ::
 
-Oracle Java SE/OpenJDKを利用する際は、Server VMを用いることをおすすめします。詳細は `JDK 6 仮想マシン (VM) 関連 API & 開発者ガイド <http://java.sun.com/javase/ja/6/docs/ja/technotes/guides/vm/index.html>`_ をご参照ください。 ::
-
-  > java -server JR scripts\tpcb.js -jdbcUrl jdbc:mysql://server/tpcb?useSSL=false&allowPublicKeyRetrieval=true
-  
-  02:40:05 [INFO ] > JdbcRunner 1.2
-  02:40:05 [INFO ] [Config]
-  Program start time   : 20111011-024004
-  Script filename      : scripts\tpcb.js
+  shell> java JR scripts/tpcb.js -jdbcUrl jdbc:mysql://server/tpcb?useSSL=false\&allowPublicKeyRetrieval=true
+  14:46:11 [INFO ] > JdbcRunner 1.3
+  14:46:11 [INFO ] [Config]
+  Program start time   : 20180819-144611
+  Script filename      : scripts/tpcb.js
   JDBC driver          : -
   JDBC URL             : jdbc:mysql://server/tpcb?useSSL=false&allowPublicKeyRetrieval=true
   JDBC user            : tpcb
@@ -203,26 +198,22 @@ Oracle Java SE/OpenJDKを利用する際は、Server VMを用いることをお�
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  02:40:06 [INFO ] Tiny TPC-B 1.1
-  02:40:06 [INFO ] Scale factor : 16
-  02:40:06 [INFO ] Truncating history table...
-  02:40:07 [INFO ] [Warmup] -59 sec, 659 tps, (659 tx)
-  02:40:08 [INFO ] [Warmup] -58 sec, 759 tps, (1418 tx)
-  02:40:09 [INFO ] [Warmup] -57 sec, 933 tps, (2351 tx)
-  02:40:10 [INFO ] [Warmup] -56 sec, 1248 tps, (3599 tx)
-  02:40:11 [INFO ] [Warmup] -55 sec, 1291 tps, (4890 tx)
+  14:46:12 [INFO ] Tiny TPC-B
+  14:46:12 [INFO ] Scale factor : 16
+  14:46:12 [INFO ] Truncating history table...
+  14:46:13 [INFO ] [Warmup] -59 sec, 331 tps, (331 tx)
+  14:46:14 [INFO ] [Warmup] -58 sec, 413 tps, (744 tx)
+  14:46:15 [INFO ] [Warmup] -57 sec, 423 tps, (1167 tx)
   ...
-  02:44:02 [INFO ] [Progress] 176 sec, 1518 tps, 216989 tx
-  02:44:03 [INFO ] [Progress] 177 sec, 730 tps, 217719 tx
-  02:44:04 [INFO ] [Progress] 178 sec, 1725 tps, 219444 tx
-  02:44:05 [INFO ] [Progress] 179 sec, 785 tps, 220229 tx
-  02:44:06 [INFO ] [Progress] 180 sec, 1436 tps, 221665 tx
-  02:44:06 [INFO ] [Total tx count] 221663 tx
-  02:44:06 [INFO ] [Throughput] 1231.5 tps
-  02:44:06 [INFO ] [Response time (minimum)] 4 msec
-  02:44:06 [INFO ] [Response time (50%tile)] 10 msec
-  02:44:06 [INFO ] [Response time (90%tile)] 18 msec
-  02:44:06 [INFO ] [Response time (95%tile)] 22 msec
-  02:44:06 [INFO ] [Response time (99%tile)] 41 msec
-  02:44:06 [INFO ] [Response time (maximum)] 821 msec
-  02:44:06 [INFO ] < JdbcRunner SUCCESS
+  14:50:10 [INFO ] [Progress] 178 sec, 464 tps, 86500 tx
+  14:50:11 [INFO ] [Progress] 179 sec, 540 tps, 87040 tx
+  14:50:12 [INFO ] [Progress] 180 sec, 471 tps, 87511 tx
+  14:50:12 [INFO ] [Total tx count] 87509 tx
+  14:50:12 [INFO ] [Throughput] 486.2 tps
+  14:50:12 [INFO ] [Response time (minimum)] 5 msec
+  14:50:12 [INFO ] [Response time (50%tile)] 30 msec
+  14:50:12 [INFO ] [Response time (90%tile)] 51 msec
+  14:50:12 [INFO ] [Response time (95%tile)] 59 msec
+  14:50:12 [INFO ] [Response time (99%tile)] 78 msec
+  14:50:12 [INFO ] [Response time (maximum)] 415 msec
+  14:50:12 [INFO ] < JdbcRunner SUCCESS
