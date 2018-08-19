@@ -99,10 +99,18 @@ function run() {
     if (branchId != 0) {
         info("Loading branch id " + branchId + " by agent " + getId() + " ...");
         
+        if (getDatabaseProductName() == "MySQL") {
+            execute("SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0");
+        }
+        
         loadBranches(branchId);
         loadTellers(branchId);
         loadAccounts(branchId);
         commit();
+        
+        if (getDatabaseProductName() == "MySQL") {
+            execute("SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS");
+        }
     } else {
         setBreak();
     }
