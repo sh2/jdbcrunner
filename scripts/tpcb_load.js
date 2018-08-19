@@ -115,7 +115,7 @@ function fin() {
             createForeignKeyOracle();
             gatherStatsOracle();
         } else if (getDatabaseProductName() == "MySQL") {
-            // Do nothing.
+            gatherStatsMySQL();
         } else if (getDatabaseProductName() == "PostgreSQL") {
             createIndexPostgreSQL();
             createForeignKeyPostgreSQL();
@@ -290,6 +290,15 @@ function gatherStatsOracle() {
     info("Analyzing tables ...");
     
     execute("BEGIN DBMS_STATS.GATHER_SCHEMA_STATS(ownname => NULL); END;");
+}
+
+function gatherStatsMySQL() {
+    info("Analyzing tables ...");
+    
+    execute("ANALYZE TABLE branches");
+    execute("ANALYZE TABLE tellers");
+    execute("ANALYZE TABLE accounts");
+    execute("ANALYZE TABLE history");
 }
 
 function gatherStatsPostgreSQL() {
