@@ -4,11 +4,12 @@ JdbcRunner is a stress testing tool for various RDBMSs.
 You can easily create a test scenario with JavaScript and run it in multi-threaded environments.
 Additionaly, JdbcRunner bundles some test kits for Oracle Database, MySQL and PostgreSQL so you can use them for benchmarks.
 
-- Tiny sysbench - Port of [sysbench](https://github.com/akopytov/sysbench) OLTP benchmark.
-- Tiny TPC-B - Simplified implementation of [TPC-B](http://www.tpc.org/tpcb/default.asp).
-- Tiny TPC-C - Simplified implementation of [TPC-C](http://www.tpc.org/tpcc/default.asp).
+- Tiny sysbench - Port of [sysbench](https://github.com/akopytov/sysbench) OLTP benchmark
+- Tiny TPC-B - Simplified implementation of [TPC-B](http://www.tpc.org/tpcb/default.asp)
+- Tiny TPC-C - Simplified implementation of [TPC-C](http://www.tpc.org/tpcc/default.asp)
 
-Please see [dbstudy.info](https://dbstudy.info/jdbcrunner/) for details, [GitHub](https://github.com/sh2/jdbcrunner) for source code.
+Please see the documents "docs_ja/index.html".
+Please see [the website](https://dbstudy.info/jdbcrunner/) for details and [GitHub](https://github.com/sh2/jdbcrunner) for the source code.
 
 ## Tutorial
 

@@ -38,12 +38,24 @@ JdbcRunnerからSQLを発行する際は、必ずPreparedStatementを用いパ�
 動作要件
 --------
 
-JdbcRunnerを動作させるには、以下の環境が必要です。
+JdbcRunnerを動作させるには、以下のソフトウェアが必要です。
 
-* Java SE 8
+* Java SE 8の実行環境
 * 各RDBMS用のJDBCドライバ
 
-MySQLとPostgreSQLについてはJDBCドライバを内蔵しているため、別途JDBCドライバを用意する必要はありません。
+JavaはLinuxの場合ディストリビューションに同梱されています。Windowsの場合は `java.com <https://www.java.com>`_ からダウンロードしてください。
+
+JDBCドライバは多くの場合RDBMSの開発元が提供しています。なおJdbcRunnerはMySQLとPostgreSQLのJDBCドライバを内蔵しているため、MySQLとPostgreSQLについては別途JDBCドライバを用意する必要はありません。
+
+インストール方法
+----------------
+
+インストーラはありません。アーカイブファイルを任意のディレクトリに展開してください。
+
+アンインストール方法
+--------------------
+
+アンインストーラはありません。展開されたファイルを単純に削除してください。
 
 ライセンス
 ----------
@@ -59,3 +71,10 @@ JdbcRunnerでは以下のライブラリをそれぞれのライセンスに従�
 * Mozilla Rhino (Mozilla Public License 2.0)
 * MySQL Connector/J (GNU General Public License v2 with the Universal FOSS Exception, Version 1.0)
 * PostgreSQL JDBC Driver (二条項BSDライセンス)
+
+作者連絡先
+----------
+
+* 平塚 貞夫
+* sh2@pop01.odn.ne.jp
+* https://dbstudy.info
