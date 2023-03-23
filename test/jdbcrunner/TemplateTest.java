@@ -23,7 +23,8 @@ import org.mozilla.javascript.WrappedException;
 import jdbcrunner.Template.DataType;
 
 public class TemplateTest {
-	public static final String JDBC_URL = "jdbc:mysql://k02c7/jdbcrunner?useSSL=false&allowPublicKeyRetrieval=true";
+	public static final String JDBC_URL = "jdbc:mysql://ubuntu2204-01/jdbcrunner"
+			+ "?useSSL=false&allowPublicKeyRetrieval=true&forceConnectionTimeZoneToSession=true";
 	public static final String JDBC_USER = "jdbcrunner";
 	public static final String JDBC_PASS = "jdbcrunner";
 
@@ -77,13 +78,14 @@ public class TemplateTest {
 		assertTrue(template.getDataTypeList().size() == 0);
 
 		try {
-			template = new Template("SELECT ename FROM emp "
-					+ "WHERE empno = $error and ename = $string");
+			template = new Template(
+					"SELECT ename FROM emp WHERE empno = $error and ename = $string");
 
 			fail("IllegalArgumentException was not thrown");
 		} catch (IllegalArgumentException e) {
-			assertEquals(Resources.getString("Template.ILLEGAL_PARAMETER_NAME")
-					+ "$error and ename = ", e.getMessage());
+			assertEquals(
+					Resources.getString("Template.ILLEGAL_PARAMETER_NAME") + "$error and ename = ",
+					e.getMessage());
 		}
 
 		try {
@@ -111,14 +113,14 @@ public class TemplateTest {
 			statement.execute("CREATE TABLE test01 "
 					+ "(id INT PRIMARY KEY, data1 BIGINT, data2 VARCHAR(100))");
 
-			statement.execute("INSERT INTO test01 (id, data1, data2) "
-					+ "VALUES (1, 10000000000, 'abc')");
+			statement.execute(
+					"INSERT INTO test01 (id, data1, data2) VALUES (1, 10000000000, 'abc')");
 
-			statement.execute("INSERT INTO test01 (id, data1, data2) "
-					+ "VALUES (2, 20000000000, 'def')");
+			statement.execute(
+					"INSERT INTO test01 (id, data1, data2) VALUES (2, 20000000000, 'def')");
 
-			statement.execute("INSERT INTO test01 (id, data1, data2) "
-					+ "VALUES (3, 30000000000, 'ghi')");
+			statement.execute(
+					"INSERT INTO test01 (id, data1, data2) VALUES (3, 30000000000, 'ghi')");
 
 			statement.execute("INSERT INTO test01 (id, data1, data2) VALUES (4, NULL, NULL)");
 			connection.commit();
@@ -175,8 +177,9 @@ public class TemplateTest {
 				fail("WrappedException was not thrown");
 			} catch (WrappedException e) {
 				Throwable we = e.getWrappedException();
-				assertEquals(Resources.getString("Template.ILLEGAL_STRING_FOR_INT_1") + "1"
-						+ Resources.getString("Template.ILLEGAL_STRING_FOR_INT_2") + "a",
+				assertEquals(
+						Resources.getString("Template.ILLEGAL_STRING_FOR_INT_1") + "1"
+								+ Resources.getString("Template.ILLEGAL_STRING_FOR_INT_2") + "a",
 						we.getMessage());
 			}
 
@@ -185,10 +188,9 @@ public class TemplateTest {
 				fail("WrappedException was not thrown");
 			} catch (WrappedException e) {
 				Throwable we = e.getWrappedException();
-				assertEquals(
-						Resources.getString("Template.ILLEGAL_NUMBER_1") + "1"
-								+ Resources.getString("Template.ILLEGAL_NUMBER_2")
-								+ "java.util.Date", we.getMessage());
+				assertEquals(Resources.getString("Template.ILLEGAL_NUMBER_1") + "1"
+						+ Resources.getString("Template.ILLEGAL_NUMBER_2") + "java.util.Date",
+						we.getMessage());
 			}
 
 			try {
@@ -249,8 +251,9 @@ public class TemplateTest {
 				fail("WrappedException was not thrown");
 			} catch (WrappedException e) {
 				Throwable we = e.getWrappedException();
-				assertEquals(Resources.getString("Template.ILLEGAL_STRING_FOR_LONG_1") + "1"
-						+ Resources.getString("Template.ILLEGAL_STRING_FOR_LONG_2") + "a",
+				assertEquals(
+						Resources.getString("Template.ILLEGAL_STRING_FOR_LONG_1") + "1"
+								+ Resources.getString("Template.ILLEGAL_STRING_FOR_LONG_2") + "a",
 						we.getMessage());
 			}
 
@@ -259,10 +262,9 @@ public class TemplateTest {
 				fail("WrappedException was not thrown");
 			} catch (WrappedException e) {
 				Throwable we = e.getWrappedException();
-				assertEquals(
-						Resources.getString("Template.ILLEGAL_NUMBER_1") + "1"
-								+ Resources.getString("Template.ILLEGAL_NUMBER_2")
-								+ "java.util.Date", we.getMessage());
+				assertEquals(Resources.getString("Template.ILLEGAL_NUMBER_1") + "1"
+						+ Resources.getString("Template.ILLEGAL_NUMBER_2") + "java.util.Date",
+						we.getMessage());
 			}
 
 			try {
@@ -323,8 +325,9 @@ public class TemplateTest {
 				fail("WrappedException was not thrown");
 			} catch (WrappedException e) {
 				Throwable we = e.getWrappedException();
-				assertEquals(Resources.getString("Template.ILLEGAL_STRING_FOR_DOUBLE_1") + "1"
-						+ Resources.getString("Template.ILLEGAL_STRING_FOR_DOUBLE_2") + "a",
+				assertEquals(
+						Resources.getString("Template.ILLEGAL_STRING_FOR_DOUBLE_1") + "1"
+								+ Resources.getString("Template.ILLEGAL_STRING_FOR_DOUBLE_2") + "a",
 						we.getMessage());
 			}
 
@@ -333,10 +336,9 @@ public class TemplateTest {
 				fail("WrappedException was not thrown");
 			} catch (WrappedException e) {
 				Throwable we = e.getWrappedException();
-				assertEquals(
-						Resources.getString("Template.ILLEGAL_NUMBER_1") + "1"
-								+ Resources.getString("Template.ILLEGAL_NUMBER_2")
-								+ "java.util.Date", we.getMessage());
+				assertEquals(Resources.getString("Template.ILLEGAL_NUMBER_1") + "1"
+						+ Resources.getString("Template.ILLEGAL_NUMBER_2") + "java.util.Date",
+						we.getMessage());
 			}
 
 			try {
@@ -383,10 +385,9 @@ public class TemplateTest {
 				fail("WrappedException was not thrown");
 			} catch (WrappedException e) {
 				Throwable we = e.getWrappedException();
-				assertEquals(
-						Resources.getString("Template.ILLEGAL_STRING_1") + "1"
-								+ Resources.getString("Template.ILLEGAL_STRING_2")
-								+ "java.lang.Double", we.getMessage());
+				assertEquals(Resources.getString("Template.ILLEGAL_STRING_1") + "1"
+						+ Resources.getString("Template.ILLEGAL_STRING_2") + "java.lang.Double",
+						we.getMessage());
 			}
 
 			try {
@@ -439,8 +440,9 @@ public class TemplateTest {
 				fail("WrappedException was not thrown");
 			} catch (WrappedException e) {
 				Throwable we = e.getWrappedException();
-				assertEquals(Resources.getString("Template.ILLEGAL_STRING_FOR_LONG_1") + "1"
-						+ Resources.getString("Template.ILLEGAL_STRING_FOR_LONG_2") + "abc",
+				assertEquals(
+						Resources.getString("Template.ILLEGAL_STRING_FOR_LONG_1") + "1"
+								+ Resources.getString("Template.ILLEGAL_STRING_FOR_LONG_2") + "abc",
 						we.getMessage());
 			}
 
@@ -449,10 +451,9 @@ public class TemplateTest {
 				fail("WrappedException was not thrown");
 			} catch (WrappedException e) {
 				Throwable we = e.getWrappedException();
-				assertEquals(
-						Resources.getString("Template.ILLEGAL_STRING_1") + "2"
-								+ Resources.getString("Template.ILLEGAL_STRING_2")
-								+ "java.lang.Double", we.getMessage());
+				assertEquals(Resources.getString("Template.ILLEGAL_STRING_1") + "2"
+						+ Resources.getString("Template.ILLEGAL_STRING_2") + "java.lang.Double",
+						we.getMessage());
 			}
 
 			try {
@@ -461,10 +462,9 @@ public class TemplateTest {
 				fail("WrappedException was not thrown");
 			} catch (WrappedException e) {
 				Throwable we = e.getWrappedException();
-				assertEquals(
-						Resources.getString("Template.ILLEGAL_STRING_1") + "2"
-								+ Resources.getString("Template.ILLEGAL_STRING_2")
-								+ "java.util.Date", we.getMessage());
+				assertEquals(Resources.getString("Template.ILLEGAL_STRING_1") + "2"
+						+ Resources.getString("Template.ILLEGAL_STRING_2") + "java.util.Date",
+						we.getMessage());
 			}
 
 			try {
