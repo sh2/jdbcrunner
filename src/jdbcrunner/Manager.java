@@ -14,7 +14,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
-import org.apache.commons.dbcp.BasicDataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.apache.log4j.Logger;
 
 /**
@@ -360,7 +360,7 @@ public class Manager {
 		dataSource.setPassword(config.getJdbcPass());
 		dataSource.setDefaultAutoCommit(config.isAutoCommit());
 		dataSource.setInitialSize(config.getConnPoolSize());
-		dataSource.setMaxActive(config.getConnPoolSize());
+		dataSource.setMaxTotal(config.getConnPoolSize());
 
 		// MaxIdleはデフォルト値が8。無制限に変更する
 		dataSource.setMaxIdle(DATASOURCE_NO_LIMIT);
