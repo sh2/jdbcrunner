@@ -252,7 +252,7 @@ function gatherStatsOracle() {
 function gatherStatsMySQL() {
     info("Analyzing a table ...")
     
-    execute("ANALYZE TABLE sbtest");
+    query("ANALYZE TABLE sbtest");
 }
 
 function gatherStatsPostgreSQL() {

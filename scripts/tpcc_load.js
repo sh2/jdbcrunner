@@ -670,15 +670,15 @@ function gatherStatsOracle() {
 function gatherStatsMySQL() {
     info("Analyzing tables ...");
     
-    execute("ANALYZE TABLE warehouse");
-    execute("ANALYZE TABLE district");
-    execute("ANALYZE TABLE customer");
-    execute("ANALYZE TABLE history");
-    execute("ANALYZE TABLE item");
-    execute("ANALYZE TABLE stock");
-    execute("ANALYZE TABLE orders");
-    execute("ANALYZE TABLE new_orders");
-    execute("ANALYZE TABLE order_line");
+    query("ANALYZE TABLE warehouse");
+    query("ANALYZE TABLE district");
+    query("ANALYZE TABLE customer");
+    query("ANALYZE TABLE history");
+    query("ANALYZE TABLE item");
+    query("ANALYZE TABLE stock");
+    query("ANALYZE TABLE orders");
+    query("ANALYZE TABLE new_orders");
+    query("ANALYZE TABLE order_line");
 }
 
 function gatherStatsPostgreSQL() {

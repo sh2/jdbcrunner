@@ -303,10 +303,10 @@ function gatherStatsOracle() {
 function gatherStatsMySQL() {
     info("Analyzing tables ...");
     
-    execute("ANALYZE TABLE branches");
-    execute("ANALYZE TABLE tellers");
-    execute("ANALYZE TABLE accounts");
-    execute("ANALYZE TABLE history");
+    query("ANALYZE TABLE branches");
+    query("ANALYZE TABLE tellers");
+    query("ANALYZE TABLE accounts");
+    query("ANALYZE TABLE history");
 }
 
 function gatherStatsPostgreSQL() {
