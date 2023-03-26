@@ -1,3 +1,12 @@
+# 1.3.1 (2023-xx-xx)
+
+* ライセンスをMITライセンスに変更しました。
+* 動作環境を更新しました。
+    - 動作要件をJava 17に変更しました。
+    - Commons CLIを1.5.0に更新しました。
+    - Commons DBCPを2.9.0に更新しました。
+    - Rhinoを1.7.14に更新しました。
+
 # 1.3 (2018-08-21)
 
 * ライセンスを三条項BSDライセンスから二条項BSDライセンスに変更しました。([Commit](https://github.com/sh2/jdbcrunner/commit/13cecc665127f9df1bfe2def853cf7b0879ee3a3))
