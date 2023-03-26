@@ -7,7 +7,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="libjdbc/postgresql-42.2.4.jar"/>
 	<classpathentry kind="lib" path="lib/rhino-1.7.9.jar"/>
 	<classpathentry kind="lib" path="lib/commons-cli-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
@@ -16,5 +15,6 @@
 	<classpathentry kind="lib" path="lib/commons-dbcp2-2.9.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-pool2-2.11.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="libjdbc/postgresql-42.6.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
