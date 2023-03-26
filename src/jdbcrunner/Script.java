@@ -285,7 +285,8 @@ public class Script {
 							Resources.getString("Script.APPLICATION_EXCEPTION") //$NON-NLS-1$
 									+ SEPARATOR + we.getMessage()
 									+ SEPARATOR
-									+ e.getScriptStackTrace(), we);
+									+ e.getScriptStackTrace(),
+							we);
 				} else if (we instanceof SQLException) {
 					throw new ApplicationException(Resources.getString("Script.SQL_EXCEPTION") //$NON-NLS-1$
 							+ SEPARATOR + we.toString() + SEPARATOR + e.getScriptStackTrace(), we);

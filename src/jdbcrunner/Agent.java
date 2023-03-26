@@ -134,11 +134,13 @@ public class Agent implements Runnable {
 		} catch (ApplicationException e) {
 			putMessage(new Message(Message.Level.ERROR,
 					Resources.getString("Agent.EXCEPTION_1") + id //$NON-NLS-1$
-							+ Resources.getString("Agent.EXCEPTION_2"), e)); //$NON-NLS-1$
+							+ Resources.getString("Agent.EXCEPTION_2"), //$NON-NLS-1$
+					e));
 		} catch (Exception e) {
 			putMessage(new Message(Message.Level.ERROR,
 					Resources.getString("Agent.EXCEPTION_1") + id //$NON-NLS-1$
-							+ Resources.getString("Agent.EXCEPTION_2"), e)); //$NON-NLS-1$
+							+ Resources.getString("Agent.EXCEPTION_2"), //$NON-NLS-1$
+					e));
 		} finally {
 			if (helper != null) {
 				helper.closeScript();

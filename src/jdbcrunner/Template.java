@@ -174,7 +174,8 @@ public class Template {
 								Resources.getString("Template.ILLEGAL_STRING_FOR_INT_1") //$NON-NLS-1$
 										+ parameterIndex
 										+ Resources.getString("Template.ILLEGAL_STRING_FOR_INT_2") //$NON-NLS-1$
-										+ (String) parameter, e);
+										+ (String) parameter,
+								e);
 					}
 				} else if (parameter == null) {
 					preparedStatement.setNull(parameterIndex, java.sql.Types.INTEGER);
@@ -198,7 +199,8 @@ public class Template {
 								Resources.getString("Template.ILLEGAL_STRING_FOR_LONG_1") //$NON-NLS-1$
 										+ parameterIndex
 										+ Resources.getString("Template.ILLEGAL_STRING_FOR_LONG_2") //$NON-NLS-1$
-										+ (String) parameter, e);
+										+ (String) parameter,
+								e);
 					}
 				} else if (parameter == null) {
 					preparedStatement.setNull(parameterIndex, java.sql.Types.BIGINT);
@@ -222,7 +224,8 @@ public class Template {
 								Resources.getString("Template.ILLEGAL_STRING_FOR_DOUBLE_1") //$NON-NLS-1$
 										+ parameterIndex
 										+ Resources.getString("Template.ILLEGAL_STRING_FOR_DOUBLE_2") //$NON-NLS-1$
-										+ (String) parameter, e);
+										+ (String) parameter,
+								e);
 					}
 				} else if (parameter == null) {
 					preparedStatement.setNull(parameterIndex, java.sql.Types.DOUBLE);
