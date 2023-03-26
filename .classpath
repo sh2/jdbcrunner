@@ -8,7 +8,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/rhino-1.7.9.jar"/>
-	<classpathentry kind="lib" path="lib/commons-cli-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
 	<classpathentry kind="lib" path="libjdbc/mysql-connector-j-8.0.32.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
@@ -16,5 +15,6 @@
 	<classpathentry kind="lib" path="lib/commons-pool2-2.11.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="libjdbc/postgresql-42.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-cli-1.5.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
