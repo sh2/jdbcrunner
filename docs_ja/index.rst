@@ -1,5 +1,5 @@
 .. JdbcRunner documentation master file, created by
-   sphinx-quickstart on Sun Aug  5 21:18:14 2018.
+   sphinx-quickstart on Mon Mar 27 21:53:16 2023.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -7,8 +7,8 @@ JdbcRunner - 汎用データベース負荷テストツール
 =============================================
 
 .. toctree::
-   :caption: 目次
    :maxdepth: 2
+   :caption: 目次
    :numbered:
    
    overview
