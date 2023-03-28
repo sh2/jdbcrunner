@@ -3,7 +3,7 @@
  * DB2で基本的な処理を行うサンプルです。
  *
  * DB2用のJDBCドライバは以下からダウンロードが可能です。
- * https://www14.software.ibm.com/webapp/iwm/web/reg/download.do?source=swg-idsdjs&S_PKG=dl&lang=en_US&cp=UTF-8
+ * https://www.ibm.com/support/pages/db2-jdbc-driver-versions-and-downloads
  * 
  * このサンプルでは、以下のパラメータを取り扱っています。
  * jdbcDriver
