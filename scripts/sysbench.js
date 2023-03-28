@@ -10,7 +10,7 @@
 // var jdbcUrl = "jdbc:oracle:thin:@//localhost:1521/orcl.local";
 
 // MySQL
-var jdbcUrl = "jdbc:mysql://localhost:3306/sbtest?useSSL=false&allowPublicKeyRetrieval=true";
+var jdbcUrl = "jdbc:mysql://localhost:3306/sbtest";
 
 // PostgreSQL
 // var jdbcUrl = "jdbc:postgresql://localhost:5432/sbtest";

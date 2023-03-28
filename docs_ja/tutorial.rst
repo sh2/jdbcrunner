@@ -41,7 +41,7 @@ MySQLサーバにrunnerユーザでログインし直してsampleテーブルを
 --------------------
 
 JdbcRunnerのJARファイルを任意のディレクトリに配置し、環境変数CLASSPATHを設定します。 ::
-  
+
   shell> export CLASSPATH=jdbcrunner-1.3.1.jar
 
 ツールの起動クラスは、パッケージなしのJRです。追加のオプションなしで実行すると、簡単な使い方が表示されます。 ::
@@ -49,16 +49,14 @@ JdbcRunnerのJARファイルを任意のディレクトリに配置し、環境�
   shell> java JR
   JdbcRunner 1.3.1
   スクリプトファイルが指定されていません
-  
+
   usage: java JR <script> [options]
   -autoCommit <arg>     オートコミットモードを有効化または無効化します (デフォルト : true (有効))
   -connPoolSize <arg>   コネクションプールの物理接続数を指定します (デフォルト : nAgents)
   -debug                デバッグモードを有効にします (デフォルト : false)
   -jdbcDriver <arg>     JDBCドライバのクラス名を指定します (デフォルト : (なし))
   -jdbcPass <arg>       データベースユーザのパスワードを指定します (デフォルト : (なし))
-  -jdbcUrl <arg>        JDBC接続URLを指定します (デフォルト :
-                        jdbc:mysql://localhost:3306/test?useSSL=false&allowPublicK
-                        eyRetrieval=true)
+  -jdbcUrl <arg>        JDBC接続URLを指定します (デフォルト : jdbc:mysql://localhost:3306/test)
   -jdbcUser <arg>       データベースのユーザ名を指定します (デフォルト : (なし))
   -logDir <arg>         ログの出力先ディレクトリを指定します (デフォルト : .)
   -measurementTime <arg>測定時間[sec]を指定します (デフォルト : 60)

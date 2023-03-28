@@ -31,7 +31,7 @@ Next, load the initial data using the tpcc_load.js script.
     Program start time   : 20180815-153731
     Script filename      : scripts/tpcc_load.js
     JDBC driver          : -
-    JDBC URL             : jdbc:mysql://localhost:3306/tpcc?useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+    JDBC URL             : jdbc:mysql://localhost:3306/tpcc?rewriteBatchedStatements=true
     JDBC user            : tpcc
     Load mode            : true
     Number of agents     : 4
@@ -78,7 +78,7 @@ Then run the benchmark with the tpcc.js script.
     Program start time   : 20180815-154531
     Script filename      : scripts/tpcc.js
     JDBC driver          : -
-    JDBC URL             : jdbc:mysql://localhost:3306/tpcc?useSSL=false&allowPublicKeyRetrieval=true
+    JDBC URL             : jdbc:mysql://localhost:3306/tpcc
     JDBC user            : tpcc
     Warmup time          : 300 sec
     Measurement time     : 900 sec

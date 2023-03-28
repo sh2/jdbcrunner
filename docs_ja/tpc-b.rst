@@ -36,9 +36,9 @@ Tiny TPC-Bとは
 Tiny TPC-Bは、TPC-B Standard Specification 2.0の仕様を抜粋しJdbcRunnerのスクリプトとして実装したものです。仕様書のうち以下の章節を実装しています。
 
 * 1 Transaction Profile
-  
+
   * 1.2 The Transaction Profile
-  
+
 * 3 Logical Database Design
 * 4 Scaling Rules
 * 5 Distribution, Partitioning, and Transaction Generation
@@ -70,7 +70,7 @@ MySQLにおけるテストの準備手順を以下に示します。Oracle Datab
 MySQLにrootユーザで接続し、tpcbデータベースを作成します。 ::
 
   shell> mysql -u root -p
-  
+
   sql> CREATE DATABASE tpcb;
   Query OK, 1 row affected (0.00 sec)
 
@@ -106,7 +106,7 @@ scripts/tpcb_load.jsを用いてテストデータの生成を行います。こ
   Program start time   : 20180819-144100
   Script filename      : scripts/tpcb_load.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://localhost:3306/tpcb?useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+  JDBC URL             : jdbc:mysql://localhost:3306/tpcb?rewriteBatchedStatements=true
   JDBC user            : tpcb
   Load mode            : true
   Number of agents     : 4
@@ -168,13 +168,13 @@ scripts/tpcb_load.jsを用いてテストデータの生成を行います。こ
 
 scripts/tpcb.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することをおすすめします。 ::
 
-  shell> java JR scripts/tpcb.js -jdbcUrl jdbc:mysql://server/tpcb?useSSL=false\&allowPublicKeyRetrieval=true
+  shell> java JR scripts/tpcb.js -jdbcUrl jdbc:mysql://server/tpcb
   14:46:11 [INFO ] > JdbcRunner 1.3
   14:46:11 [INFO ] [Config]
   Program start time   : 20180819-144611
   Script filename      : scripts/tpcb.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://server/tpcb?useSSL=false&allowPublicKeyRetrieval=true
+  JDBC URL             : jdbc:mysql://server/tpcb
   JDBC user            : tpcb
   Warmup time          : 60 sec
   Measurement time     : 180 sec

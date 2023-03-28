@@ -26,16 +26,14 @@ JdbcRunnerを起動するには、JRクラスを指定してjavaコマンドを�
   shell> java JR
   JdbcRunner 1.3.1
   スクリプトファイルが指定されていません
-  
+
   usage: java JR <script> [options]
   -autoCommit <arg>     オートコミットモードを有効化または無効化します (デフォルト : true (有効))
   -connPoolSize <arg>   コネクションプールの物理接続数を指定します (デフォルト : nAgents)
   -debug                デバッグモードを有効にします (デフォルト : false)
   -jdbcDriver <arg>     JDBCドライバのクラス名を指定します (デフォルト : (なし))
   -jdbcPass <arg>       データベースユーザのパスワードを指定します (デフォルト : (なし))
-  -jdbcUrl <arg>        JDBC接続URLを指定します (デフォルト :
-                        jdbc:mysql://localhost:3306/test?useSSL=false&allowPublicK
-                        eyRetrieval=true)
+  -jdbcUrl <arg>        JDBC接続URLを指定します (デフォルト : jdbc:mysql://localhost:3306/test)
   -jdbcUser <arg>       データベースのユーザ名を指定します (デフォルト : (なし))
   -logDir <arg>         ログの出力先ディレクトリを指定します (デフォルト : .)
   -measurementTime <arg>測定時間[sec]を指定します (デフォルト : 60)
@@ -84,16 +82,16 @@ JdbcRunnerによる負荷テストは、大きく3つのフェーズに分かれ
           commit();
       }
   }
-  
+
   function run() {
       var accountId = random(1, 100);
       var amount = random(-10000, 10000);
-      
+
       query("SELECT name, balance FROM account WHERE id = $int FOR UPDATE", accountId);
       execute("UPDATE account SET balance = balance + $int WHERE id = $int", amount, accountId);
       commit();
   }
-  
+
   function fin() {
       if (getId() == 0) {
           info("Total : " + fetchAsArray("SELECT sum(balance) FROM account")[0][0]);

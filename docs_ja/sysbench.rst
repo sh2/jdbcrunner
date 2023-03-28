@@ -76,7 +76,7 @@ MySQLにおけるテストの準備手順を以下に示します。Oracle Datab
 MySQLにrootユーザで接続し、sbtestデータベースを作成します。 ::
 
   shell> mysql -u root -p
-  
+
   sql> CREATE DATABASE sbtest;
   Query OK, 1 row affected (0.00 sec)
 
@@ -112,7 +112,7 @@ scripts/sysbench_load.jsを用いてテストデータの生成を行います�
   Program start time   : 20230328-134416
   Script filename      : scripts/sysbench_load.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://localhost:3306/sbtest?useSSL=false&allowPublicKeyRetrieval=true&  rewriteBatchedStatements=true
+  JDBC URL             : jdbc:mysql://localhost:3306/sbtest?rewriteBatchedStatements=true
   JDBC user            : sbtest
   Load mode            : true
   Number of agents     : 1
@@ -229,14 +229,14 @@ OLTPベンチマークのcomplexモードでは、デッドロックが発生す
 Tiny sysbenchはスクリプトscripts/sysbench.jsの変数定義を修正することで、オリジナル版のsysbenchが持つ設定オプションをある程度再現することができます。変数はスクリプトのApplication settingsという箇所に定義されていますので、ここを修正してご利用ください。 ::
 
   // Application settings ----------------------------------------------
-  
+
   var DIST_UNIFORM = 1;
   var DIST_GAUSSIAN = 2;
   var DIST_SPECIAL = 3;
-  
+
   // Number of records in the test table
   var oltpTableSize;
-  
+
   // Ratio of queries in a transaction
   var oltpPointSelects = 10;
   var oltpSimpleRanges = 1;
@@ -245,13 +245,13 @@ Tiny sysbenchはスクリプトscripts/sysbench.jsの変数定義を修正する
   var oltpDistinctRanges = 1;
   var oltpIndexUpdates = 1;
   var oltpNonIndexUpdates = 1;
-  
+
   // Read-only flag
   var oltpReadOnly = false;
-  
+
   // Range size for range queries
   var oltpRangeSize = 100;
-  
+
   // Parameters for random numbers distribution
   var oltpDistType = DIST_SPECIAL;
   var oltpDistIter = 12;

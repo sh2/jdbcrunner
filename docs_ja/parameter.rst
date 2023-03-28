@@ -13,7 +13,7 @@
 ================ ========================== ======== ==============================================================================
 (なし)           -scriptCharset             文字列   (なし)
 jdbcDriver       -jdbcDriver                文字列   (なし)
-jdbcUrl          -jdbcUrl                   文字列   ``jdbc:mysql://localhost:3306/test?useSSL=false&allowPublicKeyRetrieval=true``
+jdbcUrl          -jdbcUrl                   文字列   ``jdbc:mysql://localhost:3306/test``
 jdbcUser         -jdbcUser                  文字列   (なし)
 jdbcPass         -jdbcPass                  文字列   (なし)
 isLoad           (なし)                     真偽値   false
@@ -89,7 +89,7 @@ JdbcRunnerのパラメータを設定するには、以下の2つの方法があ
 デフォルトとは異なる文字セットを指定したい場合、例えばLinuxで作成したスクリプトをWindowsの日本語環境で動かすといった場合は以下のようにします。 ::
 
   shell> java JR test.js -scriptCharset UTF-8
-  
+
 逆に、Windowsの日本語環境で作成したスクリプトをLinuxで動かす場合は以下のようにします。 ::
 
   shell> java JR test.js -scriptCharset Windows-31J
@@ -110,7 +110,7 @@ JDBC接続URL
 * グローバル変数 : jdbcUrl
 * コマンドラインオプション : -jdbcUrl
 * タイプ : 文字列
-* デフォルト値 : ``jdbc:mysql://localhost:3306/test?useSSL=false&allowPublicKeyRetrieval=true``
+* デフォルト値 : ``jdbc:mysql://localhost:3306/test``
 
 JDBC接続URLを指定するパラメータです。デフォルトはMySQLでローカルホストのtestデータベースに接続する設定になっています。テスト対象のRDBMSにあわせて設定してください。
 
@@ -152,7 +152,7 @@ JDBC接続URLを指定するパラメータです。デフォルトはMySQLで�
   var isLoad = true;
   var scaleFactor = 10;
   var counter = 0;
-  
+
   function run() {
       if (++counter <= scaleFactor) {
           execute("INSERT INTO test (id, data) VALUES ($int, $string)",
@@ -201,10 +201,10 @@ JdbcRunnerでは一つのスクリプト内に複数種類のトランザクシ�
 複数種類のトランザクションを実行する場合、事前にsetTxType()ファンクションを呼び出してトランザクション番号を指示します。setTxType()の引数には0以上nTxTypes未満の値を指定することができます。以下に例を示します。 ::
 
   var nTxTypes = 2;
-  
+
   function run() {
       var r = random(1, 100);
-      
+
       if (r <= 60) {
           setTxType(0);
           orderFunc();

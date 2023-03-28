@@ -12,19 +12,19 @@ Mozilla RhinoのライブラリはJdbcRunnerのJARファイルに組み込まれ
 
   shell> export CLASSPATH=jdbcrunner-1.3.jar
   shell> java org.mozilla.javascript.tools.shell.Main
-  
+
   js> var a = 1
   js> var b = 2
   js> a + b
   3.0
-  
+
   js> if (a < 2) { b = 10 } else { b = 20 }
   10.0
-  
+
   js> var sum = 0
   js> for (var i = 1; i <= 100; i++) { sum += i }
   5050.0
-  
+
 
 ウェブブラウザで用いられるdocumentオブジェクトなどはありません。 ::
 
@@ -37,10 +37,10 @@ Mozilla Rhinoの便利なところとして、JavaScriptからJavaのクラス�
   js> var map = new java.util.HashMap()
   js> map.put("7788", "scott")
   js> map.put("7839", "king")
-  
+
   js> map.get("7788")
   scott
-  
+
   js> map.keySet()
   [7839, 7788]
 
@@ -72,20 +72,20 @@ JdbcRunnerのエージェントは、それぞれが独立したスクリプト�
   var warmupTime = 5;
   var measurementTime = 20;
   var nAgents = 4;
-  
+
   var emp;
-  
+
   function init() {
       if (getId() == 0) {
           putData("emp", fetchAsArray("SELECT empno FROM emp ORDER BY empno"));
       }
   }
-  
+
   function run() {
       if (!emp) {
           emp = getData("emp");
       }
-      
+
       var empno = emp[random(0, emp.length - 1)][0];
       query("SELECT ename FROM emp WHERE empno = $int", empno);
   }
@@ -136,12 +136,12 @@ JdbcRunnerでは設定パラメータをコマンドラインオプションで�
           putData("emp", fetchAsArray("SELECT empno FROM emp ORDER BY empno"));
       }
   }
-  
+
   function run() {
       if (!emp) {
           emp = getData("emp");
       }
-      
+
       var empno = emp[random(0, emp.length - 1)][0];
       query("SELECT ename FROM emp WHERE empno = $int", empno);
   }
@@ -156,18 +156,18 @@ JavaScriptそのものにはデータベースアクセス機能はありませ�
   /*
    * JdbcRunner script template
    */
-  
+
   // JdbcRunner settings -----------------------------------------------
-  
+
   // Oracle Database
   // var jdbcUrl = "jdbc:oracle:thin://@localhost:1521/orcl.local";
-  
+
   // MySQL
-  var jdbcUrl = "jdbc:mysql://localhost:3306/test?useSSL=false&allowPublicKeyRetrieval=true";
-  
+  var jdbcUrl = "jdbc:mysql://localhost:3306/test";
+
   // PostgreSQL
   // var jdbcUrl = "jdbc:postgresql://localhost:5432/postgres";
-  
+
   var jdbcDriver = "";
   var jdbcUser = "";
   var jdbcPass = "";
@@ -184,24 +184,24 @@ JavaScriptそのものにはデータベースアクセス機能はありませ�
   var isDebug = false;
   var isTrace = false;
   var logDir = ".";
-  
+
   // Application settings ----------------------------------------------
-  
+
   // JdbcRunner functions ----------------------------------------------
-  
+
   function init() {
       if (getId() == 0) {
           // This block is performed only by Agent 0.
       }
   }
-  
+
   function run() {
   }
-  
+
   function fin() {
       if (getId() == 0) {
           // This block is performed only by Agent 0.
       }
   }
-  
+
   // Application functions ---------------------------------------------

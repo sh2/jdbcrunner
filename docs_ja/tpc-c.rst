@@ -33,14 +33,14 @@ New-Orderトランザクションの内容を擬似コードで表すと、以�
   UPDATE district;
   INSERT INTO orders;
   INSERT INTO new_orders;
-  
+
   LOOP {
     SELECT FROM item;
     SELECT FROM stock FOR UPDATE;
     UPDATE stock;
     INSERT INTO order_line;
   }
-  
+
   COMMIT;
 
 同様に、Paymentトランザクションの内容を以下に示します。 ::
@@ -74,7 +74,7 @@ Deliveryトランザクションの内容を以下に示します。 ::
     SELECT FROM order_line;
     UPDATE customer;
   }
-  
+
   COMMIT;
 
 Stock-Levelトランザクションの内容を以下に示します。 ::
@@ -101,21 +101,21 @@ Tiny TPC-Cは、TPC-C Standard Specification 5.11の仕様を抜粋しJdbcRunner
 
 * 1 LOGICAL DATABASE DESIGN
 * 2 TRANSACTION and TERMINAL PROFILES
-  
+
   * 2.4 The New-Order Transaction (2.4.1.1、2.4.3を除く)
   * 2.5 The Payment Transaction (2.5.1.1、2.5.3を除く)
   * 2.6 The Order-Status Transaction (2.6.1.1、2.6.3を除く)
   * 2.7 The Delivery Transaction (2.7.1.1、2.7.2、2.7.3を除く)
   * 2.8 The Stock-Level Transaction (2.8.1、2.8.3を除く)
-  
+
 * 4 SCALING and DATABASE POPULATION
-  
+
   * 4.3 Database Population
-  
+
 * 5 PERFORMANCE METRICS and RESPONSE TIME
-  
+
   * 5.2 Pacing of Transactions by Emulated Users
-    
+
     * 5.2.4 Regulation of Transaction Mix
 
 それ以外の章節については実装されていないか、仕様を満たしていません。従ってTiny TPC-Cのテスト結果は正式なTPC-Cのスコアではありません。
@@ -145,7 +145,7 @@ MySQLにおけるテストの準備手順を以下に示します。Oracle Datab
 MySQLにrootユーザで接続し、tpccデータベースを作成します。 ::
 
   shell> mysql -u root -p
-  
+
   sql> CREATE DATABASE tpcc;
   Query OK, 1 row affected (0.00 sec)
 
@@ -181,7 +181,7 @@ scripts/tpcc_load.jsを用いてテストデータの生成を行います。こ
   Program start time   : 20180819-155305
   Script filename      : scripts/tpcc_load.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://localhost:3306/tpcc?useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+  JDBC URL             : jdbc:mysql://localhost:3306/tpcc?rewriteBatchedStatements=true
   JDBC user            : tpcc
   Load mode            : true
   Number of agents     : 4
@@ -268,13 +268,13 @@ order_line sf x 300,000 (approx.)
 
 scripts/tpcc.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することをおすすめします。 ::
 
-  shell> java JR scripts/tpcc.js -jdbcUrl jdbc:mysql://server/tpcc?useSSL=false\&allowPublicKeyRetrieval=true
+  shell> java JR scripts/tpcc.js -jdbcUrl jdbc:mysql://server/tpcc
   16:05:22 [INFO ] > JdbcRunner 1.3
   16:05:22 [INFO ] [Config]
   Program start time   : 20180819-160522
   Script filename      : scripts/tpcc.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://server/tpcc?useSSL=false&allowPublicKeyRetrieval=true
+  JDBC URL             : jdbc:mysql://server/tpcc
   JDBC user            : tpcc
   Warmup time          : 300 sec
   Measurement time     : 900 sec

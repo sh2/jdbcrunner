@@ -24,7 +24,7 @@ import jdbcrunner.Template.DataType;
 
 public class TemplateTest {
 	public static final String JDBC_URL = "jdbc:mysql://ubuntu2204-01/jdbcrunner"
-			+ "?useSSL=false&allowPublicKeyRetrieval=true&forceConnectionTimeZoneToSession=true";
+			+ "?forceConnectionTimeZoneToSession=true";
 	public static final String JDBC_USER = "jdbcrunner";
 	public static final String JDBC_PASS = "jdbcrunner";
 

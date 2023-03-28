@@ -26,7 +26,7 @@ var jdbcDriver = "com.mysql.cj.jdbc.Driver";
 // 起動時に-jdbcUrlオプションを指定すると上書きすることができます。
 // MySQLの場合、JDBC URLの書式は
 // 「jdbc:mysql://<server_host>:<port_number>/<database_name>?<connection_properties>」です。
-var jdbcUrl = "jdbc:mysql://localhost:3306/test?useSSL=false&allowPublicKeyRetrieval=true";
+var jdbcUrl = "jdbc:mysql://localhost:3306/test";
 
 // データベースのユーザ名を指定します。
 // 起動時に-jdbcUserオプションを指定すると上書きすることができます。
