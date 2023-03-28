@@ -8,7 +8,9 @@ JavaScriptとMozilla Rhinoの基礎
 
 JdbcRunnerではJavaScriptを用いてテストシナリオを記述します。JavaScriptの実装としては、 `Mozilla Rhino <https://github.com/mozilla/rhino>`_ を利用しています。
 
-Mozilla RhinoのライブラリはJdbcRunnerのJARファイルに組み込まれているので、以下のコマンドでJavaScriptの動作確認をすることができます。JdbcRunnerを動かすためであれば変数の扱い方、if文、それからfor文の文法を覚えておけばさしあたりは十分かと思います。 ::
+Mozilla RhinoのライブラリはJdbcRunnerのJARファイルに組み込まれているので、以下のコマンドでJavaScriptの動作確認をすることができます。JdbcRunnerを動かすためであれば変数の扱い方、if文、それからfor文の文法を覚えておけばさしあたりは十分かと思います。
+
+.. code-block:: text
 
   shell> export CLASSPATH=jdbcrunner-1.3.jar
   shell> java org.mozilla.javascript.tools.shell.Main
@@ -26,13 +28,17 @@ Mozilla RhinoのライブラリはJdbcRunnerのJARファイルに組み込まれ
   5050.0
 
 
-ウェブブラウザで用いられるdocumentオブジェクトなどはありません。 ::
+ウェブブラウザで用いられるdocumentオブジェクトなどはありません。
+
+.. code-block:: text
 
   js> document.write("test")
   script error: sun.org.mozilla.javascript.internal.EcmaError:
   ReferenceError: "document" is not defined. (<STDIN>#1) in <STDIN> at line number 1
 
-Mozilla Rhinoの便利なところとして、JavaScriptからJavaのクラスを呼び出す機能があります。以下はJavaのコレクションクラスを利用する例です。 ::
+Mozilla Rhinoの便利なところとして、JavaScriptからJavaのクラスを呼び出す機能があります。以下はJavaのコレクションクラスを利用する例です。
+
+.. code-block:: text
 
   js> var map = new java.util.HashMap()
   js> map.put("7788", "scott")
@@ -64,7 +70,9 @@ JdbcRunnerのエージェントは、それぞれが独立したスクリプト�
 #. トップレベルのスコープにロジックを書かない
 #. 初期化処理をinit()、測定時に行う処理をrun()、終了処理をfin()ファンクションとして定義する。ただしinit()とfin()は省略可能
 
-以下のサンプルを用いて説明します。 ::
+以下のサンプルを用いて説明します。
+
+.. code-block:: javascript
 
   var jdbcUrl = "jdbc:mysql://dbserver01:3306/scott";
   var jdbcUser = "scott";
@@ -93,7 +101,9 @@ JdbcRunnerのエージェントは、それぞれが独立したスクリプト�
 パラメータをグローバル変数として宣言する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-JdbcRunnerでは設定パラメータをコマンドラインオプションで指定するほかに、特定のグローバル変数を宣言することでも行うことができます。 ::
+JdbcRunnerでは設定パラメータをコマンドラインオプションで指定するほかに、特定のグローバル変数を宣言することでも行うことができます。
+
+.. code-block:: javascript
 
   var jdbcUrl = "jdbc:mysql://dbserver01:3306/scott";
   var jdbcUser = "scott";
@@ -102,7 +112,9 @@ JdbcRunnerでは設定パラメータをコマンドラインオプションで�
   var measurementTime = 20;
   var nAgents = 4;
 
-これはコマンドラインに以下のオプションを設定することと同じです。 ::
+これはコマンドラインに以下のオプションを設定することと同じです。
+
+.. code-block:: text
 
   shell> java JR test.js -jdbcUrl jdbc:mysql://dbserver01:3306/scott
                          -jdbcUser scott
@@ -113,7 +125,9 @@ JdbcRunnerでは設定パラメータをコマンドラインオプションで�
 
 グローバル変数とコマンドラインオプションを両方設定した場合は、コマンドラインオプションの設定が優先されます。固定的なパラメータをスクリプト内で設定しておくと便利です。
 
-また、設定パラメータと関係ないグローバル変数を宣言しても特に問題はありません。ただし、変数名が設定パラメータ名と重複しないように注意してください。 ::
+また、設定パラメータと関係ないグローバル変数を宣言しても特に問題はありません。ただし、変数名が設定パラメータ名と重複しないように注意してください。
+
+.. code-block:: javascript
 
   var emp;
 
@@ -129,7 +143,9 @@ JdbcRunnerでは設定パラメータをコマンドラインオプションで�
 処理内容をinit()、run()、fin()ファンクションとして定義する
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-初期化処理をinit()、測定時に行う処理をrun()、終了処理をfin()ファンクションとして定義します。init()とfin()は省略しても構いません。以下はinit()とrun()のみを定義する例です。 ::
+初期化処理をinit()、測定時に行う処理をrun()、終了処理をfin()ファンクションとして定義します。init()とfin()は省略しても構いません。以下はinit()とrun()のみを定義する例です。
+
+.. code-block:: javascript
 
   function init() {
       if (getId() == 0) {
@@ -151,7 +167,9 @@ JavaScriptそのものにはデータベースアクセス機能はありませ�
 スクリプトのテンプレート
 ------------------------
 
-スクリプトのテンプレートをscripts/template.jsに用意してあります。最初はこれをコピーして利用すると便利です。 ::
+スクリプトのテンプレートをscripts/template.jsに用意してあります。最初はこれをコピーして利用すると便利です。
+
+.. code-block:: javascript
 
   /*
    * JdbcRunner script template

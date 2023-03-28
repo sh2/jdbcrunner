@@ -6,14 +6,18 @@
 データベースの準備
 ------------------
 
-MySQLサーバにrootユーザでログインして、tutorialデータベースとrunnerユーザを作成します。パスワードはお使いの環境に合わせて変更してください。 ::
+MySQLサーバにrootユーザでログインして、tutorialデータベースとrunnerユーザを作成します。パスワードはお使いの環境に合わせて変更してください。
+
+.. code-block:: mysql
 
   shell> mysql -u root -p
   sql> CREATE DATABASE tutorial;
   sql> CREATE USER runner@'%' IDENTIFIED BY 'change_on_install';
   sql> GRANT ALL PRIVILEGES ON tutorial.* TO runner@'%';
 
-MySQLサーバにrunnerユーザでログインし直してsampleテーブルを作成し、テストデータをINSERTします。 ::
+MySQLサーバにrunnerユーザでログインし直してsampleテーブルを作成し、テストデータをINSERTします。
+
+.. code-block:: mysql
 
   shell> mysql -u runner -p tutorial
   sql> CREATE TABLE sample (id INT PRIMARY KEY, data VARCHAR(10)) ENGINE = InnoDB;
@@ -23,7 +27,9 @@ MySQLサーバにrunnerユーザでログインし直してsampleテーブルを
   sql> INSERT INTO sample (id, data) VALUES (4, 'dddddddddd');
   sql> INSERT INTO sample (id, data) VALUES (5, 'eeeeeeeeee');
 
-テーブルの中身は以下のようになります。 ::
+テーブルの中身は以下のようになります。
+
+.. code-block:: mysql
 
   sql> SELECT * FROM sample ORDER BY id;
   +----+------------+
@@ -40,11 +46,15 @@ MySQLサーバにrunnerユーザでログインし直してsampleテーブルを
 ツールのセットアップ
 --------------------
 
-JdbcRunnerのJARファイルを任意のディレクトリに配置し、環境変数CLASSPATHを設定します。 ::
+JdbcRunnerのJARファイルを任意のディレクトリに配置し、環境変数CLASSPATHを設定します。
+
+.. code-block:: text
 
   shell> export CLASSPATH=jdbcrunner-1.3.1.jar
 
-ツールの起動クラスは、パッケージなしのJRです。追加のオプションなしで実行すると、簡単な使い方が表示されます。 ::
+ツールの起動クラスは、パッケージなしのJRです。追加のオプションなしで実行すると、簡単な使い方が表示されます。
+
+.. code-block:: text
 
   shell> java JR
   JdbcRunner 1.3.1
@@ -81,7 +91,9 @@ JdbcRunnerのJARファイルを任意のディレクトリに配置し、環境�
 スクリプトの作成
 ----------------
 
-JdbcRunnerでは、負荷テストのシナリオをスクリプトで定義します。以下のスクリプトをtest.jsというファイル名で作成します。 ::
+JdbcRunnerでは、負荷テストのシナリオをスクリプトで定義します。以下のスクリプトをtest.jsというファイル名で作成します。
+
+.. code-block:: javascript
 
   function run() {
       var param = random(1, 5);
@@ -93,7 +105,9 @@ JdbcRunnerでは、負荷テストのシナリオをスクリプトで定義し�
 負荷テストの実行
 ----------------
 
-作成したスクリプトといくつかのオプションを指定して、負荷テストを開始します。 ::
+作成したスクリプトといくつかのオプションを指定して、負荷テストを開始します。
+
+.. code-block:: text
 
   shell> java JR test.js -jdbcUrl jdbc:mysql://localhost/tutorial -jdbcUser runner -jdbcPass change_on_install
   11:06:19 [INFO ] > JdbcRunner 1.3.1
@@ -165,14 +179,18 @@ JdbcRunnerでは、負荷テストのシナリオをスクリプトで定義し�
 結果ファイルの確認
 ------------------
 
-負荷テストが正常終了すると、ログファイルjdbcrunner.logの他に2つの結果ファイルが出力されます。 ::
+負荷テストが正常終了すると、ログファイルjdbcrunner.logの他に2つの結果ファイルが出力されます。
+
+.. code-block:: text
 
   shell> ls -l
   -rw-rw-r-- 1 taira taira    6009  3月 28 11:07 jdbcrunner.log
   -rw-rw-r-- 1 taira taira      72  3月 28 11:07 log_20230328-110619_r.csv
   -rw-rw-r-- 1 taira taira     505  3月 28 11:07 log_20230328-110619_t.csv
 
-log_20230328-110619_r.csvと末尾に「_r」がついたCSVファイルは、レスポンスタイムの度数分布データです。レスポンスタイムごとにトランザクション実行数が出力されます。 ::
+log_20230328-110619_r.csvと末尾に「_r」がついたCSVファイルは、レスポンスタイムの度数分布データです。レスポンスタイムごとにトランザクション実行数が出力されます。
+
+.. code-block:: text
 
   Response time[msec],Count
   0,242692
@@ -185,7 +203,9 @@ log_20230328-110619_r.csvと末尾に「_r」がついたCSVファイルは、�
   8,1
   10,2
 
-log_20230328-110619_t.csvと末尾に「_t」がついたCSVファイルは、スループットの時系列データです。 ::
+log_20230328-110619_t.csvと末尾に「_t」がついたCSVファイルは、スループットの時系列データです。
+
+.. code-block:: text
 
   Elapsed time[sec],Throughput[tps]
   1,4014
