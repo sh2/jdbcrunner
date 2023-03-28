@@ -61,9 +61,9 @@ Tiny sysbenchは、sysbench 0.4のOLTPベンチマークのうちcomplexモー�
 
 Tiny sysbenchは、以下のRDBMSで動作確認をしています。
 
-* Oracle Database 18c
+* Oracle Database 21c
 * MySQL 8.0
-* PostgreSQL 10
+* PostgreSQL 15
 
 テストの準備
 ------------
@@ -107,12 +107,12 @@ scripts/sysbench_load.jsを用いてテストデータの生成を行います�
 ::
 
   shell> java JR scripts/sysbench_load.js
-  11:32:32 [INFO ] > JdbcRunner 1.3
-  11:32:32 [INFO ] [Config]
-  Program start time   : 20180819-113231
+  13:44:17 [INFO ] > JdbcRunner 1.3.1
+  13:44:17 [INFO ] [Config]
+  Program start time   : 20230328-134416
   Script filename      : scripts/sysbench_load.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://localhost:3306/sbtest?useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+  JDBC URL             : jdbc:mysql://localhost:3306/sbtest?useSSL=false&allowPublicKeyRetrieval=true&  rewriteBatchedStatements=true
   JDBC user            : sbtest
   Load mode            : true
   Number of agents     : 1
@@ -130,27 +130,27 @@ scripts/sysbench_load.jsを用いてテストデータの生成を行います�
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  11:32:32 [INFO ] Tiny SysBench - data loader
-  11:32:32 [INFO ] -param0 : Number of records (default : 10000)
-  11:32:32 [INFO ] Number of records : 10000
-  11:32:32 [INFO ] Dropping a table ...
-  11:32:32 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'sbtest.sbtest'
-  11:32:32 [INFO ] Creating a table ...
-  11:32:33 [INFO ] Loading sbtest ...
-  11:32:33 [INFO ] sbtest : 1000 / 10000
-  11:32:33 [INFO ] sbtest : 2000 / 10000
-  11:32:33 [INFO ] sbtest : 3000 / 10000
-  11:32:33 [INFO ] sbtest : 4000 / 10000
-  11:32:33 [INFO ] sbtest : 5000 / 10000
-  11:32:33 [INFO ] sbtest : 6000 / 10000
-  11:32:33 [INFO ] sbtest : 7000 / 10000
-  11:32:33 [INFO ] sbtest : 8000 / 10000
-  11:32:33 [INFO ] sbtest : 9000 / 10000
-  11:32:33 [INFO ] sbtest : 10000 / 10000
-  11:32:33 [INFO ] Creating an index ...
-  11:32:33 [INFO ] Analyzing a table ...
-  11:32:33 [INFO ] Completed.
-  11:32:33 [INFO ] < JdbcRunner SUCCESS
+  13:44:17 [INFO ] Tiny sysbench - data loader
+  13:44:17 [INFO ] -param0 : Number of records (default : 10000)
+  13:44:17 [INFO ] Number of records : 10000
+  13:44:17 [INFO ] Dropping a table ...
+  13:44:17 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'sbtest.sbtest'
+  13:44:17 [INFO ] Creating a table ...
+  13:44:17 [INFO ] Loading sbtest ...
+  13:44:17 [INFO ] sbtest : 1000 / 10000
+  13:44:17 [INFO ] sbtest : 2000 / 10000
+  13:44:17 [INFO ] sbtest : 3000 / 10000
+  13:44:17 [INFO ] sbtest : 4000 / 10000
+  13:44:17 [INFO ] sbtest : 5000 / 10000
+  13:44:17 [INFO ] sbtest : 6000 / 10000
+  13:44:17 [INFO ] sbtest : 7000 / 10000
+  13:44:17 [INFO ] sbtest : 8000 / 10000
+  13:44:17 [INFO ] sbtest : 9000 / 10000
+  13:44:17 [INFO ] sbtest : 10000 / 10000
+  13:44:17 [INFO ] Creating an index ...
+  13:44:17 [INFO ] Analyzing a table ...
+  13:44:17 [INFO ] Completed.
+  13:44:17 [INFO ] < JdbcRunner SUCCESS
 
 「Unknown table 'sbtest'」という警告は、存在しないsbtestテーブルを削除しようとして出力されるものです。無視して構いません。
 
@@ -163,13 +163,13 @@ scripts/sysbench_load.jsを用いてテストデータの生成を行います�
 
 scripts/sysbench.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することをおすすめします。 ::
 
-  shell> java JR scripts/sysbench.js -jdbcUrl jdbc:mysql://server/sbtest?useSSL=false\&allowPublicKeyRetrieval=true
-  11:36:19 [INFO ] > JdbcRunner 1.3
-  11:36:19 [INFO ] [Config]
-  Program start time   : 20180819-113619
+  shell> java JR scripts/sysbench.js -jdbcUrl jdbc:mysql://localhost/sbtest
+  13:46:44 [INFO ] > JdbcRunner 1.3.1
+  13:46:44 [INFO ] [Config]
+  Program start time   : 20230328-134644
   Script filename      : scripts/sysbench.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://server/sbtest?useSSL=false&allowPublicKeyRetrieval=true
+  JDBC URL             : jdbc:mysql://localhost/sbtest
   JDBC user            : sbtest
   Warmup time          : 60 sec
   Measurement time     : 180 sec
@@ -193,42 +193,33 @@ scripts/sysbench.jsを用いてテストを実行します。JdbcRunnerを動作
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  11:36:21 [INFO ] Tiny SysBench
-  11:36:21 [INFO ] Number of records : 10000
-  11:36:22 [WARN ] [Agent 6] Deadlock detected.
-  11:36:22 [INFO ] [Warmup] -59 sec, 103 tps, (103 tx)
-  11:36:22 [WARN ] [Agent 11] Deadlock detected.
-  11:36:22 [WARN ] [Agent 2] Deadlock detected.
-  11:36:23 [INFO ] [Warmup] -58 sec, 127 tps, (230 tx)
-  11:36:23 [WARN ] [Agent 2] Deadlock detected.
-  11:36:23 [WARN ] [Agent 10] Deadlock detected.
-  11:36:23 [WARN ] [Agent 15] Deadlock detected.
-  11:36:23 [WARN ] [Agent 11] Deadlock detected.
-  11:36:23 [WARN ] [Agent 10] Deadlock detected.
-  11:36:24 [WARN ] [Agent 9] Deadlock detected.
-  11:36:24 [INFO ] [Warmup] -57 sec, 136 tps, (366 tx)
+  13:46:45 [INFO ] Tiny sysbench
+  13:46:45 [INFO ] Number of records : 10000
+  13:46:46 [INFO ] [Warmup] -59 sec, 117 tps, (117 tx)
+  13:46:47 [INFO ] [Warmup] -58 sec, 166 tps, (283 tx)
+  13:46:48 [INFO ] [Warmup] -57 sec, 210 tps, (493 tx)
+  13:46:49 [INFO ] [Warmup] -56 sec, 258 tps, (751 tx)
+  13:46:50 [INFO ] [Warmup] -55 sec, 257 tps, (1008 tx)
+  13:46:51 [INFO ] [Warmup] -54 sec, 215 tps, (1223 tx)
+  13:46:51 [WARN ] [Agent 0] Deadlock detected.
+  13:46:52 [INFO ] [Warmup] -53 sec, 251 tps, (1474 tx)
   ...
-  11:40:18 [INFO ] [Progress] 177 sec, 190 tps, 33291 tx
-  11:40:18 [WARN ] [Agent 12] Deadlock detected.
-  11:40:18 [WARN ] [Agent 0] Deadlock detected.
-  11:40:19 [WARN ] [Agent 14] Deadlock detected.
-  11:40:19 [INFO ] [Progress] 178 sec, 192 tps, 33483 tx
-  11:40:19 [WARN ] [Agent 12] Deadlock detected.
-  11:40:19 [WARN ] [Agent 4] Deadlock detected.
-  11:40:20 [INFO ] [Progress] 179 sec, 194 tps, 33677 tx
-  11:40:20 [WARN ] [Agent 1] Deadlock detected.
-  11:40:20 [WARN ] [Agent 12] Deadlock detected.
-  11:40:20 [WARN ] [Agent 11] Deadlock detected.
-  11:40:21 [INFO ] [Progress] 180 sec, 193 tps, 33870 tx
-  11:40:21 [INFO ] [Total tx count] 33873 tx
-  11:40:21 [INFO ] [Throughput] 188.2 tps
-  11:40:21 [INFO ] [Response time (minimum)] 17 msec
-  11:40:21 [INFO ] [Response time (50%tile)] 82 msec
-  11:40:21 [INFO ] [Response time (90%tile)] 130 msec
-  11:40:21 [INFO ] [Response time (95%tile)] 146 msec
-  11:40:21 [INFO ] [Response time (99%tile)] 182 msec
-  11:40:21 [INFO ] [Response time (maximum)] 326 msec
-  11:40:21 [INFO ] < JdbcRunner SUCCESS
+  13:50:40 [INFO ] [Progress] 175 sec, 342 tps, 60670 tx
+  13:50:41 [WARN ] [Agent 2] Deadlock detected.
+  13:50:41 [INFO ] [Progress] 176 sec, 340 tps, 61010 tx
+  13:50:42 [INFO ] [Progress] 177 sec, 342 tps, 61352 tx
+  13:50:43 [INFO ] [Progress] 178 sec, 354 tps, 61706 tx
+  13:50:44 [INFO ] [Progress] 179 sec, 339 tps, 62045 tx
+  13:50:45 [INFO ] [Progress] 180 sec, 311 tps, 62356 tx
+  13:50:45 [INFO ] [Total tx count] 62356 tx
+  13:50:45 [INFO ] [Throughput] 346.4 tps
+  13:50:45 [INFO ] [Response time (minimum)] 6 msec
+  13:50:45 [INFO ] [Response time (50%tile)] 45 msec
+  13:50:45 [INFO ] [Response time (90%tile)] 74 msec
+  13:50:45 [INFO ] [Response time (95%tile)] 81 msec
+  13:50:45 [INFO ] [Response time (99%tile)] 96 msec
+  13:50:45 [INFO ] [Response time (maximum)] 194 msec
+  13:50:45 [INFO ] < JdbcRunner SUCCESS
 
 OLTPベンチマークのcomplexモードでは、デッドロックが発生することがあります。これはオリジナル版のsysbenchでも発生するものです。Tiny sysbenchはデッドロックが発生した場合、該当のトランザクションをロールバックして再度実行します。
 

@@ -24,7 +24,7 @@ JdbcRunnerを起動するには、JRクラスを指定してjavaコマンドを�
 オプションなしで実行すると、簡単な使い方が表示されます。 ::
 
   shell> java JR
-  JdbcRunner 1.3
+  JdbcRunner 1.3.1
   スクリプトファイルが指定されていません
   
   usage: java JR <script> [options]
@@ -135,7 +135,7 @@ warmupTimeを設定することで、スループットが安定していると�
 
 初期化処理、測定、終了処理の3つのフェーズの切り替わりにおいては、すべてのエージェントが待ち合わせを行います。例えばあるエージェントのrun()ファンクションが、他のエージェントのinit()ファンクションよりも先に実行されることはありません。
 
-測定中のウォームアップと測定の間は、待ち合わせを行いません。このとき境目をまだいだトランザクションがどう扱われるかですが、JdbcRunnerではトランザクションは処理が完了したタイミングでカウントされるというルールにしています。つまり、ウォームアップ時間中に開始して測定時間中に完了したトランザクションは、集計対象です。
+測定中のウォームアップと測定の間は、待ち合わせを行いません。このとき境目をまたいだトランザクションがどう扱われるかですが、JdbcRunnerではトランザクションは処理が完了したタイミングでカウントされるというルールにしています。つまり、ウォームアップ時間中に開始して測定時間中に完了したトランザクションは、集計対象です。
 
 測定時間を過ぎて完了したトランザクション、図で灰色になっている部分は集計対象になりません。ここで、処理自体はキャンセルされずに最後まで行われることに注意してください。例えばウォームアップ時間なしでINSERTを繰り返し行うような負荷テストの場合、JdbcRunnerから報告される合計トランザクション数と実際にテーブルにINSERTされたレコード数は一致しないことがあります。
 
@@ -162,9 +162,9 @@ JdbcRunnerでいうレスポンスタイムとは、正確には1番から3番�
 
 負荷テストを行うとログファイルが出力されます。ファイル名はjdbcrunner.logで固定となっており、出力先ディレクトリはパラメータlogDirで指定した場所となります。デフォルトはカレントディレクトリです。 ::
 
-  2018-08-15 22:33:59 [INFO ] > JdbcRunner 1.3
-  2018-08-15 22:33:59 [INFO ] [Config]
-  Program start time   : 20180815-223358
+  2023-03-28 11:06:19 [INFO ] > JdbcRunner 1.3.1
+  2023-03-28 11:06:19 [INFO ] [Config]
+  Program start time   : 20230328-110619
   Script filename      : test.js
   JDBC driver          : -
   JDBC URL             : jdbc:mysql://localhost/tutorial
@@ -191,32 +191,32 @@ JdbcRunnerでいうレスポンスタイムとは、正確には1番から3番�
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  2018-08-15 22:34:01 [INFO ] [Warmup] -9 sec, 1195 tps, (1195 tx)
-  2018-08-15 22:34:02 [INFO ] [Warmup] -8 sec, 1929 tps, (3124 tx)
-  2018-08-15 22:34:03 [INFO ] [Warmup] -7 sec, 2166 tps, (5290 tx)
-  2018-08-15 22:34:04 [INFO ] [Warmup] -6 sec, 2056 tps, (7346 tx)
-  2018-08-15 22:34:05 [INFO ] [Warmup] -5 sec, 2389 tps, (9735 tx)
-  2018-08-15 22:34:06 [INFO ] [Warmup] -4 sec, 2358 tps, (12093 tx)
-  2018-08-15 22:34:07 [INFO ] [Warmup] -3 sec, 2286 tps, (14379 tx)
-  2018-08-15 22:34:08 [INFO ] [Warmup] -2 sec, 2221 tps, (16600 tx)
-  2018-08-15 22:34:09 [INFO ] [Warmup] -1 sec, 2065 tps, (18665 tx)
-  2018-08-15 22:34:10 [INFO ] [Warmup] 0 sec, 2355 tps, (21020 tx)
-  2018-08-15 22:34:11 [INFO ] [Progress] 1 sec, 2203 tps, 2203 tx
-  2018-08-15 22:34:12 [INFO ] [Progress] 2 sec, 2409 tps, 4612 tx
-  2018-08-15 22:34:13 [INFO ] [Progress] 3 sec, 1912 tps, 6524 tx
+  2023-03-28 11:06:21 [INFO ] [Warmup] -9 sec, 1978 tps, (1978 tx)
+  2023-03-28 11:06:22 [INFO ] [Warmup] -8 sec, 3057 tps, (5035 tx)
+  2023-03-28 11:06:23 [INFO ] [Warmup] -7 sec, 3960 tps, (8995 tx)
+  2023-03-28 11:06:24 [INFO ] [Warmup] -6 sec, 3884 tps, (12879 tx)
+  2023-03-28 11:06:25 [INFO ] [Warmup] -5 sec, 4153 tps, (17032 tx)
+  2023-03-28 11:06:26 [INFO ] [Warmup] -4 sec, 4038 tps, (21070 tx)
+  2023-03-28 11:06:27 [INFO ] [Warmup] -3 sec, 4015 tps, (25085 tx)
+  2023-03-28 11:06:28 [INFO ] [Warmup] -2 sec, 3949 tps, (29034 tx)
+  2023-03-28 11:06:29 [INFO ] [Warmup] -1 sec, 4003 tps, (33037 tx)
+  2023-03-28 11:06:30 [INFO ] [Warmup] 0 sec, 3996 tps, (37033 tx)
+  2023-03-28 11:06:31 [INFO ] [Progress] 1 sec, 4014 tps, 4014 tx
+  2023-03-28 11:06:32 [INFO ] [Progress] 2 sec, 4060 tps, 8074 tx
+  2023-03-28 11:06:33 [INFO ] [Progress] 3 sec, 4082 tps, 12156 tx
   ...
-  2018-08-15 22:35:08 [INFO ] [Progress] 58 sec, 2063 tps, 118784 tx
-  2018-08-15 22:35:09 [INFO ] [Progress] 59 sec, 1779 tps, 120563 tx
-  2018-08-15 22:35:10 [INFO ] [Progress] 60 sec, 2488 tps, 123051 tx
-  2018-08-15 22:35:10 [INFO ] [Total tx count] 123051 tx
-  2018-08-15 22:35:10 [INFO ] [Throughput] 2050.9 tps
-  2018-08-15 22:35:10 [INFO ] [Response time (minimum)] 0 msec
-  2018-08-15 22:35:10 [INFO ] [Response time (50%tile)] 0 msec
-  2018-08-15 22:35:10 [INFO ] [Response time (90%tile)] 0 msec
-  2018-08-15 22:35:10 [INFO ] [Response time (95%tile)] 0 msec
-  2018-08-15 22:35:10 [INFO ] [Response time (99%tile)] 0 msec
-  2018-08-15 22:35:10 [INFO ] [Response time (maximum)] 14 msec
-  2018-08-15 22:35:10 [INFO ] < JdbcRunner SUCCESS
+  2023-03-28 11:07:28 [INFO ] [Progress] 58 sec, 3863 tps, 234680 tx
+  2023-03-28 11:07:29 [INFO ] [Progress] 59 sec, 4054 tps, 238734 tx
+  2023-03-28 11:07:30 [INFO ] [Progress] 60 sec, 4061 tps, 242795 tx
+  2023-03-28 11:07:30 [INFO ] [Total tx count] 242795 tx
+  2023-03-28 11:07:30 [INFO ] [Throughput] 4046.6 tps
+  2023-03-28 11:07:30 [INFO ] [Response time (minimum)] 0 msec
+  2023-03-28 11:07:30 [INFO ] [Response time (50%tile)] 0 msec
+  2023-03-28 11:07:30 [INFO ] [Response time (90%tile)] 0 msec
+  2023-03-28 11:07:30 [INFO ] [Response time (95%tile)] 0 msec
+  2023-03-28 11:07:30 [INFO ] [Response time (99%tile)] 0 msec
+  2023-03-28 11:07:30 [INFO ] [Response time (maximum)] 10 msec
+  2023-03-28 11:07:30 [INFO ] < JdbcRunner SUCCESS
 
 フォーマット
 ^^^^^^^^^^^^
@@ -224,7 +224,7 @@ JdbcRunnerでいうレスポンスタイムとは、正確には1番から3番�
 ログファイルのフォーマットは以下のようになっています。 ::
 
   日時                レベル  メッセージ
-  2018-08-15 22:34:11 [INFO ] [Progress] 1 sec, 2203 tps, 2203 tx
+  2023-03-28 11:06:31 [INFO ] [Progress] 1 sec, 4014 tps, 4014 tx
 
 * 日時 : ログイベントが発生した日時です。標準出力には時刻のみ、ログファイルには日付と時刻が出力されます
 * レベル : ログの重要度を表します。重要な方からERROR、WARN、INFO、DEBUG、TRACEの5種類が定義されています
@@ -235,23 +235,23 @@ JdbcRunnerでいうレスポンスタイムとは、正確には1番から3番�
 
 ツールの起動時には以下の開始ログが出力されます。開始ログにはツール名とバージョン番号が含まれます。 ::
 
-  2018-08-15 22:33:59 [INFO ] > JdbcRunner 1.3
+  2023-03-28 11:06:19 [INFO ] > JdbcRunner 1.3.1
 
 ツールの終了時には以下の終了ログが出力されます。「SUCCESS」はツールが正常終了したことを表しています。 ::
 
-  2018-08-15 22:35:10 [INFO ] < JdbcRunner SUCCESS
+  2023-03-28 11:07:30 [INFO ] < JdbcRunner SUCCESS
 
 ツールが異常終了した場合は「ERROR」と出力されます。 ::
 
-  2018-08-16 13:53:32 [INFO ] < JdbcRunner ERROR
+  2023-03-28 11:28:27 [INFO ] < JdbcRunner ERROR
 
 設定パラメータ
 ^^^^^^^^^^^^^^
 
 ツールの起動時に、設定パラメータが出力されます。 ::
 
-  2018-08-15 22:33:59 [INFO ] [Config]
-  Program start time   : 20180815-223358
+  2023-03-28 11:06:19 [INFO ] [Config]
+  Program start time   : 20230328-110619
   Script filename      : test.js
   JDBC driver          : -
   JDBC URL             : jdbc:mysql://localhost/tutorial
@@ -284,28 +284,28 @@ JdbcRunnerでいうレスポンスタイムとは、正確には1番から3番�
 
 ツールが正しく起動すればすぐに測定が開始されます。測定中は1秒おきに進捗状況が出力されます。 ::
 
-  2018-08-15 22:34:01 [INFO ] [Warmup] -9 sec, 1195 tps, (1195 tx)
-  2018-08-15 22:34:02 [INFO ] [Warmup] -8 sec, 1929 tps, (3124 tx)
-  2018-08-15 22:34:03 [INFO ] [Warmup] -7 sec, 2166 tps, (5290 tx)
-  2018-08-15 22:34:04 [INFO ] [Warmup] -6 sec, 2056 tps, (7346 tx)
-  2018-08-15 22:34:05 [INFO ] [Warmup] -5 sec, 2389 tps, (9735 tx)
-  2018-08-15 22:34:06 [INFO ] [Warmup] -4 sec, 2358 tps, (12093 tx)
-  2018-08-15 22:34:07 [INFO ] [Warmup] -3 sec, 2286 tps, (14379 tx)
-  2018-08-15 22:34:08 [INFO ] [Warmup] -2 sec, 2221 tps, (16600 tx)
-  2018-08-15 22:34:09 [INFO ] [Warmup] -1 sec, 2065 tps, (18665 tx)
-  2018-08-15 22:34:10 [INFO ] [Warmup] 0 sec, 2355 tps, (21020 tx)
-  2018-08-15 22:34:11 [INFO ] [Progress] 1 sec, 2203 tps, 2203 tx
-  2018-08-15 22:34:12 [INFO ] [Progress] 2 sec, 2409 tps, 4612 tx
-  2018-08-15 22:34:13 [INFO ] [Progress] 3 sec, 1912 tps, 6524 tx
+  2023-03-28 11:06:21 [INFO ] [Warmup] -9 sec, 1978 tps, (1978 tx)
+  2023-03-28 11:06:22 [INFO ] [Warmup] -8 sec, 3057 tps, (5035 tx)
+  2023-03-28 11:06:23 [INFO ] [Warmup] -7 sec, 3960 tps, (8995 tx)
+  2023-03-28 11:06:24 [INFO ] [Warmup] -6 sec, 3884 tps, (12879 tx)
+  2023-03-28 11:06:25 [INFO ] [Warmup] -5 sec, 4153 tps, (17032 tx)
+  2023-03-28 11:06:26 [INFO ] [Warmup] -4 sec, 4038 tps, (21070 tx)
+  2023-03-28 11:06:27 [INFO ] [Warmup] -3 sec, 4015 tps, (25085 tx)
+  2023-03-28 11:06:28 [INFO ] [Warmup] -2 sec, 3949 tps, (29034 tx)
+  2023-03-28 11:06:29 [INFO ] [Warmup] -1 sec, 4003 tps, (33037 tx)
+  2023-03-28 11:06:30 [INFO ] [Warmup] 0 sec, 3996 tps, (37033 tx)
+  2023-03-28 11:06:31 [INFO ] [Progress] 1 sec, 4014 tps, 4014 tx
+  2023-03-28 11:06:32 [INFO ] [Progress] 2 sec, 4060 tps, 8074 tx
+  2023-03-28 11:06:33 [INFO ] [Progress] 3 sec, 4082 tps, 12156 tx
   ...
-  2018-08-15 22:35:08 [INFO ] [Progress] 58 sec, 2063 tps, 118784 tx
-  2018-08-15 22:35:09 [INFO ] [Progress] 59 sec, 1779 tps, 120563 tx
-  2018-08-15 22:35:10 [INFO ] [Progress] 60 sec, 2488 tps, 123051 tx
+  2023-03-28 11:07:28 [INFO ] [Progress] 58 sec, 3863 tps, 234680 tx
+  2023-03-28 11:07:29 [INFO ] [Progress] 59 sec, 4054 tps, 238734 tx
+  2023-03-28 11:07:30 [INFO ] [Progress] 60 sec, 4061 tps, 242795 tx
 
 [Warmup]はウォームアップ中の状況を表しています。トランザクションの集計開始後は[Progress]と表示されます。進捗状況には、経過時間、スループットと合計トランザクション数が含まれます。 ::
 
                                        経過時間 スループット 合計トランザクション数
-  2018-08-15 22:34:01 [INFO ] [Warmup] -9 sec,  1195 tps,    (1195 tx)
+  2023-03-28 11:06:21 [INFO ] [Warmup] -9 sec, 1978 tps, (1978 tx)
 
 ウォームアップ時間を設定している場合、経過時間はマイナスの値からカウントアップし、ウォームアップが完了した時点が0秒となります。スループットは直近1秒間に完了したトランザクション数を表しています。合計トランザクション数はトランザクション集計開始後の合計トランザクション数を表します。ウォームアップ中も参考のために括弧つきでそれまでの合計トランザクション数を表示していますが、ウォームアップ中に処理したトランザクション数は最終結果には含まれません。
 
@@ -324,15 +324,15 @@ JdbcRunnerを動かすクライアントの負荷が高すぎる場合、進捗�
 
 負荷テストが正常に終了した場合、最後に結果のサマリが出力されます。 ::
 
-  2018-08-15 22:35:10 [INFO ] [Total tx count] 123051 tx
-  2018-08-15 22:35:10 [INFO ] [Throughput] 2050.9 tps
-  2018-08-15 22:35:10 [INFO ] [Response time (minimum)] 0 msec
-  2018-08-15 22:35:10 [INFO ] [Response time (50%tile)] 0 msec
-  2018-08-15 22:35:10 [INFO ] [Response time (90%tile)] 0 msec
-  2018-08-15 22:35:10 [INFO ] [Response time (95%tile)] 0 msec
-  2018-08-15 22:35:10 [INFO ] [Response time (99%tile)] 0 msec
-  2018-08-15 22:35:10 [INFO ] [Response time (maximum)] 14 msec
-  2018-08-15 22:35:10 [INFO ] < JdbcRunner SUCCESS
+  2023-03-28 11:07:30 [INFO ] [Total tx count] 242795 tx
+  2023-03-28 11:07:30 [INFO ] [Throughput] 4046.6 tps
+  2023-03-28 11:07:30 [INFO ] [Response time (minimum)] 0 msec
+  2023-03-28 11:07:30 [INFO ] [Response time (50%tile)] 0 msec
+  2023-03-28 11:07:30 [INFO ] [Response time (90%tile)] 0 msec
+  2023-03-28 11:07:30 [INFO ] [Response time (95%tile)] 0 msec
+  2023-03-28 11:07:30 [INFO ] [Response time (99%tile)] 0 msec
+  2023-03-28 11:07:30 [INFO ] [Response time (maximum)] 10 msec
+  2023-03-28 11:07:30 [INFO ] < JdbcRunner SUCCESS
 
 * Total tx count : 合計トランザクション数が出力されます。ウォームアップ時間に行われたトランザクションは含まれません
 * Throughput : スループットが出力されます
@@ -349,39 +349,33 @@ JdbcRunnerを動かすクライアントの負荷が高すぎる場合、進捗�
 レスポンスタイムの度数分布データ
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-レスポンスタイムの度数分布データは、log_<負荷テスト開始日時>_r.csvというファイル名でパラメータlogDirで指定したディレクトリに出力されます。 ::
+レスポンスタイムの度数分布データは、パラメータlogDirで指定したディレクトリにlog_<負荷テスト開始日時>_r.csvというファイル名で出力されます。 ::
 
   Response time[msec],Count
-  0,122416
-  1,351
-  2,28
-  3,7
-  4,20
-  5,31
-  6,41
-  7,42
-  8,24
-  9,35
-  10,23
-  11,15
-  12,14
-  13,2
-  14,2
+  0,242692
+  1,16
+  2,34
+  3,37
+  4,10
+  5,2
+  7,1
+  8,1
+  10,2
 
-レスポンスタイムが1ミリ秒というのは、正確には1ミリ秒以上2ミリ秒未満であることを示しています。
+レスポンスタイムが0ミリ秒というのは、正確には0ミリ秒以上1ミリ秒未満であることを示しています。
 
 スループットの時系列データ
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-スループットの時系列データは、log_<負荷テスト開始日時>_t.csvというファイル名でパラメータlogDirで指定したディレクトリに出力されます。 ::
+スループットの時系列データは、パラメータlogDirで指定したディレクトリにlog_<負荷テスト開始日時>_t.csvというファイル名で出力されます。 ::
 
   Elapsed time[sec],Throughput[tps]
-  1,2203
-  2,2410
-  3,1910
+  1,4014
+  2,4060
+  3,4081
   ...
-  58,2063
-  59,1779
-  60,2486
+  58,3863
+  59,4054
+  60,4062
 
-2秒経過したときのスループットが2,410トランザクション/秒であるというのは、正確には経過時間が1秒以上2秒未満のときに完了したトランザクションが2,410個あるということを表しています。
+1秒経過したときのスループットが4,014トランザクション/秒であるというのは、正確には経過時間が0秒以上1秒未満のときに完了したトランザクションが4,014個あるということを表しています。

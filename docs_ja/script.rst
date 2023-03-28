@@ -6,7 +6,7 @@ JdbcRunnerでは負荷テストのシナリオをスクリプトで記述しま�
 JavaScriptとMozilla Rhinoの基礎
 -------------------------------
 
-JdbcRunnerではJavaScriptを用いてテストシナリオを記述します。JavaScriptの実装としては、 `Mozilla Rhino <https://developer.mozilla.org/en/Rhino>`_ を利用しています。
+JdbcRunnerではJavaScriptを用いてテストシナリオを記述します。JavaScriptの実装としては、 `Mozilla Rhino <https://github.com/mozilla/rhino>`_ を利用しています。
 
 Mozilla RhinoのライブラリはJdbcRunnerのJARファイルに組み込まれているので、以下のコマンドでJavaScriptの動作確認をすることができます。JdbcRunnerを動かすためであれば変数の扱い方、if文、それからfor文の文法を覚えておけばさしあたりは十分かと思います。 ::
 

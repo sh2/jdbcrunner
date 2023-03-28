@@ -40,10 +40,10 @@ JdbcRunnerからSQLを発行する際は、必ずPreparedStatementを用いパ�
 
 JdbcRunnerを動作させるには、以下のソフトウェアが必要です。
 
-* Java SE 8の実行環境
+* Java 17の実行環境
 * 各RDBMS用のJDBCドライバ
 
-JavaはLinuxの場合ディストリビューションに同梱されています。Windowsの場合は `java.com <https://www.java.com>`_ からダウンロードしてください。
+JavaはLinuxの場合ディストリビューションに同梱されています。Windowsの場合は `Adoptium <https://adoptium.net/>`_ などからダウンロードしてください。
 
 JDBCドライバは多くの場合RDBMSの開発元が提供しています。なおJdbcRunnerはMySQLとPostgreSQLのJDBCドライバを内蔵しているため、MySQLとPostgreSQLについては別途JDBCドライバを用意する必要はありません。
 
@@ -60,7 +60,7 @@ JDBCドライバは多くの場合RDBMSの開発元が提供しています。�
 ライセンス
 ----------
 
-JdbcRunner本体は、二条項BSDライセンスです。
+JdbcRunner本体は、MITライセンスです。
 
 JdbcRunnerでは以下のライブラリをそれぞれのライセンスに従って利用しています。JdbcRunnerを修正して再頒布する場合は、これらのライセンスも遵守する必要があります。
 
