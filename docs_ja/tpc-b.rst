@@ -13,7 +13,9 @@ TPC-Bとは
 * accounts : 銀行口座を表しています。支店あたり10万の口座があります。
 * history : 取引履歴を表しています。
 
-TPC-Bでは1種類のトランザクションが定義されています。これは以下のSQLを順番に発行するものです。 ::
+TPC-Bでは1種類のトランザクションが定義されています。これは以下のSQLを順番に発行するものです。
+
+.. code-block:: mysql
 
   UPDATE accounts SET abalance = abalance + :1 WHERE aid = :2;
   SELECT abalance FROM accounts WHERE aid = :1;
@@ -67,7 +69,9 @@ MySQLにおけるテストの準備手順を以下に示します。Oracle Datab
 データベースの作成
 ^^^^^^^^^^^^^^^^^^
 
-MySQLにrootユーザで接続し、tpcbデータベースを作成します。 ::
+MySQLにrootユーザで接続し、tpcbデータベースを作成します。
+
+.. code-block:: mysql
 
   shell> mysql -u root -p
 
@@ -77,7 +81,9 @@ MySQLにrootユーザで接続し、tpcbデータベースを作成します。 
 ユーザの作成
 ^^^^^^^^^^^^
 
-tpcbユーザを作成します。 ::
+tpcbユーザを作成します。
+
+.. code-block:: mysql
 
   sql> CREATE USER tpcb@'%' IDENTIFIED BY 'tpcb';
   Query OK, 0 rows affected (0.00 sec)
@@ -98,7 +104,7 @@ scripts/tpcb_load.jsを用いてテストデータの生成を行います。こ
 * インデックスの作成 (MySQLの主キーはデータロード前に作成)
 * 統計情報の更新
 
-::
+.. code-block:: text
 
   shell> java JR scripts/tpcb_load.js
   14:41:01 [INFO ] > JdbcRunner 1.3
@@ -159,14 +165,18 @@ scripts/tpcb_load.jsを用いてテストデータの生成を行います。こ
 
 -param0を指定することによって、スケールファクタを変更することが可能です。スケールファクタ1あたり、branchesテーブルが1レコード、tellersテーブルが10レコード、accountsテーブルが10万レコード増加します。デフォルトのスケールファクタは16です。
 
--nAgentsを指定することによって、ロードの並列度を変更することが可能です。CPUコア数の多い環境では、並列度を上げることでロード時間を短縮することができます。デフォルトの並列度は4です。 ::
+-nAgentsを指定することによって、ロードの並列度を変更することが可能です。CPUコア数の多い環境では、並列度を上げることでロード時間を短縮することができます。デフォルトの並列度は4です。
+
+.. code-block:: text
 
   shell> java JR scripts/tpcb_load.js -nAgents 8 -param0 100
 
 テストの実行
 ------------
 
-scripts/tpcb.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することをおすすめします。 ::
+scripts/tpcb.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することをおすすめします。
+
+.. code-block:: text
 
   shell> java JR scripts/tpcb.js -jdbcUrl jdbc:mysql://server/tpcb
   14:46:11 [INFO ] > JdbcRunner 1.3

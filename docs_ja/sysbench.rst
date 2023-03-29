@@ -24,7 +24,9 @@ OLTPベンチマークは以下の4種類のテストモードを備えていま
 * nontrx : トランザクションを使わずに5種類のクエリを実行する
 * sp : ユーザが用意したストアドプロシージャを実行する
 
-complexモードで実行されるトランザクションの内容は以下のとおりです。主キーによる一意検索が10回、その他8種類のクエリは1回ずつ実行されます。この比率はカスタマイズ可能となっています。 ::
+complexモードで実行されるトランザクションの内容は以下のとおりです。主キーによる一意検索が10回、その他8種類のクエリは1回ずつ実行されます。この比率はカスタマイズ可能となっています。
+
+.. code-block:: mysql
 
   SELECT c FROM sbtest WHERE id = :1;
   SELECT c FROM sbtest WHERE id = :1;
@@ -73,7 +75,9 @@ MySQLにおけるテストの準備手順を以下に示します。Oracle Datab
 データベースの作成
 ^^^^^^^^^^^^^^^^^^
 
-MySQLにrootユーザで接続し、sbtestデータベースを作成します。 ::
+MySQLにrootユーザで接続し、sbtestデータベースを作成します。
+
+.. code-block:: mysql
 
   shell> mysql -u root -p
 
@@ -83,7 +87,9 @@ MySQLにrootユーザで接続し、sbtestデータベースを作成します�
 ユーザの作成
 ^^^^^^^^^^^^
 
-sbtestユーザを作成します。 ::
+sbtestユーザを作成します。
+
+.. code-block:: mysql
 
   sql> CREATE USER sbtest@'%' IDENTIFIED BY 'sbtest';
   Query OK, 0 rows affected (0.00 sec)
@@ -104,7 +110,7 @@ scripts/sysbench_load.jsを用いてテストデータの生成を行います�
 * インデックスの作成 (MySQLの主キーはデータロード前に作成)
 * 統計情報の更新
 
-::
+.. code-block:: text
 
   shell> java JR scripts/sysbench_load.js
   13:44:17 [INFO ] > JdbcRunner 1.3.1
@@ -154,14 +160,18 @@ scripts/sysbench_load.jsを用いてテストデータの生成を行います�
 
 「Unknown table 'sbtest'」という警告は、存在しないsbtestテーブルを削除しようとして出力されるものです。無視して構いません。
 
-また、-param0を指定することによってsbtestテーブルにロードするレコード数を変更することが可能です。デフォルトは1万レコードとなっています。 ::
+また、-param0を指定することによってsbtestテーブルにロードするレコード数を変更することが可能です。デフォルトは1万レコードとなっています。
+
+.. code-block:: text
 
   shell> java JR scripts/sysbench_load.js -param0 50000
 
 テストの実行
 ------------
 
-scripts/sysbench.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することをおすすめします。 ::
+scripts/sysbench.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することをおすすめします。
+
+.. code-block:: text
 
   shell> java JR scripts/sysbench.js -jdbcUrl jdbc:mysql://localhost/sbtest
   13:46:44 [INFO ] > JdbcRunner 1.3.1
@@ -226,7 +236,9 @@ OLTPベンチマークのcomplexモードでは、デッドロックが発生す
 テストのカスタマイズ
 --------------------
 
-Tiny sysbenchはスクリプトscripts/sysbench.jsの変数定義を修正することで、オリジナル版のsysbenchが持つ設定オプションをある程度再現することができます。変数はスクリプトのApplication settingsという箇所に定義されていますので、ここを修正してご利用ください。 ::
+Tiny sysbenchはスクリプトscripts/sysbench.jsの変数定義を修正することで、オリジナル版のsysbenchが持つ設定オプションをある程度再現することができます。変数はスクリプトのApplication settingsという箇所に定義されていますので、ここを修正してご利用ください。
+
+.. code-block:: javascript
 
   // Application settings ----------------------------------------------
 

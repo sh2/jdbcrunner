@@ -20,7 +20,9 @@ SQL発行ファンクションはいずれも1番目の引数に独自記法のS
 * $string : 値を文字列としてバインドする場合
 * $timestamp : 値を日付・時刻(java.sql.Timestamp)としてバインドする場合
 
-JDBCでクエリを発行する例を以下に示します。 ::
+JDBCでクエリを発行する例を以下に示します。
+
+.. code-block:: java
 
   pstmt = conn.prepareStatement("SELECT ename FROM emp WHERE empno = ?");
   pstmt.setInt(1, id);
@@ -33,15 +35,21 @@ JDBCでクエリを発行する例を以下に示します。 ::
   rs.close();
   pstmt.close();
 
-これと同じ処理を、JdbcRunnerでは以下のように書きます。 ::
+これと同じ処理を、JdbcRunnerでは以下のように書きます。
+
+.. code-block:: javascript
 
   var count = query("SELECT ename FROM emp WHERE empno = $int", id);
 
-本記法においては「$」は特殊記号として扱われます。もしSQLに「$」という文字そのものを使いたい場合は、「$$」と書いてください。次に示すのは、PostgreSQLにおいて「ドル引用符付け」という記法を用いる例です。 ::
+本記法においては「$」は特殊記号として扱われます。もしSQLに「$」という文字そのものを使いたい場合は、「$$」と書いてください。次に示すのは、PostgreSQLにおいて「ドル引用符付け」という記法を用いる例です。
+
+.. code-block:: javascript
 
   query("SELECT $$tag$$Dianne's horse$$tag$$");
 
-NULL値をバインドする場合は、JavaScriptのnullを指定してください。 ::
+NULL値をバインドする場合は、JavaScriptのnullを指定してください。
+
+.. code-block:: javascript
 
   var value = null;
   execute("INSERT INTO test (c1) VALUES ($int)", value);
@@ -56,22 +64,30 @@ SQL文に日付・時刻をバインドする方法は複数用意されてい�
 #. 数値をバインドする
 #. 文字列をバインドする
 
-以下はJavaScriptのDateオブジェクトをバインドする例です。 ::
+以下はJavaScriptのDateオブジェクトをバインドする例です。
+
+.. code-block:: javascript
 
   var d = new Date(2010, 0, 2, 3, 4, 5); // 2010年1月2日 3時4分5秒
   query("SELECT ename FROM emp WHERE hiredate < $timestamp", d);
 
-Javaのjava.util.Dateオブジェクトをバインドする例です。 ::
+Javaのjava.util.Dateオブジェクトをバインドする例です。
+
+.. code-block:: javascript
 
   var d = new java.util.Date(1262369045000); // 2010年1月2日 3時4分5秒
   query("SELECT ename FROM emp WHERE hiredate < $timestamp", d);
 
-数値をバインドする例です。数値として、1970年1月1日 0時0分0秒 GMTからの経過ミリ秒を指定します。 ::
+数値をバインドする例です。数値として、1970年1月1日 0時0分0秒 GMTからの経過ミリ秒を指定します。
+
+.. code-block:: javascript
 
   var d = 1262369045000; // 2010年1月2日 3時4分5秒
   query("SELECT ename FROM emp WHERE hiredate < $timestamp", d);
 
-文字列をバインドする例です。文字列はJDBCタイムスタンプエスケープ形式(yyyy-mm-dd hh:mm:ss[.f...])で記述します。 ::
+文字列をバインドする例です。文字列はJDBCタイムスタンプエスケープ形式(yyyy-mm-dd hh:mm:ss[.f...])で記述します。
+
+.. code-block:: javascript
 
   var d = "2010-01-02 03:04:05"; // 2010年1月2日 3時4分5秒
   query("SELECT ename FROM emp WHERE hiredate < $timestamp", d);
@@ -94,7 +110,9 @@ fetchAsArray(sql, param, ...)
 
 RDBMSに対してクエリを発行するファンクションです。内部的にはPreparedStatement#executeQuery()のラッパになっています。
 
-query()では結果セットのレコード数しか得ることができませんが、fetchAsArray()では結果セットをJavaScriptの二次元配列として得ることができます。 ::
+query()では結果セットのレコード数しか得ることができませんが、fetchAsArray()では結果セットをJavaScriptの二次元配列として得ることができます。
+
+.. code-block:: mysql
 
   sql> SELECT * FROM dept ORDER BY deptno;
   +--------+------------+----------+
@@ -107,7 +125,9 @@ query()では結果セットのレコード数しか得ることができませ�
   +--------+------------+----------+
   4 rows in set (0.00 sec)
 
-以下は、このdeptテーブルからデータを取得するサンプルスクリプトです。 ::
+以下は、このdeptテーブルからデータを取得するサンプルスクリプトです。
+
+.. code-block:: javascript
 
   var rs = fetchAsArray("SELECT * FROM dept ORDER BY deptno");
   info("rows     : " + rs.length);
@@ -115,7 +135,9 @@ query()では結果セットのレコード数しか得ることができませ�
   info("row1col1 : " + rs[0][0]);
   info("row2col3 : " + rs[1][2]);
 
-この例では次のようなログが出力されます。 ::
+この例では次のようなログが出力されます。
+
+.. code-block:: text
 
   2011-10-11 01:06:52 [INFO ] rows     : 4
   2011-10-11 01:06:52 [INFO ] columns  : 3
@@ -142,13 +164,17 @@ executeBatch(sql, paramArray, ...)
 
 RDBMSに対してJDBCバッチ更新を行うファンクションです。内部的にはPreparedStatement#addBatch()、PreparedStatement#executeBatch()のラッパになっています。
 
-paramArrayにはJavaScriptの配列を指定します。パラメータが複数ある場合は、それらの要素数を揃えておく必要があります。 ::
+paramArrayにはJavaScriptの配列を指定します。パラメータが複数ある場合は、それらの要素数を揃えておく必要があります。
+
+.. code-block:: javascript
 
   var c1Array = new Array(1, 2, 3);
   var c2Array = new Array("Apple", "Orange", "Banana");
   executeBatch("INSERT INTO test (c1, c2) VALUES ($int, $string)", c1Array, c2Array);
 
-この例では、3つのレコードを一度にINSERTすることができます。 ::
+この例では、3つのレコードを一度にINSERTすることができます。
+
+.. code-block:: mysql
 
   sql> SELECT * FROM test ORDER BY c1;
   +----+--------+
@@ -170,12 +196,16 @@ takeConnection()
 
 エージェントが現在使用している、データベースへの接続を返すファンクションです。このファンクションは、JDBCの機能を直接呼び出す際に利用します。
 
-オートコミットモードを切り替える例を以下に示します。 ::
+オートコミットモードを切り替える例を以下に示します。
+
+.. code-block:: javascript
 
   var conn = takeConnection();
   conn.setAutoCommit(true);
 
-トランザクション分離レベルを設定する例を以下に示します。 ::
+トランザクション分離レベルを設定する例を以下に示します。
+
+.. code-block:: javascript
 
   var conn = takeConnection();
   conn.setTransactionIsolation(java.sql.Connection.TRANSACTION_SERIALIZABLE)
@@ -226,7 +256,9 @@ getId()
 setBreak()
 ^^^^^^^^^^
 
-run()ファンクションの停止フラグを立てるファンクションです。このファンクションを実行すると、run()ファンクションをそれ以上繰り返さなくなります。ロードモードと組み合わせて、指定回数だけ処理を行わせる際に利用します。 ::
+run()ファンクションの停止フラグを立てるファンクションです。このファンクションを実行すると、run()ファンクションをそれ以上繰り返さなくなります。ロードモードと組み合わせて、指定回数だけ処理を行わせる際に利用します。
+
+.. code-block:: javascript
 
   var isLoad = true;
   var counter = 0;
@@ -247,7 +279,9 @@ setTxType(txType)
 
 トランザクション種別を設定するファンクションです。トランザクション種類数が5の場合、このファンクションには0以上4以下の値を設定することができます。
 
-トランザクション種類数を2以上に設定してこのファンクションを用いることで、複数の処理をミックスさせた負荷テストを行い、それぞれのスループットとレスポンスタイムを分計することができます。 ::
+トランザクション種類数を2以上に設定してこのファンクションを用いることで、複数の処理をミックスさせた負荷テストを行い、それぞれのスループットとレスポンスタイムを分計することができます。
+
+.. code-block:: javascript
 
   var nTxTypes = 2;
   
@@ -282,7 +316,9 @@ putData(key, value)
 
 エージェント間で共有したいデータを登録するファンクションです。内部的にはjava.util.concurrent.ConcurrentHashMap#put()のラッパになっています。
 
-負荷テストの初期化処理でテーブルの主キー一覧を取得し、それを各エージェントに共有させる例を以下に示します。 ::
+負荷テストの初期化処理でテーブルの主キー一覧を取得し、それを各エージェントに共有させる例を以下に示します。
+
+.. code-block:: javascript
 
   var emp;
   
@@ -331,7 +367,9 @@ getScriptStackTrace(object)
 * object : JavaScriptの例外オブジェクト
 * 戻り値 : スタックトレース、引数がJavaScriptの例外オブジェクトでない場合は空文字列
 
-try～catch文で受け取った例外オブジェクトを引数にして、スタックトレースを取得するファンクションです。以下に例を示します。 ::
+try～catch文で受け取った例外オブジェクトを引数にして、スタックトレースを取得するファンクションです。以下に例を示します。
+
+.. code-block:: javascript
 
   try {
       ...
@@ -340,7 +378,9 @@ try～catch文で受け取った例外オブジェクトを引数にして、ス
       rollback();
   }
 
-こうすると、以下のように例外の発生箇所を特定することができます。 ::
+こうすると、以下のように例外の発生箇所を特定することができます。
+
+.. code-block:: text
 
   2011-10-10 18:37:23 [WARN ] [Agent 6] org.postgresql.util.PSQLException: ERROR: deadlock detected
     詳細l: Process 8576 waits for ShareLock on transaction 219025; blocked by process 8583.
