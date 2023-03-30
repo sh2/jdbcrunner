@@ -1,3 +1,6 @@
 /bin/
 /classes/
+/docs_ja/_build/
+/misc/*.csv
+/scripts_test/logs*
 /*.jar
