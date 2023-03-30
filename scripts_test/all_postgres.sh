@@ -1,10 +1,13 @@
 #!/bin/bash -x
 
-export CLASSPATH=jdbcrunner-1.3.jar:.
+export CLASSPATH=../jdbcrunner-1.3.1.jar
 
+cd $(dirname $0)
 podman stop postgres
 podman rm postgres
-podman run --detach --rm --publish=5432:5432 --env=POSTGRES_PASSWORD=rootpass --name=postgres docker.io/postgres:latest
+podman run --detach --rm --publish=5432:5432 \
+    --env=POSTGRES_PASSWORD=rootpass \
+    --name=postgres docker.io/postgres:latest
 
 while true; do
     podman exec postgres psql -U postgres -c 'SELECT 1'
@@ -28,11 +31,24 @@ podman exec -i postgres psql -U postgres sbtest -c 'CREATE SCHEMA AUTHORIZATION 
 podman exec -i postgres psql -U postgres tpcb -c 'CREATE SCHEMA AUTHORIZATION tpcb'
 podman exec -i postgres psql -U postgres tpcc -c 'CREATE SCHEMA AUTHORIZATION tpcc'
 
-java JR sysbench_load.js -jdbcUrl jdbc:postgresql://localhost:5432/sbtest
-java JR sysbench.js -jdbcUrl jdbc:postgresql://localhost:5432/sbtest -warmupTime 5 -measurementTime 10
-java JR tpcb_load.js -jdbcUrl jdbc:postgresql://localhost:5432/tpcb -param0 4
-java JR tpcb.js -jdbcUrl jdbc:postgresql://localhost:5432/tpcb -warmupTime 5 -measurementTime 10
-java JR tpcc_load.js -jdbcUrl jdbc:postgresql://localhost:5432/tpcc -param0 4
-java JR tpcc.js -jdbcUrl jdbc:postgresql://localhost:5432/tpcc -warmupTime 5 -measurementTime 10
+rm -rf logs_postgres
+java JR ../scripts/sysbench_load.js \
+    -jdbcUrl jdbc:postgresql://localhost:5432/sbtest \
+    -logDir logs_postgres
+java JR ../scripts/sysbench.js \
+    -jdbcUrl jdbc:postgresql://localhost:5432/sbtest \
+    -warmupTime 5 -measurementTime 10 -logDir logs_postgres
+java JR ../scripts/tpcb_load.js \
+    -jdbcUrl jdbc:postgresql://localhost:5432/tpcb \
+    -param0 4 -logDir logs_postgres
+java JR ../scripts/tpcb.js \
+    -jdbcUrl jdbc:postgresql://localhost:5432/tpcb \
+    -warmupTime 5 -measurementTime 10 -logDir logs_postgres
+java JR ../scripts/tpcc_load.js \
+    -jdbcUrl jdbc:postgresql://localhost:5432/tpcc \
+    -param0 4 -logDir logs_postgres
+java JR ../scripts/tpcc.js \
+    -jdbcUrl jdbc:postgresql://localhost:5432/tpcc \
+    -warmupTime 5 -measurementTime 10 -logDir logs_postgres
 
 podman stop postgres
