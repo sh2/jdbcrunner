@@ -140,9 +140,9 @@ Tiny TPC-Cは以下の二つのスクリプトから構成されています。
 
 Tiny TPC-Cは、以下のRDBMSで動作確認をしています。
 
-* Oracle Database 18c
+* Oracle Database 21c
 * MySQL 8.0
-* PostgreSQL 10
+* PostgreSQL 15
 
 テストの準備
 ------------
@@ -189,11 +189,11 @@ scripts/tpcc_load.jsを用いてテストデータの生成を行います。こ
 
 .. code-block:: text
 
-  shell> java JR scripts/tpcc_load.js
-  15:53:05 [INFO ] > JdbcRunner 1.3
-  15:53:05 [INFO ] [Config]
-  Program start time   : 20180819-155305
-  Script filename      : scripts/tpcc_load.js
+  shell> java JR ../scripts/tpcc_load.js -logDir logs_sample10
+  13:20:49 [INFO ] > JdbcRunner 1.3.1
+  13:20:49 [INFO ] [Config]
+  Program start time   : 20230331-132048
+  Script filename      : ../scripts/tpcc_load.js
   JDBC driver          : -
   JDBC URL             : jdbc:mysql://localhost:3306/tpcc?rewriteBatchedStatements=true
   JDBC user            : tpcc
@@ -202,7 +202,7 @@ scripts/tpcc_load.jsを用いてテストデータの生成を行います。こ
   Auto commit          : false
   Debug mode           : false
   Trace mode           : false
-  Log directory        : logs
+  Log directory        : logs_sample10
   Parameter 0          : 0
   Parameter 1          : 0
   Parameter 2          : 0
@@ -213,46 +213,46 @@ scripts/tpcc_load.jsを用いてテストデータの生成を行います。こ
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  15:53:06 [INFO ] Tiny TPC-C - data loader
-  15:53:06 [INFO ] -param0  : Scale factor (default : 16)
-  15:53:06 [INFO ] -nAgents : Parallel loading degree (default : 4)
-  15:53:06 [INFO ] Scale factor            : 16
-  15:53:06 [INFO ] Parallel loading degree : 4
-  15:53:06 [INFO ] Dropping tables ...
-  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.order_line'
-  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.new_orders'
-  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.orders'
-  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.stock'
-  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.item'
-  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.history'
-  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.customer'
-  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.district'
-  15:53:06 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.warehouse'
-  15:53:06 [INFO ] Creating tables ...
-  15:53:06 [INFO ] Loading item ...
-  15:53:07 [INFO ] item : 10000 / 100000
-  15:53:08 [INFO ] item : 20000 / 100000
-  15:53:09 [INFO ] item : 30000 / 100000
-  15:53:09 [INFO ] item : 40000 / 100000
-  15:53:10 [INFO ] item : 50000 / 100000
-  15:53:10 [INFO ] item : 60000 / 100000
-  15:53:10 [INFO ] item : 70000 / 100000
-  15:53:11 [INFO ] item : 80000 / 100000
-  15:53:11 [INFO ] item : 90000 / 100000
-  15:53:12 [INFO ] item : 100000 / 100000
-  15:53:12 [INFO ] Loading warehouse id 1 by agent 1 ...
-  15:53:12 [INFO ] Loading warehouse id 2 by agent 2 ...
-  15:53:12 [INFO ] Loading warehouse id 3 by agent 3 ...
-  15:53:12 [INFO ] Loading warehouse id 4 by agent 0 ...
+  13:20:49 [INFO ] Tiny TPC-C - data loader
+  13:20:49 [INFO ] -param0  : Scale factor (default : 16)
+  13:20:49 [INFO ] -nAgents : Parallel loading degree (default : 4)
+  13:20:49 [INFO ] Scale factor            : 16
+  13:20:49 [INFO ] Parallel loading degree : 4
+  13:20:49 [INFO ] Dropping tables ...
+  13:20:49 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.order_line'
+  13:20:49 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.new_orders'
+  13:20:49 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.orders'
+  13:20:49 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.stock'
+  13:20:49 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.item'
+  13:20:49 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.history'
+  13:20:49 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.customer'
+  13:20:49 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.district'
+  13:20:49 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcc.warehouse'
+  13:20:49 [INFO ] Creating tables ...
+  13:20:49 [INFO ] Loading item ...
+  13:20:50 [INFO ] item : 10000 / 100000
+  13:20:50 [INFO ] item : 20000 / 100000
+  13:20:51 [INFO ] item : 30000 / 100000
+  13:20:51 [INFO ] item : 40000 / 100000
+  13:20:51 [INFO ] item : 50000 / 100000
+  13:20:51 [INFO ] item : 60000 / 100000
+  13:20:51 [INFO ] item : 70000 / 100000
+  13:20:52 [INFO ] item : 80000 / 100000
+  13:20:52 [INFO ] item : 90000 / 100000
+  13:20:52 [INFO ] item : 100000 / 100000
+  13:20:52 [INFO ] Loading warehouse id 4 by agent 2 ...
+  13:20:52 [INFO ] Loading warehouse id 2 by agent 3 ...
+  13:20:52 [INFO ] Loading warehouse id 3 by agent 0 ...
+  13:20:52 [INFO ] Loading warehouse id 1 by agent 1 ...
   ...
-  15:59:17 [INFO ] [Agent 2] orders : 30000 / 30000
-  15:59:18 [INFO ] [Agent 0] orders : 30000 / 30000
-  15:59:19 [INFO ] [Agent 1] orders : 30000 / 30000
-  15:59:19 [INFO ] [Agent 3] orders : 30000 / 30000
-  15:59:19 [INFO ] Creating indexes ...
-  15:59:24 [INFO ] Analyzing tables ...
-  15:59:24 [INFO ] Completed.
-  15:59:24 [INFO ] < JdbcRunner SUCCESS
+  13:23:11 [INFO ] [Agent 2] orders : 30000 / 30000
+  13:23:15 [INFO ] [Agent 0] orders : 30000 / 30000
+  13:23:16 [INFO ] [Agent 1] orders : 30000 / 30000
+  13:23:16 [INFO ] [Agent 3] orders : 30000 / 30000
+  13:23:16 [INFO ] Creating indexes ...
+  13:23:21 [INFO ] Analyzing tables ...
+  13:23:21 [INFO ] Completed.
+  13:23:21 [INFO ] < JdbcRunner SUCCESS
 
 「Unknown table 'order_line'」などの警告は、存在しないテーブルを削除しようとして出力されるものです。無視して構いません。
 
@@ -276,23 +276,23 @@ order_line sf x 300,000 (approx.)
 
 .. code-block:: text
 
-  shell> java JR scripts/tpcc_load.js -nAgents 8 -param0 100
+  shell> java JR ../scripts/tpcc_load.js -nAgents 8 -param0 100
 
 
 テストの実行
 ------------
 
-scripts/tpcc.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することをおすすめします。
+scripts/tpcc.jsを用いてテストを実行します。以下の例ではlocalhostのRDBMSに対してテストを行っていますが、実際にはJdbcRunnerとRDBMSを異なるコンピュータに配置することをおすすめします。
 
 .. code-block:: text
 
-  shell> java JR scripts/tpcc.js -jdbcUrl jdbc:mysql://server/tpcc
-  16:05:22 [INFO ] > JdbcRunner 1.3
-  16:05:22 [INFO ] [Config]
-  Program start time   : 20180819-160522
-  Script filename      : scripts/tpcc.js
+  shell> java JR ../scripts/tpcc.js -logDir logs_sample10 -warmupTime 300 -measurementTime 900
+  13:23:21 [INFO ] > JdbcRunner 1.3.1
+  13:23:21 [INFO ] [Config]
+  Program start time   : 20230331-132321
+  Script filename      : ../scripts/tpcc.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://server/tpcc
+  JDBC URL             : jdbc:mysql://localhost:3306/tpcc
   JDBC user            : tpcc
   Warmup time          : 300 sec
   Measurement time     : 900 sec
@@ -305,7 +305,7 @@ scripts/tpcc.jsを用いてテストを実行します。JdbcRunnerを動作さ�
   Throttle             : - tps (total)
   Debug mode           : false
   Trace mode           : false
-  Log directory        : logs
+  Log directory        : logs_sample10
   Parameter 0          : 0
   Parameter 1          : 0
   Parameter 2          : 0
@@ -316,31 +316,30 @@ scripts/tpcc.jsを用いてテストを実行します。JdbcRunnerを動作さ�
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  16:05:23 [INFO ] Tiny TPC-C
-  16:05:23 [INFO ] Scale factor : 16
-  16:05:23 [INFO ] tx0 : New-Order transaction
-  16:05:23 [INFO ] tx1 : Payment transaction
-  16:05:23 [INFO ] tx2 : Order-Status transaction
-  16:05:23 [INFO ] tx3 : Delivery transaction
-  16:05:23 [INFO ] tx4 : Stock-Level transaction
-  16:05:24 [INFO ] [Warmup] -299 sec, 18,34,2,0,3 tps, (18,34,2,0,3 tx)
-  16:05:25 [INFO ] [Warmup] -298 sec, 42,27,3,2,5 tps, (60,61,5,2,8 tx)
-  16:05:26 [INFO ] [Warmup] -297 sec, 40,33,5,6,5 tps, (100,94,10,8,13 tx)
+  13:23:23 [INFO ] Tiny TPC-C
+  13:23:23 [INFO ] Scale factor : 16
+  13:23:23 [INFO ] tx0 : New-Order transaction
+  13:23:23 [INFO ] tx1 : Payment transaction
+  13:23:23 [INFO ] tx2 : Order-Status transaction
+  13:23:23 [INFO ] tx3 : Delivery transaction
+  13:23:23 [INFO ] tx4 : Stock-Level transaction
+  13:23:24 [INFO ] [Warmup] -299 sec, 24,23,4,2,6 tps, (24,23,4,2,6 tx)
+  13:23:25 [INFO ] [Warmup] -298 sec, 29,28,3,3,1 tps, (53,51,7,5,7 tx)
+  13:23:26 [INFO ] [Warmup] -297 sec, 40,44,1,3,3 tps, (93,95,8,8,10 tx)
   ...
-  16:25:20 [INFO ] [Progress] 897 sec, 47,60,5,7,5 tps, 42576,42577,4259,4254,4257 tx
-  16:25:21 [INFO ] [Progress] 898 sec, 50,47,2,7,3 tps, 42626,42624,4261,4261,4260 tx
-  16:25:22 [INFO ] [Progress] 899 sec, 50,46,4,5,8 tps, 42676,42670,4265,4266,4268 tx
-  16:25:23 [INFO ] [Progress] 900 sec, 51,52,7,5,3 tps, 42727,42722,4272,4271,4271 tx
-  16:25:23 [INFO ] [Total tx count] 42727,42723,4272,4271,4271 tx
-  16:25:23 [INFO ] [Throughput] 47.5,47.5,4.7,4.7,4.7 tps
-  16:25:23 [INFO ] [Response time (minimum)] 9,6,2,79,3 msec
-  16:25:23 [INFO ] [Response time (50%tile)] 212,52,12,465,48 msec
-  16:25:23 [INFO ] [Response time (90%tile)] 347,100,42,662,117 msec
-  16:25:23 [INFO ] [Response time (95%tile)] 386,131,51,730,137 msec
-  16:25:23 [INFO ] [Response time (99%tile)] 476,252,72,903,180 msec
-  16:25:23 [INFO ] [Response time (maximum)] 916,567,111,1507,421 msec
-  16:25:23 [INFO ] < JdbcRunner SUCCESS
+  13:43:21 [INFO ] [Progress] 898 sec, 125,119,12,14,12 tps, 106699,106695,10668,10674,10673 tx
+  13:43:22 [INFO ] [Progress] 899 sec, 125,128,11,12,11 tps, 106824,106823,10679,10686,10684 tx
+  13:43:23 [INFO ] [Progress] 900 sec, 119,114,16,14,10 tps, 106943,106937,10695,10700,10694 tx
+  13:43:23 [INFO ] [Total tx count] 106943,106937,10695,10700,10694 tx
+  13:43:23 [INFO ] [Throughput] 118.8,118.8,11.9,11.9,11.9 tps
+  13:43:23 [INFO ] [Response time (minimum)] 3,2,0,19,9 msec
+  13:43:23 [INFO ] [Response time (50%tile)] 70,17,6,156,116 msec
+  13:43:23 [INFO ] [Response time (90%tile)] 157,45,23,287,235 msec
+  13:43:23 [INFO ] [Response time (95%tile)] 182,58,29,321,261 msec
+  13:43:23 [INFO ] [Response time (99%tile)] 228,104,43,387,301 msec
+  13:43:23 [INFO ] [Response time (maximum)] 396,298,108,557,490 msec
+  13:43:23 [INFO ] < JdbcRunner SUCCESS
 
 TPC-Cでは5種類のトランザクションが定義されており、結果は左からNew-Order、Payment、Order-Status、Delivery、Stock-Levelトランザクションのものとなっています。
 
-TPC-CのスコアにはNew-Orderトランザクションの1分あたりの実行回数を用いることが多いです。上記の例では15分間で42,727txですから、スコアは2,848.5tpmとなります。
+TPC-CのスコアにはNew-Orderトランザクションの1分あたりの実行回数を用いることが多いです。上記の例では15分間で106,943txですから、スコアは7,129.5tpmとなります。

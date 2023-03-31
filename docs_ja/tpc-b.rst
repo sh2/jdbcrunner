@@ -57,9 +57,9 @@ Tiny TPC-Bは以下の二つのスクリプトから構成されています。
 
 Tiny TPC-Bは、以下のRDBMSで動作確認をしています。
 
-* Oracle Database 18c
+* Oracle Database 21c
 * MySQL 8.0
-* PostgreSQL 10
+* PostgreSQL 15
 
 テストの準備
 ------------
@@ -106,11 +106,11 @@ scripts/tpcb_load.jsを用いてテストデータの生成を行います。こ
 
 .. code-block:: text
 
-  shell> java JR scripts/tpcb_load.js
-  14:41:01 [INFO ] > JdbcRunner 1.3
-  14:41:01 [INFO ] [Config]
-  Program start time   : 20180819-144100
-  Script filename      : scripts/tpcb_load.js
+  shell> java JR ../scripts/tpcb_load.js -logDir logs_sample09
+  13:16:30 [INFO ] > JdbcRunner 1.3.1
+  13:16:30 [INFO ] [Config]
+  Program start time   : 20230331-131630
+  Script filename      : ../scripts/tpcb_load.js
   JDBC driver          : -
   JDBC URL             : jdbc:mysql://localhost:3306/tpcb?rewriteBatchedStatements=true
   JDBC user            : tpcb
@@ -119,7 +119,7 @@ scripts/tpcb_load.jsを用いてテストデータの生成を行います。こ
   Auto commit          : false
   Debug mode           : false
   Trace mode           : false
-  Log directory        : logs
+  Log directory        : logs_sample09
   Parameter 0          : 0
   Parameter 1          : 0
   Parameter 2          : 0
@@ -130,36 +130,36 @@ scripts/tpcb_load.jsを用いてテストデータの生成を行います。こ
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  14:41:02 [INFO ] Tiny TPC-B - data loader
-  14:41:02 [INFO ] -param0  : Scale factor (default : 16)
-  14:41:02 [INFO ] -nAgents : Parallel loading degree (default : 4)
-  14:41:02 [INFO ] Scale factor            : 16
-  14:41:02 [INFO ] Parallel loading degree : 4
-  14:41:02 [INFO ] Dropping tables ...
-  14:41:02 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcb.history'
-  14:41:02 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcb.accounts'
-  14:41:02 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcb.tellers'
-  14:41:02 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcb.branches'
-  14:41:02 [INFO ] Creating tables ...
-  14:41:02 [INFO ] Loading branch id 2 by agent 3 ...
-  14:41:02 [INFO ] Loading branch id 3 by agent 1 ...
-  14:41:02 [INFO ] Loading branch id 4 by agent 0 ...
-  14:41:02 [INFO ] Loading branch id 1 by agent 2 ...
-  14:41:16 [INFO ] Loading branch id 5 by agent 3 ...
-  14:41:16 [INFO ] Loading branch id 6 by agent 0 ...
-  14:41:17 [INFO ] Loading branch id 7 by agent 2 ...
-  14:41:17 [INFO ] Loading branch id 8 by agent 1 ...
-  14:41:29 [INFO ] Loading branch id 9 by agent 0 ...
-  14:41:30 [INFO ] Loading branch id 10 by agent 3 ...
-  14:41:30 [INFO ] Loading branch id 11 by agent 2 ...
-  14:41:30 [INFO ] Loading branch id 12 by agent 1 ...
-  14:41:41 [INFO ] Loading branch id 13 by agent 0 ...
-  14:41:41 [INFO ] Loading branch id 14 by agent 2 ...
-  14:41:41 [INFO ] Loading branch id 15 by agent 3 ...
-  14:41:42 [INFO ] Loading branch id 16 by agent 1 ...
-  14:41:53 [INFO ] Analyzing tables ...
-  14:41:53 [INFO ] Completed.
-  14:41:53 [INFO ] < JdbcRunner SUCCESS
+  13:16:31 [INFO ] Tiny TPC-B - data loader
+  13:16:31 [INFO ] -param0  : Scale factor (default : 16)
+  13:16:31 [INFO ] -nAgents : Parallel loading degree (default : 4)
+  13:16:31 [INFO ] Scale factor            : 16
+  13:16:31 [INFO ] Parallel loading degree : 4
+  13:16:31 [INFO ] Dropping tables ...
+  13:16:31 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcb.history'
+  13:16:31 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcb.accounts'
+  13:16:31 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcb.tellers'
+  13:16:31 [WARN ] JavaException: java.sql.SQLSyntaxErrorException: Unknown table 'tpcb.branches'
+  13:16:31 [INFO ] Creating tables ...
+  13:16:31 [INFO ] Loading branch id 1 by agent 3 ...
+  13:16:31 [INFO ] Loading branch id 4 by agent 0 ...
+  13:16:31 [INFO ] Loading branch id 3 by agent 2 ...
+  13:16:31 [INFO ] Loading branch id 2 by agent 1 ...
+  13:16:35 [INFO ] Loading branch id 5 by agent 3 ...
+  13:16:36 [INFO ] Loading branch id 6 by agent 0 ...
+  13:16:36 [INFO ] Loading branch id 7 by agent 1 ...
+  13:16:36 [INFO ] Loading branch id 8 by agent 2 ...
+  13:16:39 [INFO ] Loading branch id 9 by agent 3 ...
+  13:16:40 [INFO ] Loading branch id 10 by agent 1 ...
+  13:16:40 [INFO ] Loading branch id 11 by agent 0 ...
+  13:16:40 [INFO ] Loading branch id 12 by agent 2 ...
+  13:16:42 [INFO ] Loading branch id 13 by agent 3 ...
+  13:16:43 [INFO ] Loading branch id 14 by agent 0 ...
+  13:16:43 [INFO ] Loading branch id 15 by agent 2 ...
+  13:16:43 [INFO ] Loading branch id 16 by agent 1 ...
+  13:16:47 [INFO ] Analyzing tables ...
+  13:16:47 [INFO ] Completed.
+  13:16:47 [INFO ] < JdbcRunner SUCCESS
 
 「Unknown table 'history'」などの警告は、存在しないテーブルを削除しようとして出力されるものです。無視して構いません。
 
@@ -169,22 +169,22 @@ scripts/tpcb_load.jsを用いてテストデータの生成を行います。こ
 
 .. code-block:: text
 
-  shell> java JR scripts/tpcb_load.js -nAgents 8 -param0 100
+  shell> java JR ../scripts/tpcb_load.js -nAgents 8 -param0 100
 
 テストの実行
 ------------
 
-scripts/tpcb.jsを用いてテストを実行します。JdbcRunnerを動作させるマシンは、テスト対象のマシンとは別に用意することをおすすめします。
+scripts/tpcb.jsを用いてテストを実行します。以下の例ではlocalhostのRDBMSに対してテストを行っていますが、実際にはJdbcRunnerとRDBMSを異なるコンピュータに配置することをおすすめします。
 
 .. code-block:: text
 
-  shell> java JR scripts/tpcb.js -jdbcUrl jdbc:mysql://server/tpcb
-  14:46:11 [INFO ] > JdbcRunner 1.3
-  14:46:11 [INFO ] [Config]
-  Program start time   : 20180819-144611
-  Script filename      : scripts/tpcb.js
+  + java JR ../scripts/tpcb.js -logDir logs_sample09 -warmupTime 60 -measurementTime 180
+  13:16:47 [INFO ] > JdbcRunner 1.3.1
+  13:16:47 [INFO ] [Config]
+  Program start time   : 20230331-131647
+  Script filename      : ../scripts/tpcb.js
   JDBC driver          : -
-  JDBC URL             : jdbc:mysql://server/tpcb
+  JDBC URL             : jdbc:mysql://localhost:3306/tpcb
   JDBC user            : tpcb
   Warmup time          : 60 sec
   Measurement time     : 180 sec
@@ -197,7 +197,7 @@ scripts/tpcb.jsを用いてテストを実行します。JdbcRunnerを動作さ�
   Throttle             : - tps
   Debug mode           : false
   Trace mode           : false
-  Log directory        : logs
+  Log directory        : logs_sample09
   Parameter 0          : 0
   Parameter 1          : 0
   Parameter 2          : 0
@@ -208,22 +208,22 @@ scripts/tpcb.jsを用いてテストを実行します。JdbcRunnerを動作さ�
   Parameter 7          : 0
   Parameter 8          : 0
   Parameter 9          : 0
-  14:46:12 [INFO ] Tiny TPC-B
-  14:46:12 [INFO ] Scale factor : 16
-  14:46:12 [INFO ] Truncating history table...
-  14:46:13 [INFO ] [Warmup] -59 sec, 331 tps, (331 tx)
-  14:46:14 [INFO ] [Warmup] -58 sec, 413 tps, (744 tx)
-  14:46:15 [INFO ] [Warmup] -57 sec, 423 tps, (1167 tx)
+  13:16:48 [INFO ] Tiny TPC-B
+  13:16:48 [INFO ] Scale factor : 16
+  13:16:48 [INFO ] Truncating history table...
+  13:16:49 [INFO ] [Warmup] -59 sec, 371 tps, (371 tx)
+  13:16:50 [INFO ] [Warmup] -58 sec, 649 tps, (1020 tx)
+  13:16:51 [INFO ] [Warmup] -57 sec, 830 tps, (1850 tx)
   ...
-  14:50:10 [INFO ] [Progress] 178 sec, 464 tps, 86500 tx
-  14:50:11 [INFO ] [Progress] 179 sec, 540 tps, 87040 tx
-  14:50:12 [INFO ] [Progress] 180 sec, 471 tps, 87511 tx
-  14:50:12 [INFO ] [Total tx count] 87509 tx
-  14:50:12 [INFO ] [Throughput] 486.2 tps
-  14:50:12 [INFO ] [Response time (minimum)] 5 msec
-  14:50:12 [INFO ] [Response time (50%tile)] 30 msec
-  14:50:12 [INFO ] [Response time (90%tile)] 51 msec
-  14:50:12 [INFO ] [Response time (95%tile)] 59 msec
-  14:50:12 [INFO ] [Response time (99%tile)] 78 msec
-  14:50:12 [INFO ] [Response time (maximum)] 415 msec
-  14:50:12 [INFO ] < JdbcRunner SUCCESS
+  13:20:46 [INFO ] [Progress] 178 sec, 1013 tps, 178107 tx
+  13:20:47 [INFO ] [Progress] 179 sec, 970 tps, 179077 tx
+  13:20:48 [INFO ] [Progress] 180 sec, 984 tps, 180061 tx
+  13:20:48 [INFO ] [Total tx count] 180061 tx
+  13:20:48 [INFO ] [Throughput] 1000.3 tps
+  13:20:48 [INFO ] [Response time (minimum)] 1 msec
+  13:20:48 [INFO ] [Response time (50%tile)] 16 msec
+  13:20:48 [INFO ] [Response time (90%tile)] 25 msec
+  13:20:48 [INFO ] [Response time (95%tile)] 28 msec
+  13:20:48 [INFO ] [Response time (99%tile)] 35 msec
+  13:20:48 [INFO ] [Response time (maximum)] 86 msec
+  13:20:48 [INFO ] < JdbcRunner SUCCESS
