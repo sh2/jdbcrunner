@@ -73,6 +73,7 @@ java JR test.js \
 ls -l logs_sample02
 cat logs_sample02/log_*_r.csv
 cat logs_sample02/log_*_t.csv
+rm -f test.js
 
 echo Chapter 8
 
