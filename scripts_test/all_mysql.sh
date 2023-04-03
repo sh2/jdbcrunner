@@ -3,7 +3,7 @@
 export CLASSPATH=../jdbcrunner-1.3.1.jar
 
 cd $(dirname $0)
-podman stop mysql
+podman stop --time 60 mysql
 podman rm mysql
 podman run --detach --rm --publish=3306:3306 \
     --env=MYSQL_ROOT_PASSWORD=rootpass \
@@ -50,4 +50,4 @@ java JR ../scripts/tpcc_load.js \
 java JR ../scripts/tpcc.js \
     -warmupTime 5 -measurementTime 10 -logDir logs_mysql
 
-podman stop mysql
+podman stop --time 60 mysql

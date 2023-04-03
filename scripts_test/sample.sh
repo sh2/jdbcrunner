@@ -22,7 +22,7 @@ TPCC_WARMUP=300
 TPCC_MEASUREMENT=900
 
 cd $(dirname $0)
-podman stop mysql
+podman stop --time 60 mysql
 podman rm mysql
 podman run --detach --rm --publish=3306:3306 \
     --volume=$PWD/mysql.conf.d:/etc/mysql/conf.d \
@@ -114,4 +114,4 @@ java JR ../scripts/tpcc_load.js -logDir logs_sample10
 java JR ../scripts/tpcc.js -logDir logs_sample10 \
     -warmupTime $TPCC_WARMUP -measurementTime $TPCC_MEASUREMENT
 
-podman stop mysql
+podman stop --time 60 mysql

@@ -3,7 +3,7 @@
 export CLASSPATH=../jdbcrunner-1.3.1.jar
 
 cd $(dirname $0)
-podman stop postgres
+podman stop --time 60 postgres
 podman rm postgres
 podman run --detach --rm --publish=5432:5432 \
     --env=POSTGRES_PASSWORD=rootpass \
@@ -51,4 +51,4 @@ java JR ../scripts/tpcc.js \
     -jdbcUrl jdbc:postgresql://localhost:5432/tpcc \
     -warmupTime 5 -measurementTime 10 -logDir logs_postgres
 
-podman stop postgres
+podman stop --time 60 postgres

@@ -3,7 +3,7 @@
 export CLASSPATH=../jdbcrunner-1.3.1.jar:../ojdbc11.jar
 
 cd $(dirname $0)
-podman stop oracle
+podman stop --time 60 oracle
 podman rm oracle
 podman run --detach --rm --publish=1521:1521 \
     --env=ORACLE_PWD=rootpass --env=ORACLE_CHARACTERSET=AL32UTF8 \
@@ -58,4 +58,4 @@ java -Doracle.net.disableOob=true JR ../scripts/tpcc.js \
     -jdbcUrl jdbc:oracle:thin:@//localhost:1521/XEPDB1 \
     -warmupTime 5 -measurementTime 10 -logDir logs_oracle
 
-podman stop oracle
+podman stop --time 60 oracle
