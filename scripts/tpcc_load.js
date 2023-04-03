@@ -5,6 +5,7 @@
  *
  * [Oracle Database]
  * shell> sqlplus "/ AS SYSDBA"
+ * sql> ALTER SESSION SET CONTAINER=...;
  * sql> CREATE USER tpcc IDENTIFIED BY tpcc;
  * sql> GRANT CREATE SESSION, CREATE TABLE, UNLIMITED TABLESPACE TO tpcc;
  *

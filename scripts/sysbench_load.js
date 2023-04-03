@@ -5,6 +5,7 @@
  *
  * [Oracle Database]
  * shell> sqlplus "/ AS SYSDBA"
+ * sql> ALTER SESSION SET CONTAINER=...;
  * sql> CREATE USER sbtest IDENTIFIED BY sbtest;
  * sql> GRANT CREATE SESSION, CREATE TABLE, CREATE SEQUENCE, CREATE TRIGGER, UNLIMITED TABLESPACE TO sbtest;
  *
