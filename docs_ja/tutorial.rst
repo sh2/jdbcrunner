@@ -6,7 +6,7 @@
 データベースの準備
 ------------------
 
-MySQLサーバにrootユーザでログインして、tutorialデータベースとrunnerユーザを作成します。
+MySQLサーバーにrootユーザーでログインして、tutorialデータベースとrunnerユーザーを作成します。
 パスワードはお使いの環境に合わせて変更してください。
 
 .. code-block:: mysql
@@ -16,7 +16,7 @@ MySQLサーバにrootユーザでログインして、tutorialデータベース
   sql> CREATE USER runner@'%' IDENTIFIED BY 'change_on_install';
   sql> GRANT ALL PRIVILEGES ON tutorial.* TO runner@'%';
 
-MySQLサーバにrunnerユーザでログインし直してsampleテーブルを作成し、テストデータをINSERTします。
+MySQLサーバーにrunnerユーザーでログインし直してsampleテーブルを作成し、テストデータをINSERTします。
 
 .. code-block:: mysql
 
@@ -47,7 +47,7 @@ MySQLサーバにrunnerユーザでログインし直してsampleテーブルを
 ツールのセットアップ
 --------------------
 
-JdbcRunnerのJARファイルを任意のディレクトリに配置し、環境変数CLASSPATHを設定します。
+JdbcRunnerのJARファイルを任意のディレクトリーに配置し、環境変数CLASSPATHを設定します。
 
 .. code-block:: text
 
@@ -66,11 +66,11 @@ JdbcRunnerのJARファイルを任意のディレクトリに配置し、環境�
   -autoCommit <arg>     オートコミットモードを有効化または無効化します (デフォルト : true (有効))
   -connPoolSize <arg>   コネクションプールの物理接続数を指定します (デフォルト : nAgents)
   -debug                デバッグモードを有効にします (デフォルト : false)
-  -jdbcDriver <arg>     JDBCドライバのクラス名を指定します (デフォルト : (なし))
-  -jdbcPass <arg>       データベースユーザのパスワードを指定します (デフォルト : (なし))
+  -jdbcDriver <arg>     JDBCドライバーのクラス名を指定します (デフォルト : (なし))
+  -jdbcPass <arg>       データベースユーザーのパスワードを指定します (デフォルト : (なし))
   -jdbcUrl <arg>        JDBC接続URLを指定します (デフォルト : jdbc:mysql://localhost:3306/test)
-  -jdbcUser <arg>       データベースのユーザ名を指定します (デフォルト : (なし))
-  -logDir <arg>         ログの出力先ディレクトリを指定します (デフォルト : .)
+  -jdbcUser <arg>       データベースのユーザー名を指定します (デフォルト : (なし))
+  -logDir <arg>         ログの出力先ディレクトリーを指定します (デフォルト : .)
   -measurementTime <arg>測定時間[sec]を指定します (デフォルト : 60)
   -nAgents <arg>        エージェント数を指定します (デフォルト : 1)
   -param0 <arg>         変数param0に値を設定します
@@ -103,7 +103,7 @@ JdbcRunnerでは、負荷テストのシナリオをスクリプトで定義し�
       query("SELECT data FROM sample WHERE id = $int", param);
   }
 
-このスクリプトは「1以上5以下の乱数を生成し、生成された値をint型としてクエリのパラメータにバインドして実行する」というファンクションを定義するものです。
+このスクリプトは「1以上5以下の乱数を生成し、生成された値をint型としてクエリーのパラメーターにバインドして実行する」というファンクションを定義するものです。
 JdbcRunnerはrun()ファンクションで定義された処理を指定された多重度で指定された時間だけ繰り返し実行し、スループットとレスポンスタイムを出力します。
 
 負荷テストの実行

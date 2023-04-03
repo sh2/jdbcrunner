@@ -14,7 +14,7 @@ SQL発行ファンクションの共通事項
 
 SQL発行ファンクションはいずれも1番目の引数に独自記法のSQL文をとります。
 このSQL文は基本的にPreparedStatementの記法に準じますが、一つ異なる点があります。
-それはPreparedStatementでプレースホルダとして用いる「?」記号の代わりに、以下の独自プレースホルダを記述するということです。
+それはPreparedStatementでプレースホルダーとして用いる「?」記号の代わりに、以下の独自プレースホルダーを記述するということです。
 
 * $int : 値を整数としてバインドする場合
 * $long : 値を長整数としてバインドする場合
@@ -22,7 +22,7 @@ SQL発行ファンクションはいずれも1番目の引数に独自記法のS
 * $string : 値を文字列としてバインドする場合
 * $timestamp : 値を日付・時刻(java.sql.Timestamp)としてバインドする場合
 
-JDBCでクエリを発行する例を以下に示します。
+JDBCでクエリーを発行する例を以下に示します。
 
 .. code-block:: java
 
@@ -102,21 +102,21 @@ query(sql, param, ...)
 ^^^^^^^^^^^^^^^^^^^^^^
 
 * sql : 独自記法のSQL文
-* param, ... : パラメータにバインドする値
+* param, ... : パラメーターにバインドする値
 * 戻り値 : 結果セットのレコード数
 
-RDBMSに対してクエリを発行するファンクションです。
-内部的にはPreparedStatement#executeQuery()のラッパになっています。
+RDBMSに対してクエリーを発行するファンクションです。
+内部的にはPreparedStatement#executeQuery()のラッパーになっています。
 
 fetchAsArray(sql, param, ...)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * sql : 独自記法のSQL文
-* param, ... : パラメータにバインドする値
+* param, ... : パラメーターにバインドする値
 * 戻り値 : 結果セット
 
-RDBMSに対してクエリを発行するファンクションです。
-内部的にはPreparedStatement#executeQuery()のラッパになっています。
+RDBMSに対してクエリーを発行するファンクションです。
+内部的にはPreparedStatement#executeQuery()のラッパーになっています。
 
 query()では結果セットのレコード数しか得ることができませんが、fetchAsArray()では結果セットをJavaScriptの2次元配列として得ることができます。
 
@@ -158,23 +158,23 @@ execute(sql, param, ...)
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 * sql : 独自記法のSQL文
-* param, ... : パラメータにバインドする値
+* param, ... : パラメーターにバインドする値
 * 戻り値 : 更新されたレコード数
 
 RDBMSに対してDMLを発行するファンクションです。
-内部的にはPreparedStatement#executeUpdate()のラッパになっています。
+内部的にはPreparedStatement#executeUpdate()のラッパーになっています。
 
 executeBatch(sql, paramArray, ...)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * sql : 独自記法のSQL文
-* paramArray, ... : パラメータにバインドする配列
+* paramArray, ... : パラメーターにバインドする配列
 * 戻り値 : 更新されたレコード数の配列
 
-RDBMSに対してJDBCバッチ更新をするファンクションです。内部的にはPreparedStatement#addBatch()、PreparedStatement#executeBatch()のラッパになっています。
+RDBMSに対してJDBCバッチ更新をするファンクションです。内部的にはPreparedStatement#addBatch()、PreparedStatement#executeBatch()のラッパーになっています。
 
 paramArrayにはJavaScriptの配列を指定します。
-パラメータが複数ある場合は、それらの要素数を揃えておく必要があります。
+パラメーターが複数ある場合は、それらの要素数を揃えておく必要があります。
 
 .. code-block:: javascript
 
@@ -205,7 +205,7 @@ takeConnection()
 * 戻り値 : データベースへの接続
 
 エージェントが現在使用している、データベースへの接続を返すファンクションです。
-このファンクションは、JDBCの機能を直接呼び出す際に利用します。
+このファンクションは、JDBCの機能を直接呼びだす際に利用します。
 
 オートコミットモードを切り替える例を以下に示します。
 
@@ -229,7 +229,7 @@ getDatabaseProductName()
 * 戻り値 : RDBMSの製品名
 
 RDBMSの製品名を返すファンクションです。
-内部的にはDatabaseMetaData#getDatabaseProductName()のラッパになっています。
+内部的にはDatabaseMetaData#getDatabaseProductName()のラッパーになっています。
 
 getDatabaseMajorVersion()
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -237,7 +237,7 @@ getDatabaseMajorVersion()
 * 戻り値 : RDBMSのメジャー・バージョン
 
 RDBMSのメジャー・バージョンを返すファンクションです。
-内部的にはDatabaseMetaData#getDatabaseMajorVersion()のラッパになっています。
+内部的にはDatabaseMetaData#getDatabaseMajorVersion()のラッパーになっています。
 
 getDatabaseMinorVersion()
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -245,7 +245,7 @@ getDatabaseMinorVersion()
 * 戻り値 : RDBMSのマイナー・バージョン
 
 RDBMSのマイナー・バージョンを返すファンクションです。
-内部的にはDatabaseMetaData#getDatabaseMinorVersion()のラッパになっています。
+内部的にはDatabaseMetaData#getDatabaseMinorVersion()のラッパーになっています。
 
 commit()
 ^^^^^^^^
@@ -317,8 +317,8 @@ setTxType(txType)
       }
   }
 
-ユーティリティファンクション
-----------------------------
+ユーティリティーファンクション
+------------------------------
 
 getData(key)
 ^^^^^^^^^^^^
@@ -327,7 +327,7 @@ getData(key)
 * 戻り値 : 指定されたキーに関連付けされているデータ
 
 エージェント間で共有しているデータを取得するファンクションです。
-内部的にはjava.util.concurrent.ConcurrentHashMap#get()のラッパになっています。
+内部的にはjava.util.concurrent.ConcurrentHashMap#get()のラッパーになっています。
 
 putData(key, value)
 ^^^^^^^^^^^^^^^^^^^
@@ -336,7 +336,7 @@ putData(key, value)
 * value : 指定されたキーに関連付けされるデータ
 
 エージェント間で共有したいデータを登録するファンクションです。
-内部的にはjava.util.concurrent.ConcurrentHashMap#put()のラッパになっています。
+内部的にはjava.util.concurrent.ConcurrentHashMap#put()のラッパーになっています。
 
 負荷テストの初期化処理でテーブルの主キー一覧を取得し、それを各エージェントに共有させる例を以下に示します。
 
@@ -459,4 +459,4 @@ error(message)
 意図的にエラーを発生させるファンクションです。
 また、エラーログを出力します。
 
-このファンクションを呼び出すと、負荷テストが異常終了します。
+このファンクションを呼びだすと、負荷テストが異常終了します。

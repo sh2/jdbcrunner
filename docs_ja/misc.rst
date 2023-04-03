@@ -6,7 +6,7 @@
 response_histogram.xlsm
 -----------------------
 
-miscディレクトリに、response_histogram.xlsmというExcelシートを用意しています。
+miscディレクトリーに、response_histogram.xlsmというExcelシートを用意しています。
 これはレスポンスタイムのヒストグラムを作成するためのツールです。
 
 .. image:: images/response_sheet.png
@@ -21,7 +21,7 @@ miscディレクトリに、response_histogram.xlsmというExcelシートを用
 
 .. image:: images/response_graph_1.png
 
-シート左上のパラメータで、階級の幅とグラフ化する列を変更できます。
+シート左上のパラメーターで、階級の幅とグラフ化する列を変更できます。
 
 .. image:: images/response_change.png
 

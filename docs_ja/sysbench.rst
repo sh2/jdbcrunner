@@ -23,12 +23,12 @@ OLTPベンチマークで用いられるデータベースのER図を以下に�
 OLTPベンチマークは以下の4種類のテストモードを備えています。
 
 * simple : 主キーによる一意検索をする
-* complex : 主キーによる一意検索、範囲検索、集計処理など9種類のクエリを実行する
-* nontrx : トランザクションを使わずに5種類のクエリを実行する
-* sp : ユーザが用意したストアドプロシージャを実行する
+* complex : 主キーによる一意検索、範囲検索、集計処理など9種類のクエリーを実行する
+* nontrx : トランザクションを使わずに5種類のクエリーを実行する
+* sp : ユーザーが用意したストアドプロシージャを実行する
 
 complexモードで実行されるトランザクションの内容は以下のとおりです。
-主キーによる一意検索が10回、その他8種類のクエリは1回ずつ実行されます。
+主キーによる一意検索が10回、その他8種類のクエリーは1回ずつ実行されます。
 この比率はカスタマイズ可能となっています。
 
 .. code-block:: mysql
@@ -82,7 +82,7 @@ Oracle Database、PostgreSQLについてはscripts/sysbench_load.jsのコメン�
 データベースの作成
 ^^^^^^^^^^^^^^^^^^
 
-MySQLにrootユーザで接続し、sbtestデータベースを作成します。
+MySQLにrootユーザーで接続し、sbtestデータベースを作成します。
 
 .. code-block:: mysql
 
@@ -91,10 +91,10 @@ MySQLにrootユーザで接続し、sbtestデータベースを作成します�
   sql> CREATE DATABASE sbtest;
   Query OK, 1 row affected (0.00 sec)
 
-ユーザの作成
-^^^^^^^^^^^^
+ユーザーの作成
+^^^^^^^^^^^^^^
 
-sbtestユーザを作成します。
+sbtestユーザーを作成します。
 
 .. code-block:: mysql
 
@@ -295,21 +295,21 @@ oltp-reconnect-mode    (未対応)            データベースへの再接続�
 oltp-sp-name           (未対応)            spモードで実行するストアドプロシージャを指定するオプションです
 oltp-read-only         oltpReadOnly        SELECT文のみを実行するオプションです
 oltp-skip-trx          (未対応)            BEGIN/COMMIT文をスキップするオプションです
-oltp-range-size        oltpRangeSize       範囲検索クエリの検索範囲を指定するオプションです
-oltp-point-selects     oltpPointSelects    一意検索クエリの回数を指定するオプションです
-oltp-simple-ranges     oltpSimpleRanges    範囲検索クエリの回数を指定するオプションです
-oltp-sum-ranges        oltpSumRanges       範囲検索して集計するクエリの回数を指定するオプションです
-oltp-order-ranges      oltpOrderRanges     範囲検索してソートするクエリの回数を指定するオプションです
-oltp-distinct-ranges   oltpDistinctRanges  範囲検索して重複を省くクエリの回数を指定するオプションです
-oltp-index-updates     oltpIndexUpdates    インデックス付き列を更新するクエリの回数を指定するオプションです
-oltp-non-index-updates oltpNonIndexUpdates インデックスなし列を更新するクエリの回数を指定するオプションです
-oltp-nontrx-mode       (未対応)            nontrxモードで実行するクエリを指定するオプションです
+oltp-range-size        oltpRangeSize       範囲検索クエリーの検索範囲を指定するオプションです
+oltp-point-selects     oltpPointSelects    一意検索クエリーの回数を指定するオプションです
+oltp-simple-ranges     oltpSimpleRanges    範囲検索クエリーの回数を指定するオプションです
+oltp-sum-ranges        oltpSumRanges       範囲検索して集計するクエリーの回数を指定するオプションです
+oltp-order-ranges      oltpOrderRanges     範囲検索してソートするクエリーの回数を指定するオプションです
+oltp-distinct-ranges   oltpDistinctRanges  範囲検索して重複を省くクエリーの回数を指定するオプションです
+oltp-index-updates     oltpIndexUpdates    インデックス付き列を更新するクエリーの回数を指定するオプションです
+oltp-non-index-updates oltpNonIndexUpdates インデックスなし列を更新するクエリーの回数を指定するオプションです
+oltp-nontrx-mode       (未対応)            nontrxモードで実行するクエリーを指定するオプションです
 oltp-auto-inc          (未対応)            ID列にAUTO_INCREMENTを用いるかどうかを指定するオプションです
 oltp-connect-delay     (未対応)            データベースに接続した後のスリープ時間を指定するオプションです
-oltp-user-delay-min    (未対応)            クエリごとのスリープ時間の最小値を指定するオプションです
-oltp-user-delay-max    (未対応)            クエリごとのスリープ時間の最大値を指定するオプションです
+oltp-user-delay-min    (未対応)            クエリーごとのスリープ時間の最小値を指定するオプションです
+oltp-user-delay-max    (未対応)            クエリーごとのスリープ時間の最大値を指定するオプションです
 oltp-table-name        (未対応)            テストに用いるテーブル名を指定するオプションです
-oltp-table-size        (ローダで指定)      テストに用いるテーブルのレコード数を指定するオプションです
+oltp-table-size        (ローダーで指定)    テストに用いるテーブルのレコード数を指定するオプションです
 oltp-dist-type         oltpDistType        乱数生成方式を指定するオプションです
 oltp-dist-iter         oltpDistIter        ガウス分布乱数を生成するための加算回数を指定するオプションです
 oltp-dist-pct          oltpDistPct         特殊分布乱数において、均一分布乱数の生成範囲を指定するオプションです
