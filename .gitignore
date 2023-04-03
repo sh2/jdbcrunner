@@ -1,4 +1,7 @@
 /bin/
 /classes/
-/jdbcrunner-*.jar
-/jdbcrunner-*.zip
+/docs_ja/_build/
+/misc/*.csv
+/scripts_test/logs*
+/scripts_test/utlsampl.sql
+/*.jar
