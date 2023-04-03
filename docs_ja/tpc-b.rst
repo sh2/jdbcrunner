@@ -4,16 +4,22 @@
 TPC-Bとは
 ---------
 
-`TPC-B <http://www.tpc.org/tpcb/>`_ とは、 `TPC <http://www.tpc.org/>`_ によって策定されたベンチマーク仕様の一つです。銀行の窓口業務をモデルにしたトランザクションを実行し、システムの性能を測定します。データベースのER図を以下に示します。
+`TPC-B <http://www.tpc.org/tpcb/>`_ とは、 `TPC <http://www.tpc.org/>`_ によって策定されたベンチマーク仕様の一つです。
+銀行の窓口業務をモデルにしたトランザクションを実行し、システムの性能を測定します。
+データベースのER図を以下に示します。
 
 .. image:: images/tpc-b.png
 
-* branches : 銀行の支店を表しています。このテーブルのレコード数がデータベース全体の規模を決めるスケールファクタになっています。
-* tellers : 銀行員を表しています。支店あたり10名の銀行員がいます。
-* accounts : 銀行口座を表しています。支店あたり10万の口座があります。
+* branches : 銀行の支店を表しています。
+  このテーブルのレコード数がデータベース全体の規模を決めるスケールファクタになっています。
+* tellers : 銀行員を表しています。
+  支店あたり10名の銀行員がいます。
+* accounts : 銀行口座を表しています。
+  支店あたり10万の口座があります。
 * history : 取引履歴を表しています。
 
-TPC-Bでは1種類のトランザクションが定義されています。これは以下のSQLを順番に発行するものです。
+TPC-Bでは1種類のトランザクションが定義されています。
+これは以下のSQLを順番に発行するものです。
 
 .. code-block:: mysql
 
@@ -24,7 +30,8 @@ TPC-Bでは1種類のトランザクションが定義されています。こ�
   INSERT INTO history (aid, aid, aid, delta) VALUES (:1, :2, :3, :4);
   COMMIT;
 
-TPC-BのCRUD図を以下に示します。TPC-Bには更新の割合が非常に高いという特徴があります。
+TPC-BのCRUD図を以下に示します。
+TPC-Bには更新の割合が非常に高いという特徴があります。
 
 =========== ======== ======= ======== =======
 Transaction branches tellers accounts history
@@ -35,7 +42,8 @@ TPC-B       U        U       RU       C
 Tiny TPC-Bとは
 --------------
 
-Tiny TPC-Bは、TPC-B Standard Specification 2.0の仕様を抜粋しJdbcRunnerのスクリプトとして実装したものです。仕様書のうち以下の章節を実装しています。
+Tiny TPC-Bは、TPC-B Standard Specification 2.0の仕様を抜粋しJdbcRunnerのスクリプトとして実装したものです。
+仕様書のうち以下の章節を実装しています。
 
 * 1 Transaction Profile
 
@@ -45,9 +53,10 @@ Tiny TPC-Bは、TPC-B Standard Specification 2.0の仕様を抜粋しJdbcRunner�
 * 4 Scaling Rules
 * 5 Distribution, Partitioning, and Transaction Generation
 
-それ以外の章節については実装されていないか、仕様を満たしていません。従ってTiny TPC-Bのテスト結果は正式なTPC-Bのスコアではありません。
+それ以外の章節については実装されていないか、仕様を満たしていません。
+従ってTiny TPC-Bのテスト結果は正式なTPC-Bのスコアではありません。
 
-Tiny TPC-Bは以下の二つのスクリプトから構成されています。
+Tiny TPC-Bは以下の2つのスクリプトから構成されています。
 
 * scripts/tpcb_load.js : テストデータ生成用スクリプト
 * scripts/tpcb.js : テスト用スクリプト
@@ -64,7 +73,8 @@ Tiny TPC-Bは、以下のRDBMSで動作確認をしています。
 テストの準備
 ------------
 
-MySQLにおけるテストの準備手順を以下に示します。Oracle Database、PostgreSQLについてはscripts/tpcb_load.jsのコメントをご参照ください。
+MySQLにおけるテストの準備手順を以下に示します。
+Oracle Database、PostgreSQLについてはscripts/tpcb_load.jsのコメントをご参照ください。
 
 データベースの作成
 ^^^^^^^^^^^^^^^^^^
@@ -96,7 +106,8 @@ tpcbユーザを作成します。
 テストデータの生成
 ^^^^^^^^^^^^^^^^^^
 
-scripts/tpcb_load.jsを用いてテストデータの生成を行います。このスクリプトは以下の処理を行っています。
+scripts/tpcb_load.jsを用いてテストデータを生成します。
+このスクリプトは以下の処理を行っています。
 
 * テーブルの削除
 * テーブルの作成
@@ -161,11 +172,16 @@ scripts/tpcb_load.jsを用いてテストデータの生成を行います。こ
   13:16:47 [INFO ] Completed.
   13:16:47 [INFO ] < JdbcRunner SUCCESS
 
-「Unknown table 'history'」などの警告は、存在しないテーブルを削除しようとして出力されるものです。無視して構いません。
+「Unknown table 'history'」などの警告は、存在しないテーブルを削除しようとして出力されるものです。
+無視して構いません。
 
--param0を指定することによって、スケールファクタを変更することが可能です。スケールファクタ1あたり、branchesテーブルが1レコード、tellersテーブルが10レコード、accountsテーブルが10万レコード増加します。デフォルトのスケールファクタは16です。
+-param0を指定することによって、スケールファクタを変更できます。
+スケールファクタ1あたり、branchesテーブルが1レコード、tellersテーブルが10レコード、accountsテーブルが10万レコード増加します。
+デフォルトのスケールファクタは16です。
 
--nAgentsを指定することによって、ロードの並列度を変更することが可能です。CPUコア数の多い環境では、並列度を上げることでロード時間を短縮することができます。デフォルトの並列度は4です。
+-nAgentsを指定することによって、ロードの並列度を変更できます。
+CPUコア数の多い環境では、並列度を上げることでロード時間を短縮できます。
+デフォルトの並列度は4です。
 
 .. code-block:: text
 
@@ -174,7 +190,8 @@ scripts/tpcb_load.jsを用いてテストデータの生成を行います。こ
 テストの実行
 ------------
 
-scripts/tpcb.jsを用いてテストを実行します。以下の例ではlocalhostのRDBMSに対してテストを行っていますが、実際にはJdbcRunnerとRDBMSを異なるコンピュータに配置することをおすすめします。
+scripts/tpcb.jsを用いてテストを実行します。
+以下の例ではlocalhostのRDBMSに対してテストを行っていますが、実際にはJdbcRunnerとRDBMSを異なるコンピュータに配置することをおすすめします。
 
 .. code-block:: text
 

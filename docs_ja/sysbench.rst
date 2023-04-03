@@ -4,7 +4,8 @@
 sysbenchとは
 ------------
 
-`sysbench <https://github.com/akopytov/sysbench>`_ はAlexey Kopytov氏によってメンテナンスされているオープンソースソフトウェアで、以下の6種類のテストを行うことができる総合的なベンチマークツールです。ライセンスはGPLv2です。
+`sysbench <https://github.com/akopytov/sysbench>`_ はAlexey Kopytov氏によってメンテナンスされているオープンソースソフトウェアで、以下の6種類のテストを行うことができる総合的なベンチマークツールです。
+ライセンスはGPLv2です。
 
 * a collection of OLTP-like database benchmarks
 * a filesystem-level benchmark
@@ -13,18 +14,22 @@ sysbenchとは
 * a thread-based scheduler benchmark
 * a POSIX mutex benchmark
 
-以下は `sysbench 0.4 <https://github.com/akopytov/sysbench/tree/0.4>`_ についての説明です。OLTPベンチマークで用いられるデータベースのER図を以下に示します。テーブルは一つだけで、ごく単純な作りとなっています。
+以下は `sysbench 0.4 <https://github.com/akopytov/sysbench/tree/0.4>`_ についての説明です。
+OLTPベンチマークで用いられるデータベースのER図を以下に示します。
+テーブルは一つだけで、ごく単純な作りとなっています。
 
 .. image:: images/sysbench.png
 
 OLTPベンチマークは以下の4種類のテストモードを備えています。
 
-* simple : 主キーによる一意検索を行う
+* simple : 主キーによる一意検索をする
 * complex : 主キーによる一意検索、範囲検索、集計処理など9種類のクエリを実行する
 * nontrx : トランザクションを使わずに5種類のクエリを実行する
 * sp : ユーザが用意したストアドプロシージャを実行する
 
-complexモードで実行されるトランザクションの内容は以下のとおりです。主キーによる一意検索が10回、その他8種類のクエリは1回ずつ実行されます。この比率はカスタマイズ可能となっています。
+complexモードで実行されるトランザクションの内容は以下のとおりです。
+主キーによる一意検索が10回、その他8種類のクエリは1回ずつ実行されます。
+この比率はカスタマイズ可能となっています。
 
 .. code-block:: mysql
 
@@ -53,7 +58,8 @@ sysbench 0.4のOLTPベンチマークはMySQLをターゲットとして開発�
 Tiny sysbenchとは
 -----------------
 
-Tiny sysbenchは、sysbench 0.4のOLTPベンチマークのうちcomplexモードをJdbcRunner上に移植したものです。以下の二つのスクリプトから構成されています。
+Tiny sysbenchは、sysbench 0.4のOLTPベンチマークのうちcomplexモードをJdbcRunner上に移植したものです。
+以下の二つのスクリプトから構成されています。
 
 * scripts/sysbench_load.js : テストデータ生成用スクリプト
 * scripts/sysbench.js : テスト用スクリプト
@@ -70,7 +76,8 @@ Tiny sysbenchは、以下のRDBMSで動作確認をしています。
 テストの準備
 ------------
 
-MySQLにおけるテストの準備手順を以下に示します。Oracle Database、PostgreSQLについてはscripts/sysbench_load.jsのコメントをご参照ください。
+MySQLにおけるテストの準備手順を以下に示します。
+Oracle Database、PostgreSQLについてはscripts/sysbench_load.jsのコメントをご参照ください。
 
 データベースの作成
 ^^^^^^^^^^^^^^^^^^
@@ -102,7 +109,8 @@ sbtestユーザを作成します。
 テストデータの生成
 ^^^^^^^^^^^^^^^^^^
 
-scripts/sysbench_load.jsを用いてテストデータの生成を行います。このスクリプトは以下の処理を行っています。
+scripts/sysbench_load.jsを用いてテストデータを生成します。
+このスクリプトは以下の処理を行っています。
 
 * テーブルの削除
 * テーブルの作成
@@ -158,9 +166,11 @@ scripts/sysbench_load.jsを用いてテストデータの生成を行います�
   13:12:28 [INFO ] Completed.
   13:12:28 [INFO ] < JdbcRunner SUCCESS
 
-「Unknown table 'sbtest'」という警告は、存在しないsbtestテーブルを削除しようとして出力されるものです。無視して構いません。
+「Unknown table 'sbtest'」という警告は、存在しないsbtestテーブルを削除しようとして出力されるものです。
+無視して構いません。
 
-また、-param0を指定することによってsbtestテーブルにロードするレコード数を変更することが可能です。デフォルトは1万レコードとなっています。
+また、-param0を指定することによってsbtestテーブルにロードするレコード数を変更できます。
+デフォルトは1万レコードとなっています。
 
 .. code-block:: text
 
@@ -169,7 +179,8 @@ scripts/sysbench_load.jsを用いてテストデータの生成を行います�
 テストの実行
 ------------
 
-scripts/sysbench.jsを用いてテストを実行します。以下の例ではlocalhostのRDBMSに対してテストを行っていますが、実際にはJdbcRunnerとRDBMSを異なるコンピューターに配置することをおすすめします。
+scripts/sysbench.jsを用いてテストを実行します。
+以下の例ではlocalhostのRDBMSに対してテストを行っていますが、実際にはJdbcRunnerとRDBMSを異なるコンピューターに配置することをおすすめします。
 
 .. code-block:: text
 
@@ -232,12 +243,15 @@ scripts/sysbench.jsを用いてテストを実行します。以下の例ではl
   13:16:30 [INFO ] [Response time (maximum)] 141 msec
   13:16:30 [INFO ] < JdbcRunner SUCCESS
 
-OLTPベンチマークのcomplexモードでは、デッドロックが発生することがあります。これはオリジナル版のsysbenchでも発生するものです。Tiny sysbenchはデッドロックが発生した場合、該当のトランザクションをロールバックして再度実行します。
+OLTPベンチマークのcomplexモードでは、デッドロックが発生することがあります。
+これはオリジナル版のsysbenchでも発生するものです。
+Tiny sysbenchはデッドロックが発生した場合、該当のトランザクションをロールバックして再度実行します。
 
 テストのカスタマイズ
 --------------------
 
-Tiny sysbenchはスクリプトscripts/sysbench.jsの変数定義を修正することで、オリジナル版のsysbenchが持つ設定オプションをある程度再現することができます。変数はスクリプトのApplication settingsという箇所に定義されていますので、ここを修正してご利用ください。
+Tiny sysbenchはスクリプトscripts/sysbench.jsの変数定義を修正することで、オリジナル版のsysbenchが持つ設定オプションをある程度再現できます。
+変数はスクリプトのApplication settingsという箇所に定義されていますので、ここを修正してご利用ください。
 
 .. code-block:: javascript
 
@@ -277,7 +291,7 @@ Tiny sysbenchはスクリプトscripts/sysbench.jsの変数定義を修正する
 sysbenchのオプション   sysbench.jsの変数   説明
 ====================== =================== ====================================================================
 oltp-test-mode         (未対応)            テストモードを指定するオプションです
-oltp-reconnect-mode    (未対応)            テスト中にデータベースに再接続する方式を指定するオプションです
+oltp-reconnect-mode    (未対応)            データベースへの再接続方式を指定するオプションです
 oltp-sp-name           (未対応)            spモードで実行するストアドプロシージャを指定するオプションです
 oltp-read-only         oltpReadOnly        SELECT文のみを実行するオプションです
 oltp-skip-trx          (未対応)            BEGIN/COMMIT文をスキップするオプションです
