@@ -19,13 +19,15 @@
  * shell> psql -U postgres
  * sql> CREATE DATABASE tpcc TEMPLATE template0 ENCODING 'UTF-8' LC_COLLATE 'C' LC_CTYPE 'C';
  * sql> CREATE USER tpcc PASSWORD 'tpcc';
+ * shell> psql -U postgres tpcc
+ * sql> CREATE SCHEMA AUTHORIZATION tpcc;
  *
  * <postgresql.conf>
  * listen_addresses = '*'
  * port = 5432
  *
  * <pg_hba.conf>
- * host all all 0.0.0.0/0 md5
+ * host all all all scram-sha-256
  */
 
 // JdbcRunner settings -----------------------------------------------

@@ -19,13 +19,15 @@
  * shell> psql -U postgres
  * sql> CREATE DATABASE sbtest TEMPLATE template0 ENCODING 'UTF-8' LC_COLLATE 'C' LC_CTYPE 'C';
  * sql> CREATE USER sbtest PASSWORD 'sbtest';
+ * shell> psql -U postgres sbtest
+ * sql> CREATE SCHEMA AUTHORIZATION sbtest;
  *
  * <postgresql.conf>
  * listen_addresses = '*'
  * port = 5432
  *
  * <pg_hba.conf>
- * host all all 0.0.0.0/0 md5
+ * host all all all scram-sha-256
  */
 
 // JdbcRunner settings -----------------------------------------------
