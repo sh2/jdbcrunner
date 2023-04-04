@@ -5,3 +5,4 @@
 /scripts_test/logs*
 /scripts_test/utlsampl.sql
 /*.jar
+/*.zip
