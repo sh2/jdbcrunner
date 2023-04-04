@@ -1,11 +1,14 @@
-# 1.3.1 (2023-xx-xx)
+# 1.3.1 (2023-04-04)
 
-* ライセンスをMITライセンスに変更しました。
+* ライセンスを二条項BSDライセンスからMITライセンスへ変更しました。
 * 動作環境を更新しました。
-    - 動作要件をJava 17に変更しました。
-    - Commons CLIを1.5.0に更新しました。
-    - Commons DBCPを2.9.0に更新しました。
-    - Rhinoを1.7.14に更新しました。
+    - 動作要件をJava 17へ変更しました。
+    - Commons CLIを1.5.0へ更新しました。
+    - Commons DBCPを2.9.0へ更新しました。
+    - Rhinoを1.7.14へ更新しました。
+    - MySQL Connector/Jを8.0.32へ更新しました。
+    - PostgreSQL JDBC Driverを42.6.0へ更新しました。
+* MySQL Connector/J 8.0.27以降でANALYZE文をexecute()で実行できない件に対応しました。MySQLの場合ANALYZE文はquery()で実行してください。
 
 # 1.3 (2018-08-21)
 
