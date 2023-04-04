@@ -10,7 +10,7 @@ Additionaly, JdbcRunner bundles some test kits for Oracle Database, MySQL and Po
 
 Please see [dbstudy.info](https://dbstudy.info/jdbcrunner/) for details and [GitHub](https://github.com/sh2/jdbcrunner) for the source code.
 
-# License
+## License
 
 MIT License  
 Copyright (c) 2010-2023 Sadao Hiratsuka
